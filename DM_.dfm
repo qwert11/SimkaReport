@@ -5,8 +5,7 @@ object DM: TDM
   Height = 259
   Width = 174
   object DB: TpFIBDatabase
-    Connected = True
-    DBName = '192.168.1.153:D:\Prog\FlowMtsMinutes\REPORTMTS.FDB'
+    DBName = 'localhost:D:\Prog\SimkaReport\SimkaReport.FDB'
     DBParams.Strings = (
       'password=masterkey'
       'user_name=SYSDBA'
@@ -18,7 +17,6 @@ object DM: TDM
     Top = 16
   end
   object pfbtrnsctn1: TpFIBTransaction
-    Active = True
     DefaultDatabase = DB
     TimeoutAction = TARollback
     TRParams.Strings = (
@@ -31,7 +29,6 @@ object DM: TDM
     Top = 64
   end
   object pfbtrnsView: TpFIBTransaction
-    Active = True
     DefaultDatabase = DB
     TimeoutAction = TARollback
     Left = 56
