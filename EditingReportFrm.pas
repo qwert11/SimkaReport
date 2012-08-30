@@ -29,17 +29,6 @@ type
     btnSave: TBitBtn;
     btnClose: TBitBtn;
     cdsTmpER: TClientDataSet;
-    intgrfldTmpERcSimka: TIntegerField;
-    intgrfldTmpERcIn: TIntegerField;
-    intgrfldTmpERcSMS: TIntegerField;
-    intgrfldTmpERcOwner: TIntegerField;
-    crncyfldTmpERcBalance: TCurrencyField;
-    strngfldTmpERSimNumber: TStringField;
-    strngfldTmpERSimTarifPlan: TStringField;
-    crncyfldTmpERSimAbonBoard: TCurrencyField;
-    intgrfldTmpERDeviceNumbr: TIntegerField;
-    strngfldTmpERDeviceName: TStringField;
-    intgrfldTmpERcIDRepSim: TIntegerField;
     actlst1: TActionList;
     actInsert: TAction;
     actEdit: TAction;
@@ -56,7 +45,6 @@ type
     mniEdit1: TMenuItem;
     mniN2: TMenuItem;
     mniDelete1: TMenuItem;
-    strngfldTmpEROwner: TStringField;
     actSave: TAction;
     pfbtrnsctUpdate: TpFIBTransaction;
     pfbqryUpdate: TpFIBQuery;
@@ -304,10 +292,10 @@ procedure TfrmEditingReport.strngfldTmpERSimNumberGetText(Sender: TField;
   var Text: String; DisplayText: Boolean);
 begin
   Text := strngfldTmpERSimNumber.Value + '/ ' +
-    strngfldTmpERSimTarifPlan.Value + '/ ' + crncyfldTmpERSimAbonBoard.AsString 
+    crncyfldTmpERSimAbonBoard.AsString
 end;
 
-
+{ TODO -ocdsTmpER -cSort : сортировка по клику на head }
 procedure TfrmEditingReport.actSaveExecute(Sender: TObject);
 var
   RDB_DB_KEY_LAST_REPORT_DAY: Integer;
@@ -394,7 +382,7 @@ begin
                 intgrfldTmpERcSimka.AsString + ', ' + intgrfldTmpERcIn.AsString + ', ' +
                 intgrfldTmpERcSMS.AsString + ', ' + IntToStr(RDB_DB_KEY_LAST_REPORT_DAY) + ', ' +
                 intgrfldTmpERcOwner.AsString + ', ' + crncyfldTmpERcBalance.AsString + ')';
-            {$IFDEF DEBUG}}      // TESTMODE
+            {$IFDEF DEBUG}      // TESTMODE
             ShowMessage(SQL.Text);
             Abort;
             {$ENDIF}

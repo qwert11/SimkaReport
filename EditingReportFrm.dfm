@@ -263,28 +263,72 @@ object frmEditingReport: TfrmEditingReport
     Aggregates = <>
     FieldDefs = <
       item
-        Name = 'cSimka'
+        Name = 'cRS_ID'
         DataType = ftInteger
       end
       item
-        Name = 'cIn'
+        Name = 'cRS_In'
         DataType = ftInteger
       end
       item
-        Name = 'cSMS'
+        Name = 'cRS_SMS'
         DataType = ftInteger
       end
       item
-        Name = 'cOwner'
+        Name = 'cRS_Owner'
         DataType = ftInteger
       end
       item
-        Name = 'cBalance'
-        DataType = ftCurrency
+        Name = 'cRS_Simka'
       end
       item
-        Name = 'cIDRepSim'
+        Name = 'cRS_TarifPlan'
         DataType = ftInteger
+      end
+      item
+        Name = 'cRS_Status'
+        DataType = ftString
+        Size = 1
+      end
+      item
+        Name = 'cRS_Balance'
+        DataType = ftInteger
+      end
+      item
+        Name = 'cRS_User'
+        DataType = ftInteger
+      end
+      item
+        Name = 'cRS_UserBrunch'
+        DataType = ftInteger
+      end
+      item
+        Name = 'cRS_PartCall'
+        DataType = ftInteger
+      end
+      item
+        Name = 'cRS_IfInstall'
+        DataType = ftString
+        Size = 1
+      end
+      item
+        Name = 'cRS_ICC_SIM'
+        DataType = ftString
+        Size = 25
+      end
+      item
+        Name = 'cRS_PUK1'
+        DataType = ftString
+        Size = 20
+      end
+      item
+        Name = 'cRS_PUK2'
+        DataType = ftString
+        Size = 20
+      end
+      item
+        Name = 'cRS_ReportDay'
+        DataType = ftDate
       end>
     IndexDefs = <>
     FetchOnDemand = False
@@ -293,96 +337,6 @@ object frmEditingReport: TfrmEditingReport
     BeforePost = cdsTmpERBeforePost
     Left = 48
     Top = 232
-    object intgrfldTmpERcSimka: TIntegerField
-      DisplayWidth = 10
-      FieldName = 'cSimka'
-      Required = True
-    end
-    object intgrfldTmpERcIn: TIntegerField
-      DisplayWidth = 10
-      FieldName = 'cIn'
-      Required = True
-    end
-    object intgrfldTmpERcSMS: TIntegerField
-      DisplayWidth = 10
-      FieldName = 'cSMS'
-    end
-    object intgrfldTmpERcOwner: TIntegerField
-      DisplayWidth = 10
-      FieldName = 'cOwner'
-      Required = True
-    end
-    object crncyfldTmpERcBalance: TCurrencyField
-      DisplayWidth = 10
-      FieldName = 'cBalance'
-    end
-    object intgrfldTmpERcIDRepSim: TIntegerField
-      DisplayWidth = 10
-      FieldName = 'cIDRepSim'
-    end
-    object strngfldTmpERSimNumber: TStringField
-      DisplayWidth = 22
-      FieldKind = fkLookup
-      FieldName = 'SimNumber'
-      LookupDataSet = frmSimka.pfbdtst1
-      LookupKeyFields = 'SID'
-      LookupResultField = 'S_NUMBER'
-      KeyFields = 'cSimka'
-      OnGetText = strngfldTmpERSimNumberGetText
-      Size = 50
-      Lookup = True
-    end
-    object strngfldTmpERSimTarifPlan: TStringField
-      DisplayWidth = 13
-      FieldKind = fkLookup
-      FieldName = 'SimTarifPlan'
-      LookupDataSet = frmSimka.pfbdtst1
-      LookupKeyFields = 'SID'
-      LookupResultField = 'TarifPlan'
-      KeyFields = 'cSimka'
-      Lookup = True
-    end
-    object crncyfldTmpERSimAbonBoard: TCurrencyField
-      DisplayWidth = 8
-      FieldKind = fkLookup
-      FieldName = 'SimAbonBoard'
-      LookupDataSet = frmSimka.pfbdtst1
-      LookupKeyFields = 'SID'
-      LookupResultField = 'AbonBoard'
-      KeyFields = 'cSimka'
-      Lookup = True
-    end
-    object intgrfldTmpERDeviceNumbr: TIntegerField
-      DisplayWidth = 7
-      FieldKind = fkLookup
-      FieldName = 'DeviceNumbr'
-      LookupDataSet = frmDevice.pfbdtst1
-      LookupKeyFields = 'DID'
-      LookupResultField = 'D_NUM'
-      KeyFields = 'cIn'
-      Lookup = True
-    end
-    object strngfldTmpERDeviceName: TStringField
-      DisplayWidth = 20
-      FieldKind = fkLookup
-      FieldName = 'DeviceName'
-      LookupDataSet = frmDevice.pfbdtst1
-      LookupKeyFields = 'DID'
-      LookupResultField = 'D_TITLE'
-      KeyFields = 'cIn'
-      OnGetText = strngfldTmpERDeviceNameGetText
-      Lookup = True
-    end
-    object strngfldTmpEROwner: TStringField
-      DisplayWidth = 20
-      FieldKind = fkLookup
-      FieldName = 'Owner'
-      LookupDataSet = frmOwner.pfbdtst1
-      LookupKeyFields = 'OID'
-      LookupResultField = 'O_NAME'
-      KeyFields = 'cOwner'
-      Lookup = True
-    end
   end
   object actlst1: TActionList
     Left = 48
