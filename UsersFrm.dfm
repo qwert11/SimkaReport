@@ -60,7 +60,6 @@ inherited frmUsers: TfrmUsers
       '    RE_LOGIND'
       'FROM'
       '    RESPONS ')
-    Active = True
     object fbntgrfldpfbdtst1REID: TFIBIntegerField
       FieldName = 'REID'
     end

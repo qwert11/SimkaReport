@@ -124,11 +124,6 @@ begin
     not dbgrdh1.DataSource.DataSet.Eof and CheckAutentification
 end;
 
-procedure TfrmMain.actInsertExecute(Sender: TObject);
-begin
-  EditReport := erInsert
-end;
-
 procedure TfrmMain.btnFinanceClick(Sender: TObject);
 begin
   frmFinance.ShowModal
@@ -203,9 +198,16 @@ begin
   EditReport := erDelete
 end;
 
+// редактировать текущую запись
 procedure TfrmMain.actEditExecute(Sender: TObject);
 begin
   EditReport := erEdit
+end;
+
+// вставить запись
+procedure TfrmMain.actInsertExecute(Sender: TObject);
+begin
+  EditReport := erInsert
 end;
 
 procedure TfrmMain.actAutentificationExecute(Sender: TObject);
@@ -220,21 +222,25 @@ end;
 procedure TfrmMain.SetEditReport(AEdit: TEditingReport);
 var
   EditingReport: TfrmEditingReport;
-  ID: Integer;
+  DateReport: TDate;
 begin
   if not CheckAutentification(True) then
     Exit;
-    
+
+  with dbgrdh1.DataSource.DataSet do
   case AEdit of
     erEdit: begin
       EditingReport := TfrmEditingReport.Create(Self, erEdit);
-      try
+      Filter := 'RD_DATE = ''' + DM.fbdtfldViewRD_DATE.AsString + '''';
+      Filtered := True;
+      try    
         EditingReport.ShowModal;
         if EditingReport.ModalResult = mrOk then begin
-          dbgrdh1.DataSource.DataSet.Close;
-          dbgrdh1.DataSource.DataSet.Open;
+          Close;
+          Open;
         end;
       finally
+        Filtered := False;
         EditingReport.Free
       end;
     end;
@@ -244,8 +250,8 @@ begin
       try
         EditingReport.ShowModal;
         if EditingReport.ModalResult = mrOk then begin
-          dbgrdh1.DataSource.DataSet.Close;
-          dbgrdh1.DataSource.DataSet.Open;
+          Close;
+          Open;
         end;
       finally
         EditingReport.Free
@@ -261,8 +267,8 @@ begin
         Close;
         if pfbdtstView.IsEmpty then
           raise EAbort.Create('Пустая таблица');
-        ID := fbntgrfldViewRD_ID.Value;
-        ParamByName('P_RD_ID').AsInteger := ID;
+        DateReport := fbdtfldViewRD_DATE.Value;
+        ParamByName('P_RD_DATE').AsDate := DateReport;
         ExecQuery;
         CommitRetaining;
         Close;

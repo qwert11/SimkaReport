@@ -126,7 +126,6 @@ inherited frmTarifPlan: TfrmTarifPlan
       '    TP_SMS_MONTH'
       'FROM'
       '    TARIF_PLAN ')
-    Active = True
     AutoCommit = True
     object pfbdtst1TPID: TFIBIntegerField
       FieldName = 'TPID'

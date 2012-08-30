@@ -5,6 +5,7 @@ object DM: TDM
   Height = 259
   Width = 174
   object DB: TpFIBDatabase
+    Connected = True
     DBName = 'localhost:D:\Prog\SimkaReport\SimkaReport.FDB'
     DBParams.Strings = (
       'password=masterkey'
@@ -17,6 +18,7 @@ object DM: TDM
     Top = 16
   end
   object pfbtrnsctn1: TpFIBTransaction
+    Active = True
     DefaultDatabase = DB
     TimeoutAction = TARollback
     TRParams.Strings = (
@@ -29,6 +31,7 @@ object DM: TDM
     Top = 64
   end
   object pfbtrnsView: TpFIBTransaction
+    Active = True
     DefaultDatabase = DB
     TimeoutAction = TARollback
     Left = 56
@@ -43,47 +46,66 @@ object DM: TDM
     SelectSQL.Strings = (
       'select '
       '    report_day.rd_date,'
-      '    report_day.rd_fnce1sum,'
-      '    report_day.rd_fnce2sum,'
-      '    respons.re_surname,'
       '    tarif_plan.tp_name,'
       '    tarif_plan.tp_abon_board,'
       '    tarif_plan.tp_sms_month,'
       '    report_simka.rs_sms,'
-      '    report_simka.rs_balance,'
       '    device.d_num,'
       '    device.d_title,'
       '    owner.o_name,'
       '    simka.s_number,'
-      '    finance.f_idaccount,'
-      '    finance1.f_idaccount,'
-      '    report_day.rd_id,'
       '    report_simka.rs_simka,'
       '    report_simka.rs_owner,'
       '    report_simka.rs_in,'
       '    report_simka.rsid,'
-      '    report_day.rd_finance1,'
-      '    report_day.rd_finance2,'
-      '    report_day.rd_respons,'
-      '    respons.re_name,'
-      '    respons.re_patronymic'
-      'from report_day'
+      '    tarif_plan.tp_clir,'
+      '    tarif_plan.tp_clir_price,'
+      '    link_radio.lr_ink_adio,'
+      '    report_simka.rs_status,'
+      '    part_call.pc_art_all,'
+      '    operator_link.ol_perator_ink,'
+      '    report_balance.rb_sum,'
+      '    "USER".u_ser,'
+      '    "USER".u_location,'
+      '    user_brunch.ub_ser_runch,'
+      '    report_simka.rs_ifinstall,'
+      '    report_simka.rs_icc_sim,'
+      '    report_simka.rs_puk1,'
+      '    report_simka.rs_puk2,'
+      '    prcnl_acnt.pa_rsnl_cnt,'
+      '    people.p_surname,'
+      '    people.p_name,'
+      '    people.p_patronymic'
+      'from user_brunch'
       
-        '   inner join report_simka on (report_day.rd_id = report_simka.r' +
-        's_reportday)'
+        '   inner join report_simka on (user_brunch.ub_id = report_simka.' +
+        'rs_user_brunch)'
+      
+        '   inner join report_day on (report_simka.rs_reportday = report_' +
+        'day.rd_date)'
+      '   inner join people on (report_day.rd_respons = people.p_id)'
       '   inner join device on (report_simka.rs_in = device.did)'
       '   inner join owner on (report_simka.rs_owner = owner.oid)'
       '   inner join simka on (report_simka.rs_simka = simka.sid)'
       
-        '   inner join tarif_plan on (simka.s_tarifplan = tarif_plan.tpid' +
-        ')'
+        '   inner join link_radio on (simka.s_link_radio = link_radio.lr_' +
+        'id)'
       
-        '   inner join finance finance1 on (report_day.rd_finance1 = fina' +
-        'nce1.fid)'
+        '   inner join operator_link on (simka.s_operator = operator_link' +
+        '.ol_id)'
       
-        '   left outer join respons on (report_day.rd_respons = respons.r' +
-        'eid)'
-      '   inner join finance on (report_day.rd_finance2 = finance.fid)'
+        '   inner join tarif_plan on (report_simka.rs_tarifplan = tarif_p' +
+        'lan.tpid)'
+      
+        '   inner join part_call on (report_simka.rs_part_call = part_cal' +
+        'l.pc_id)'
+      
+        '   inner join report_balance on (report_simka.rs_balance = repor' +
+        't_balance.rb_id)'
+      
+        '   inner join prcnl_acnt on (report_balance.rb_prsnl_acnt = prcn' +
+        'l_acnt.pa_id)'
+      '   inner join "USER" on (report_simka.rs_user = "USER".u_id)'
       
         'order by report_day.rd_date, report_simka.rs_owner, report_simka' +
         '.rsid')
@@ -91,142 +113,143 @@ object DM: TDM
     Database = DB
     Left = 56
     Top = 160
-    object fbntgrfldViewRSID: TFIBIntegerField
-      FieldName = 'RSID'
-      Origin = 'REPORT_SIMKA.RSID'
-    end
     object fbdtfldViewRD_DATE: TFIBDateField
       FieldName = 'RD_DATE'
-      Origin = 'REPORT_DAY.RD_DATE'
-      DisplayFormat = 'dd.mm.yyyy'
-    end
-    object fbstrngfldViewF_IDACCOUNT: TFIBStringField
-      FieldName = 'F_IDACCOUNT'
-      Origin = 'FINANCE.F_IDACCOUNT'
-      Size = 50
-      EmptyStrToNull = True
-    end
-    object fbcdfldViewRD_FNCE1SUM: TFIBBCDField
-      FieldName = 'RD_FNCE1SUM'
-      Origin = 'REPORT_DAY.RD_FNCE1SUM'
-      DisplayFormat = '#,##0.00'
-      EditFormat = '0.00'
-      Size = 2
-      RoundByScale = True
-    end
-    object fbstrngfldViewF_IDACCOUNT1: TFIBStringField
-      FieldName = 'F_IDACCOUNT1'
-      Origin = 'FINANCE.F_IDACCOUNT'
-      Size = 50
-      EmptyStrToNull = True
-    end
-    object fbcdfldViewRD_FNCE2SUM: TFIBBCDField
-      FieldName = 'RD_FNCE2SUM'
-      Origin = 'REPORT_DAY.RD_FNCE2SUM'
-      DisplayFormat = '#,##0.00'
-      EditFormat = '0.00'
-      Size = 2
-      RoundByScale = True
-    end
-    object fbstrngfldViewS_NUMBER: TFIBStringField
-      FieldName = 'S_NUMBER'
-      Origin = 'SIMKA.S_NUMBER'
-      Size = 12
-      EmptyStrToNull = True
-    end
-    object fbstrngfldViewO_NAME: TFIBStringField
-      FieldName = 'O_NAME'
-      Origin = 'OWNER.O_NAME'
-      Size = 50
-      EmptyStrToNull = True
     end
     object fbstrngfldViewTP_NAME: TFIBStringField
       FieldName = 'TP_NAME'
-      Origin = 'TARIF_PLAN.TP_NAME'
       Size = 50
       EmptyStrToNull = True
     end
     object fbcdfldViewTP_ABON_BOARD: TFIBBCDField
       FieldName = 'TP_ABON_BOARD'
-      Origin = 'TARIF_PLAN.TP_ABON_BOARD'
-      DisplayFormat = '#,##0.00'
-      EditFormat = '0.00'
       Size = 2
       RoundByScale = True
     end
     object fbntgrfldViewTP_SMS_MONTH: TFIBIntegerField
-      DefaultExpression = '0'
       FieldName = 'TP_SMS_MONTH'
-      Origin = 'TARIF_PLAN.TP_SMS_MONTH'
     end
     object fbntgrfldViewRS_SMS: TFIBIntegerField
-      DefaultExpression = '0'
       FieldName = 'RS_SMS'
-      Origin = 'REPORT_SIMKA.RS_SMS'
-    end
-    object fbcdfldViewRS_BALANCE: TFIBBCDField
-      DefaultExpression = '0'
-      FieldName = 'RS_BALANCE'
-      Origin = 'REPORT_SIMKA.RS_BALANCE'
-      DisplayFormat = '#,##0.00'
-      EditFormat = '0.00'
-      Size = 2
-      RoundByScale = True
     end
     object fbntgrfldViewD_NUM: TFIBIntegerField
-      DefaultExpression = '0'
       FieldName = 'D_NUM'
-      Origin = 'DEVICE.D_NUM'
     end
     object fbstrngfldViewD_TITLE: TFIBStringField
       FieldName = 'D_TITLE'
-      Origin = 'DEVICE.D_TITLE'
       EmptyStrToNull = True
     end
-    object fbntgrfldViewRD_ID: TFIBIntegerField
-      FieldName = 'RD_ID'
-      Origin = 'REPORT_DAY.RD_ID'
-    end
-    object fbstrngfldViewRE_SURNAME: TFIBStringField
-      FieldName = 'RE_SURNAME'
-      Origin = 'RESPONS.RE_SURNAME'
-      OnGetText = fbstrngfldViewRE_SURNAMEGetText
+    object fbstrngfldViewO_NAME: TFIBStringField
+      FieldName = 'O_NAME'
       Size = 50
       EmptyStrToNull = True
     end
-    object fbstrngfldViewRE_NAME: TFIBStringField
-      FieldName = 'RE_NAME'
-      Size = 50
+    object fbstrngfldViewS_NUMBER: TFIBStringField
+      FieldName = 'S_NUMBER'
+      Size = 12
       EmptyStrToNull = True
-    end
-    object fbstrngfldViewRE_PATRONYMIC: TFIBStringField
-      FieldName = 'RE_PATRONYMIC'
-      Size = 50
-      EmptyStrToNull = True
-    end
-    object fbntgrfldViewRS_IN: TFIBIntegerField
-      FieldName = 'RS_IN'
-      Origin = 'REPORT_SIMKA.RS_IN'
     end
     object fbntgrfldViewRS_SIMKA: TFIBIntegerField
       FieldName = 'RS_SIMKA'
-      Origin = 'REPORT_SIMKA.RS_SIMKA'
     end
     object fbntgrfldViewRS_OWNER: TFIBIntegerField
       FieldName = 'RS_OWNER'
-      Origin = 'REPORT_SIMKA.RS_OWNER'
     end
-    object fbntgrfldViewRD_FINANCE1: TFIBIntegerField
-      FieldName = 'RD_FINANCE1'
-      Origin = 'REPORT_DAY.RD_FINANCE1'
+    object fbntgrfldViewRS_IN: TFIBIntegerField
+      FieldName = 'RS_IN'
     end
-    object fbntgrfldViewRD_FINANCE2: TFIBIntegerField
-      FieldName = 'RD_FINANCE2'
-      Origin = 'REPORT_DAY.RD_FINANCE2'
+    object fbntgrfldViewRSID: TFIBIntegerField
+      FieldName = 'RSID'
     end
-    object fbntgrfldViewRD_RESPONS: TFIBIntegerField
-      FieldName = 'RD_RESPONS'
-      Origin = 'REPORT_DAY.RD_RESPONS'
+    object fbstrngfldViewTP_CLIR: TFIBStringField
+      FieldName = 'TP_CLIR'
+      Size = 1
+      EmptyStrToNull = True
+    end
+    object fbcdfldViewTP_CLIR_PRICE: TFIBBCDField
+      FieldName = 'TP_CLIR_PRICE'
+      Size = 2
+      RoundByScale = True
+    end
+    object fbstrngfldViewLR_INK_ADIO: TFIBStringField
+      FieldName = 'LR_INK_ADIO'
+      Size = 50
+      EmptyStrToNull = True
+    end
+    object fbstrngfldViewRS_STATUS: TFIBStringField
+      FieldName = 'RS_STATUS'
+      Size = 1
+      EmptyStrToNull = True
+    end
+    object fbstrngfldViewPC_ART_ALL: TFIBStringField
+      FieldName = 'PC_ART_ALL'
+      Size = 50
+      EmptyStrToNull = True
+    end
+    object fbstrngfldViewOL_PERATOR_INK: TFIBStringField
+      FieldName = 'OL_PERATOR_INK'
+      Size = 50
+      EmptyStrToNull = True
+    end
+    object fbcdfldViewRB_SUM: TFIBBCDField
+      FieldName = 'RB_SUM'
+      Size = 2
+      RoundByScale = True
+    end
+    object fbstrngfldViewU_SER: TFIBStringField
+      FieldName = 'U_SER'
+      Size = 50
+      EmptyStrToNull = True
+    end
+    object fbstrngfldViewU_LOCATION: TFIBStringField
+      FieldName = 'U_LOCATION'
+      Size = 50
+      EmptyStrToNull = True
+    end
+    object fbstrngfldViewUB_SER_RUNCH: TFIBStringField
+      FieldName = 'UB_SER_RUNCH'
+      Size = 50
+      EmptyStrToNull = True
+    end
+    object fbstrngfldViewRS_IFINSTALL: TFIBStringField
+      FieldName = 'RS_IFINSTALL'
+      Size = 1
+      EmptyStrToNull = True
+    end
+    object fbstrngfldViewRS_ICC_SIM: TFIBStringField
+      FieldName = 'RS_ICC_SIM'
+      Size = 25
+      EmptyStrToNull = True
+    end
+    object fbstrngfldViewRS_PUK1: TFIBStringField
+      FieldName = 'RS_PUK1'
+      Size = 15
+      EmptyStrToNull = True
+    end
+    object fbstrngfldViewRS_PUK2: TFIBStringField
+      FieldName = 'RS_PUK2'
+      Size = 15
+      EmptyStrToNull = True
+    end
+    object fbstrngfldViewPA_RSNL_CNT: TFIBStringField
+      FieldName = 'PA_RSNL_CNT'
+      Size = 50
+      EmptyStrToNull = True
+    end
+    object fbstrngfldViewP_SURNAME: TFIBStringField
+      FieldName = 'P_SURNAME'
+      Size = 50
+      EmptyStrToNull = True
+    end
+    object fbstrngfldViewP_NAME: TFIBStringField
+      FieldName = 'P_NAME'
+      Size = 50
+      EmptyStrToNull = True
+    end
+    object fbstrngfldViewP_PATRONYMIC: TFIBStringField
+      FieldName = 'P_PATRONYMIC'
+      Size = 50
+      EmptyStrToNull = True
     end
   end
   object pfbqryDelete: TpFIBQuery
@@ -235,7 +258,7 @@ object DM: TDM
     SQL.Strings = (
       'DELETE FROM REPORT_DAY'
       'WHERE'
-      '    RD_ID=:P_RD_ID')
+      '    RD_DATE=:P_RD_DATE')
     Left = 104
     Top = 112
   end

@@ -13,32 +13,38 @@ type
     pfbtrnsView: TpFIBTransaction;
     ds1: TDataSource;
     pfbdtstView: TpFIBDataSet;
+    pfbqryDelete: TpFIBQuery;
     fbdtfldViewRD_DATE: TFIBDateField;
-    fbcdfldViewRD_FNCE1SUM: TFIBBCDField;
-    fbcdfldViewRD_FNCE2SUM: TFIBBCDField;
-    fbstrngfldViewRE_SURNAME: TFIBStringField;
     fbstrngfldViewTP_NAME: TFIBStringField;
     fbcdfldViewTP_ABON_BOARD: TFIBBCDField;
     fbntgrfldViewTP_SMS_MONTH: TFIBIntegerField;
     fbntgrfldViewRS_SMS: TFIBIntegerField;
-    fbcdfldViewRS_BALANCE: TFIBBCDField;
     fbntgrfldViewD_NUM: TFIBIntegerField;
     fbstrngfldViewD_TITLE: TFIBStringField;
     fbstrngfldViewO_NAME: TFIBStringField;
     fbstrngfldViewS_NUMBER: TFIBStringField;
-    fbstrngfldViewF_IDACCOUNT: TFIBStringField;
-    fbstrngfldViewF_IDACCOUNT1: TFIBStringField;
-    fbntgrfldViewRD_ID: TFIBIntegerField;
     fbntgrfldViewRS_SIMKA: TFIBIntegerField;
     fbntgrfldViewRS_OWNER: TFIBIntegerField;
     fbntgrfldViewRS_IN: TFIBIntegerField;
     fbntgrfldViewRSID: TFIBIntegerField;
-    fbntgrfldViewRD_FINANCE1: TFIBIntegerField;
-    fbntgrfldViewRD_FINANCE2: TFIBIntegerField;
-    fbntgrfldViewRD_RESPONS: TFIBIntegerField;
-    pfbqryDelete: TpFIBQuery;
-    fbstrngfldViewRE_NAME: TFIBStringField;
-    fbstrngfldViewRE_PATRONYMIC: TFIBStringField;
+    fbstrngfldViewTP_CLIR: TFIBStringField;
+    fbcdfldViewTP_CLIR_PRICE: TFIBBCDField;
+    fbstrngfldViewLR_INK_ADIO: TFIBStringField;
+    fbstrngfldViewRS_STATUS: TFIBStringField;
+    fbstrngfldViewPC_ART_ALL: TFIBStringField;
+    fbstrngfldViewOL_PERATOR_INK: TFIBStringField;
+    fbcdfldViewRB_SUM: TFIBBCDField;
+    fbstrngfldViewU_SER: TFIBStringField;
+    fbstrngfldViewU_LOCATION: TFIBStringField;
+    fbstrngfldViewUB_SER_RUNCH: TFIBStringField;
+    fbstrngfldViewRS_IFINSTALL: TFIBStringField;
+    fbstrngfldViewRS_ICC_SIM: TFIBStringField;
+    fbstrngfldViewRS_PUK1: TFIBStringField;
+    fbstrngfldViewRS_PUK2: TFIBStringField;
+    fbstrngfldViewPA_RSNL_CNT: TFIBStringField;
+    fbstrngfldViewP_SURNAME: TFIBStringField;
+    fbstrngfldViewP_NAME: TFIBStringField;
+    fbstrngfldViewP_PATRONYMIC: TFIBStringField;
     procedure fbstrngfldViewRE_SURNAMEGetText(Sender: TField;
       var Text: String; DisplayText: Boolean);
   private
@@ -68,8 +74,8 @@ procedure TDM.fbstrngfldViewRE_SURNAMEGetText(Sender: TField;
     Result := GetI(N) + GetI(P)
   end;
 begin
-  Text := fbstrngfldViewRE_SURNAME.AsString + ' ' +
-    Get_N_P(fbstrngfldViewRE_NAME.AsString, fbstrngfldViewRE_PATRONYMIC.AsString) 
+  Text := fbstrngfldViewP_SURNAME.AsString + ' ' +
+    Get_N_P(fbstrngfldViewP_NAME.AsString, fbstrngfldViewP_PATRONYMIC.AsString) 
 end;
 
 end.
