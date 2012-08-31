@@ -1,4 +1,4 @@
-unit UsersFrm;
+unit LinkRadioFrm;
 
 interface
 
@@ -8,13 +8,9 @@ uses
   ComCtrls, StdCtrls, Buttons, ExtCtrls, Grids, DBGrids;
 
 type
-  TfrmUsers = class(TChaildForm)
-    edtSurname: TEdit;
-    edtName: TEdit;
-    edtPatronymic: TEdit;
+  TfrmLinkRadio = class(TChaildForm)
+    edtLinkRadio: TEdit;
     lbl1: TLabel;
-    lbl2: TLabel;
-    lbl3: TLabel;
     procedure btnSaveClick(Sender: TObject); override;
   private
     { Private declarations }
@@ -23,15 +19,13 @@ type
   end;
 
 var
-  frmUsers: TfrmUsers;
+  frmLinkRadio: TfrmLinkRadio;
 
 implementation
 
-uses CustomerFunctions;
-
 {$R *.dfm}
 
-procedure TfrmUsers.btnSaveClick(Sender: TObject);
+procedure TfrmLinkRadio.btnSaveClick(Sender: TObject);
 begin
   with pfbdtst1 do
   try
@@ -40,31 +34,23 @@ begin
 
     case FEditorState of
       esEdit: with QUpdate do begin
-        if edtSurname.Text = NullAsStringValue then
+        if edtLinkRadio.Text = NullAsStringValue then
           raise Exception.Create('Заполните поля');
-
-        ParamByName('P_P_ID').AsInteger := pfbdtst1.FieldByName('P_ID').AsInteger;
-        ParamByName('P_P_SURNAME').Value := edtLinkRadio.Text;
-        ParamByName('P_P_NAME').Value := ToStrNull(edtName);
-        ParamByName('P_P_PATRONYMIC').Value := ToStrNull(edtPatronymic);
-
+        ParamByName('P_LR_ID').AsInteger := pfbdtst1.FieldByName('LR_ID').AsInteger;
+        ParamByName('P_LR_INK_ADIO').Value := edtLinkRadio.Text;
       end;
 
       esInsert: with QInsert do begin
-        if edtSurname.Text = NullAsStringValue then
+        if edtLinkRadio.Text = NullAsStringValue then
           raise Exception.Create('Заполните поля');
-
-        ParamByName('P_P_ID').AsInteger := pfbdtst1.FieldByName('P_ID').AsInteger;
-        ParamByName('P_P_SURNAME').Value := edtLinkRadio.Text;
-        ParamByName('P_P_NAME').Value := ToStrNull(edtName);
-        ParamByName('P_P_PATRONYMIC').Value := ToStrNull(edtPatronymic);          
+        ParamByName('P_LR_INK_ADIO').Value := edtLinkRadio.Text;
       end;
 
       esDelete: with QDelete do begin
-        ParamByName('P_P_ID').AsInteger := pfbdtst1.FieldByName('P_ID').AsInteger;
+        ParamByName('P_LR_ID').AsInteger := pfbdtst1.FieldByName('LR_ID').AsInteger;
       end;
     end;
-
+    
     inherited;
   except
     on EFIBError do begin
@@ -79,6 +65,7 @@ begin
       Abort;
     end;
   end;
+
 end;
 
 end.

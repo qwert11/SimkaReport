@@ -1,7 +1,7 @@
 object frmEditingReport: TfrmEditingReport
   Left = 305
   Top = 158
-  Width = 738
+  Width = 807
   Height = 489
   Caption = 'frmEditingReport'
   Color = clBtnFace
@@ -20,7 +20,7 @@ object frmEditingReport: TfrmEditingReport
   object stat1: TStatusBar
     Left = 0
     Top = 424
-    Width = 730
+    Width = 799
     Height = 19
     Panels = <
       item
@@ -36,7 +36,7 @@ object frmEditingReport: TfrmEditingReport
   object dbgrdhRepSIM: TDBGridEh
     Left = 0
     Top = 0
-    Width = 530
+    Width = 544
     Height = 424
     Align = alClient
     DataGrouping.GroupLevels = <>
@@ -150,35 +150,35 @@ object frmEditingReport: TfrmEditingReport
     end
   end
   object pnl1: TPanel
-    Left = 530
+    Left = 544
     Top = 0
-    Width = 200
+    Width = 255
     Height = 424
     Align = alRight
     TabOrder = 2
     object lbl2: TLabel
-      Left = 65
+      Left = 9
       Top = 56
       Width = 112
       Height = 13
       Caption = 'ID '#1083#1080#1094#1077#1074#1086#1075#1086' '#1089#1095#1077#1090#1072' '#8470'1'
     end
     object lbl1: TLabel
-      Left = 60
+      Left = 4
       Top = 32
       Width = 29
       Height = 13
       Caption = #1044#1072#1090#1072':'
     end
     object lbl3: TLabel
-      Left = 65
-      Top = 168
+      Left = 137
+      Top = 56
       Width = 112
       Height = 13
       Caption = 'ID '#1083#1080#1094#1077#1074#1086#1075#1086' '#1089#1095#1077#1090#1072' '#8470'2'
     end
     object dtpDate: TDateTimePicker
-      Left = 96
+      Left = 40
       Top = 24
       Width = 97
       Height = 21
@@ -187,10 +187,11 @@ object frmEditingReport: TfrmEditingReport
       TabOrder = 0
     end
     object cbbIDAccount2: TDBLookupComboboxEh
-      Left = 56
-      Top = 184
+      Left = 128
+      Top = 80
       Width = 121
       Height = 21
+      DataSource = ds2
       EditButtons = <>
       KeyField = 'FID'
       ListField = 'F_CODE; F_IDACCOUNT'
@@ -200,7 +201,7 @@ object frmEditingReport: TfrmEditingReport
       OnKeyPress = cbbIDAccount1KeyPress
     end
     object cbbIDAccount1: TDBLookupComboboxEh
-      Left = 56
+      Left = 0
       Top = 72
       Width = 121
       Height = 21
@@ -213,7 +214,7 @@ object frmEditingReport: TfrmEditingReport
       OnKeyPress = cbbIDAccount1KeyPress
     end
     object edtSum1: TEdit
-      Left = 56
+      Left = 0
       Top = 104
       Width = 121
       Height = 21
@@ -222,8 +223,8 @@ object frmEditingReport: TfrmEditingReport
       OnKeyPress = edtSum1KeyPress
     end
     object edtSum2: TEdit
-      Left = 56
-      Top = 216
+      Left = 128
+      Top = 104
       Width = 121
       Height = 21
       TabOrder = 4
@@ -247,6 +248,29 @@ object frmEditingReport: TfrmEditingReport
       Height = 25
       TabOrder = 6
       Kind = bkCancel
+    end
+    object dbctrlgrd1: TDBCtrlGrid
+      Left = 8
+      Top = 136
+      Width = 233
+      Height = 216
+      DataSource = ds2
+      PanelWidth = 217
+      TabOrder = 7
+      object lbl4: TLabel
+        Left = 8
+        Top = 8
+        Width = 66
+        Height = 13
+        Caption = #1048#1076' '#1083#1080#1094'.'#1089#1095#1077#1090#1072
+      end
+      object lbl5: TLabel
+        Left = 40
+        Top = 40
+        Width = 34
+        Height = 13
+        Caption = #1057#1091#1084#1084#1072
+      end
     end
   end
   object tmr1: TTimer
@@ -418,6 +442,17 @@ object frmEditingReport: TfrmEditingReport
     Transaction = pfbtrnsctUpdate
     Database = DM.DB
     Left = 104
+    Top = 264
+  end
+  object cdsTmpErBc: TClientDataSet
+    Aggregates = <>
+    Params = <>
+    Left = 184
+    Top = 232
+  end
+  object ds2: TDataSource
+    DataSet = cdsTmpErBc
+    Left = 184
     Top = 264
   end
 end

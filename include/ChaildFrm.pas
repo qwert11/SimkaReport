@@ -6,10 +6,22 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, Grids, DBGrids, ExtCtrls, StdCtrls, Buttons, Menus, IBDatabase,
   DB, IBCustomDataSet, IBQuery, DBCtrls, ActnList, FIBDatabase,
+{$IFDEF TESTMODE}
+  TypInfo,
+{$ENDIF}
   pFIBDatabase, FIBDataSet, pFIBDataSet, FIBQuery, fib, ComCtrls;
 
 type
   TEditorSetState = (esEdit, esInsert, esDelete, esNone);
+
+  TTextAlign = (taRight);
+
+  TEditTextRight = class(TEdit)
+  private
+    FTextAlign: TTextAlign;
+  protected
+    procedure CreateParams(var Params: TCreateParams); override;
+  end;
 
   TChaildForm = class(TForm)
     dbgrd1: TDBGrid;
@@ -56,6 +68,7 @@ type
     FCheckComponents: TList;
   protected
     procedure QueryPrepare;
+    procedure SetRightText(AEdit: TEdit);
   end;
 
 var
@@ -224,6 +237,13 @@ const
   CheckInput = 'Заполните все поля';
 var
   I: Integer;
+{$IFDEF TESTMODE}
+  pList: TStrings;
+  PropList: PPropList;
+  PropInfo: PPropInfo;
+  PropCount, Sise: Integer;
+
+{$ENDIF}
 begin
   case FEditorState of
     esEdit, esInsert: begin
@@ -234,11 +254,18 @@ begin
         if (TObject(FCheckComponents.Items[I]) is TDBLookupComboBox) then
           actSave.Enabled :=
             (TObject(FCheckComponents.Items[I]) as TDBLookupComboBox).KeyValue <> Null;
-
+{$IFDEF TESTMODE}
+      PropCount := GetPropList(FCheckComponents.)   conec
+      s := 'следим за: '
+      for I := 0 to FCheckComponents.Count - 1 do
+        s := FCheckComponents.Items[I].ClassName
+      stat1.Panels[INFO_PNL_SBAR].Text :=
+{$ELSE}
       if actSave.Enabled then
         stat1.Panels[INFO_PNL_SBAR].Text := NullAsStringValue else
       if stat1.Panels[INFO_PNL_SBAR].Text = NullAsStringValue then
           stat1.Panels[INFO_PNL_SBAR].Text := CheckInput
+{$ENDIF}
     end;
   else
     stat1.Panels[INFO_PNL_SBAR].Text := '';
@@ -258,5 +285,20 @@ procedure TChaildForm.FormCloseQuery(Sender: TObject;
 begin
   CloseAllCombobox(Self)
 end;
+
+procedure TChaildForm.SetRightText(AEdit: TEdit);
+begin
+  pPointer(AEdit)^ = TEditTextRight;
+  TEditTextRight(AEdit).RecreateWnd;
+end;
+
+{ TEdit }
+
+procedure TEditTextRight.CreateParams(var Params: TCreateParams);
+begin
+  inherited CreateParams(Params);
+  Params.Style := Params.Style or ES_CENTER;
+end;     
+
 
 end.

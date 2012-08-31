@@ -42,11 +42,15 @@ object ChaildForm: TChaildForm
     Align = alBottom
     BevelInner = bvLowered
     TabOrder = 1
+    DesignSize = (
+      472
+      90)
     object btn2: TBitBtn
       Left = 376
       Top = 56
       Width = 75
       Height = 25
+      Anchors = [akTop, akRight]
       TabOrder = 0
       Kind = bkCancel
     end
@@ -55,6 +59,7 @@ object ChaildForm: TChaildForm
       Top = 56
       Width = 75
       Height = 25
+      Anchors = [akTop, akRight]
       TabOrder = 1
       Kind = bkOK
     end
@@ -64,6 +69,7 @@ object ChaildForm: TChaildForm
       Width = 75
       Height = 25
       Action = actSave
+      Anchors = [akTop, akRight]
       TabOrder = 2
     end
     object btnCancel: TButton
@@ -71,6 +77,7 @@ object ChaildForm: TChaildForm
       Top = 8
       Width = 75
       Height = 25
+      Anchors = [akTop, akRight]
       Caption = #1054#1090#1084#1077#1085#1072
       TabOrder = 3
       OnClick = btnCancelClick

@@ -1,4 +1,4 @@
-unit UsersFrm;
+unit PartCallFrm;
 
 interface
 
@@ -8,14 +8,11 @@ uses
   ComCtrls, StdCtrls, Buttons, ExtCtrls, Grids, DBGrids;
 
 type
-  TfrmUsers = class(TChaildForm)
-    edtSurname: TEdit;
-    edtName: TEdit;
-    edtPatronymic: TEdit;
+  TfrmPartCall = class(TChaildForm)
+    edtPartCall: TEdit;
     lbl1: TLabel;
-    lbl2: TLabel;
-    lbl3: TLabel;
     procedure btnSaveClick(Sender: TObject); override;
+    procedure FormCreate(Sender: TObject);
   private
     { Private declarations }
   public
@@ -23,15 +20,13 @@ type
   end;
 
 var
-  frmUsers: TfrmUsers;
+  frmPartCall: TfrmPartCall;
 
 implementation
 
-uses CustomerFunctions;
-
 {$R *.dfm}
 
-procedure TfrmUsers.btnSaveClick(Sender: TObject);
+procedure TfrmPartCall.btnSaveClick(Sender: TObject);
 begin
   with pfbdtst1 do
   try
@@ -40,31 +35,23 @@ begin
 
     case FEditorState of
       esEdit: with QUpdate do begin
-        if edtSurname.Text = NullAsStringValue then
+        if edtPartCall.Text = NullAsStringValue then
           raise Exception.Create('Заполните поля');
-
-        ParamByName('P_P_ID').AsInteger := pfbdtst1.FieldByName('P_ID').AsInteger;
-        ParamByName('P_P_SURNAME').Value := edtLinkRadio.Text;
-        ParamByName('P_P_NAME').Value := ToStrNull(edtName);
-        ParamByName('P_P_PATRONYMIC').Value := ToStrNull(edtPatronymic);
-
+        ParamByName('PC_ID').AsInteger := pfbdtst1.FieldByName('PC_ID').AsInteger;
+        ParamByName('P_PC_ART_ALL').Value := edtPartCall.Text;
       end;
 
       esInsert: with QInsert do begin
-        if edtSurname.Text = NullAsStringValue then
+        if edtPartCall.Text = NullAsStringValue then
           raise Exception.Create('Заполните поля');
-
-        ParamByName('P_P_ID').AsInteger := pfbdtst1.FieldByName('P_ID').AsInteger;
-        ParamByName('P_P_SURNAME').Value := edtLinkRadio.Text;
-        ParamByName('P_P_NAME').Value := ToStrNull(edtName);
-        ParamByName('P_P_PATRONYMIC').Value := ToStrNull(edtPatronymic);          
+        ParamByName('P_PC_ART_ALL').Value := edtPartCall.Text;
       end;
 
       esDelete: with QDelete do begin
-        ParamByName('P_P_ID').AsInteger := pfbdtst1.FieldByName('P_ID').AsInteger;
+        ParamByName('P_PC_ID').AsInteger := pfbdtst1.FieldByName('PC_ID').AsInteger;
       end;
     end;
-
+    
     inherited;
   except
     on EFIBError do begin
@@ -79,6 +66,12 @@ begin
       Abort;
     end;
   end;
+end;
+
+procedure TfrmPartCall.FormCreate(Sender: TObject);
+begin
+  inherited;
+  FCheckComponents.Add(edtPartCall)
 end;
 
 end.

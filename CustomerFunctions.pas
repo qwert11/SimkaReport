@@ -17,6 +17,7 @@ type
 
 function ToStrNull(S: string): string; overload;
 function ToStrNull(V: Variant): string; overload;
+function ToStrNull(te: TEdit): string; overload;
 function EditFieldInt(FIBXSQLVAR: TFIBXSQLVAR; const AValue: string): Boolean;
 function EditFieldFlt(FIBXSQLVAR: TFIBXSQLVAR; const AValue: string): Boolean;
 procedure CloseAllCombobox(Form: TForm);
@@ -27,6 +28,8 @@ function TestFloat(A: string; SilentExcept: Boolean = True): Boolean;
 
 function ToStrPoint(Value: Real): string; overload;
 function ToStrPoint(Value: string): string; overload;
+
+function BoolToChar(B: Boolean; UseBoolChr: Boolean = False): Char;
 
 function ReadIni(ASection, AString : String; ReadIni: TReadIni) : Variant;
 
@@ -41,6 +44,21 @@ procedure Delay(MiliSeconds: Integer);
 implementation
 
 uses CustomerGlobals;
+
+function BoolToChar(B: Boolean; UseBoolChr: Boolean = False): Char;
+begin
+  if UseBoolChr then begin
+    if B then
+      Result := 'T'
+    else
+      Result := 'F'
+  end else begin
+    if B then
+      Result := '1'
+    else
+      Result := '0'
+  end;
+end;
 
 
 procedure Delay(MiliSeconds: Integer);
@@ -66,10 +84,15 @@ begin
     Result := S
 end;
 
+function ToStrNull(te: TEdit): string;
+begin
+  Result := ToStrNull(te.Text)
+end;
+
 function ToStrNull(V: Variant): string;
 begin
   if VarIsNull(V) then
-    Result := 'NULL'
+    Result := 'Null'
   else
     Result := VarToStr(V)
 end;

@@ -20,6 +20,11 @@ type
     pfbdtst1TP_NAME: TFIBStringField;
     pfbdtst1TP_ABON_BOARD: TFIBBCDField;
     pfbdtst1TP_SMS_MONTH: TFIBIntegerField;
+    chkCLIR: TCheckBox;
+    edCLIR_Price: TEdit;
+    lbl4: TLabel;
+    fbstrngfldpfbdtst1TP_CLIR: TFIBStringField;
+    fbcdfldpfbdtst1TP_CLIR_PRICE: TFIBBCDField;
     procedure btnSaveClick(Sender: TObject); override;
     procedure edtAbonBoardKeyPress(Sender: TObject; var Key: Char);
     procedure edtSmsMonthKeyPress(Sender: TObject; var Key: Char);
@@ -50,11 +55,13 @@ begin
       esEdit: with QUpdate do begin
         if edtTarifPlan.Text = NullAsStringValue then
           raise Exception.Create('Заполните поля');
-        ParamByName('P_OLD_TPID').AsInteger := pfbdtst1.FieldByName('TPID').AsInteger;
+        ParamByName('P_TPID').AsInteger := pfbdtst1.FieldByName('TPID').AsInteger;
         ParamByName('P_TP_NAME').AsString := edtTarifPlan.Text;
 
         EditFieldFlt(ParamByName('P_TP_ABON_BOARD'), edtAbonBoard.Text);
         EditFieldInt(ParamByName('P_TP_SMS_MONTH'), edtSmsMonth.Text);
+        ParamByName('P_TP_CLIR').AsString := BoolToChar(chkCLIR.Checked);
+        EditFieldInt(ParamByName('P_TP_CLIR_PRICE'), edCLIR_Price.Text);
 
       end;
       esInsert: with QInsert do begin
@@ -64,9 +71,11 @@ begin
         ParamByName('P_TP_NAME').AsString := edtTarifPlan.Text;
         EditFieldFlt(ParamByName('P_TP_ABON_BOARD'), edtAbonBoard.Text);
         EditFieldInt(ParamByName('P_TP_SMS_MONTH'), edtSmsMonth.Text);
+        ParamByName('P_TP_CLIR').AsString := BoolToChar(chkCLIR.Checked);
+        EditFieldInt(ParamByName('P_TP_CLIR_PRICE'), edCLIR_Price.Text);        
       end;
       esDelete: with QDelete do begin
-        ParamByName('P_OLD_TPID').AsInteger := pfbdtst1.FieldByName('TPID').AsInteger;
+        ParamByName('P_TPID').AsInteger := pfbdtst1.FieldByName('TPID').AsInteger;
       end;
     end;
     

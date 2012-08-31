@@ -15,7 +15,10 @@ uses
   DeviceFrm in 'DeviceFrm.pas' {frmDevice},
   AuthentificationFrm in 'AuthentificationFrm.pas' {frmAuthentification},
   RegistrationFrm in 'RegistrationFrm.pas' {frmRegistration},
-  UsersFrm in 'UsersFrm.pas' {frmUsers};
+  UsersFrm in 'UsersFrm.pas' {frmUsers},
+  PartCallFrm in 'PartCallFrm.pas' {frmPartCall},
+  LinkRadioFrm in 'LinkRadioFrm.pas' {frmLinkRadio},
+  AuthorizationFrm in 'AuthorizationFrm.pas' {frmAuthorization};
 
 {$R *.res}
 
@@ -28,6 +31,9 @@ begin
   Application.CreateForm(TfrmAuthentification, frmAuthentification);
   Application.CreateForm(TfrmRegistration, frmRegistration);
   Application.CreateForm(TfrmUsers, frmUsers);
+  Application.CreateForm(TfrmPartCall, frmPartCall);
+  Application.CreateForm(TfrmLinkRadio, frmLinkRadio);
+  Application.CreateForm(TfrmAuthorization, frmAuthorization);
   //Application.CreateForm(TChaildForm, ChaildForm);
   Application.CreateForm(TfrmTarifPlan, frmTarifPlan);  
   Application.CreateForm(TfrmSimka, frmSimka);

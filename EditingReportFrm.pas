@@ -7,7 +7,7 @@ uses
   Dialogs, ExtCtrls, ComCtrls, DBGridEh, StdCtrls, Mask, DBCtrlsEh,
   DBLookupEh, pFIBDataSet, DBGridEhGrouping, GridsEh, Grids,
   MemTableDataEh, Db, DataDriverEh, DBClient, DBGrids, MConnect, ActnList,
-  Menus, Buttons, FIBQuery, pFIBQuery, FIBDatabase, pFIBDatabase;
+  Menus, Buttons, FIBQuery, pFIBQuery, FIBDatabase, pFIBDatabase, dbcgrids;
 
 type
   TEditingReport = (erEdit, erInsert, erDelete);
@@ -50,6 +50,11 @@ type
     pfbqryUpdate: TpFIBQuery;
     actApply: TAction;
     mniApply: TMenuItem;
+    cdsTmpErBc: TClientDataSet;
+    ds2: TDataSource;
+    dbctrlgrd1: TDBCtrlGrid;
+    lbl4: TLabel;
+    lbl5: TLabel;
     procedure tmr1Timer(Sender: TObject);
     procedure FormActivate(Sender: TObject);
     procedure dbgrdhRepSIMKeyPress(Sender: TObject; var Key: Char);
@@ -572,7 +577,7 @@ procedure TfrmEditingReport.dbgrdhRepSIMDrawColumnCell(Sender: TObject;
           2, Rect.Top + 2, Column.Field.Text)
     end;
   end;
-  { TODO 1 -oDrawCellColum -cCheck : Закончить ф-цию FindDiff }
+  { TODO 1 -oDrawCellColum -cCheck : Закончить ф-цию FindDiff для erEdit}
 //  function FindDiff: Boolean;
 //  begin
 //
