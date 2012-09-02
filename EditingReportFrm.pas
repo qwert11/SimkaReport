@@ -56,7 +56,25 @@ type
     lbl4: TLabel;
     lbl5: TLabel;
     cbbIDAccount: TDBLookupComboboxEh;
-    edtSum3: TDBNumberEditEh;
+    edtSumMony: TDBNumberEditEh;
+    crncyfldTmpErBccSUM: TCurrencyField;
+    intgrfldTmpErBccPrsnlAcnt: TIntegerField;
+    intgrfldTmpERcRS_ID: TIntegerField;
+    intgrfldTmpERcRS_In: TIntegerField;
+    intgrfldTmpERcRS_SMS: TIntegerField;
+    intgrfldTmpERcRS_Owner: TIntegerField;
+    intgrfldTmpERcRS_Simka: TIntegerField;
+    intgrfldTmpERcRS_TarifPlan: TIntegerField;
+    strngfldTmpERcRS_Status: TStringField;
+    intgrfldTmpERcRS_Balance: TIntegerField;
+    intgrfldTmpERcRS_User: TIntegerField;
+    intgrfldTmpERcRS_UserBrunch: TIntegerField;
+    intgrfldTmpERcRS_PartCall: TIntegerField;
+    strngfldTmpERcRS_IfInstall: TStringField;
+    strngfldTmpERcRS_ICC_SIM: TStringField;
+    strngfldTmpERcRS_PUK1: TStringField;
+    strngfldTmpERcRS_PUK2: TStringField;
+    dtfldTmpERcRS_ReportDay: TDateField;
     procedure tmr1Timer(Sender: TObject);
     procedure FormActivate(Sender: TObject);
     procedure dbgrdhRepSIMKeyPress(Sender: TObject; var Key: Char);
@@ -126,6 +144,12 @@ end;
 
 //check users
 procedure TfrmEditingReport.FormActivate(Sender: TObject);
+  procedure DupIgnore(ADS: TDataSet; AField: TIntegerField);
+  begin
+
+  end;
+var
+  Balanses: array of Currency;
 begin
   { TODO 5 : раскоментировать и добавить вход по паролю }
   if user.login = DEF_USER then begin
@@ -183,11 +207,11 @@ begin
             while not Eof do begin
               cdsTmpER.Append;
               try
-                intgrfldTmpERcSimka.Value := FieldByName('RS_SIMKA').AsInteger;
-                intgrfldTmpERcIn.Value := FieldByName('RS_IN').AsInteger;
-                intgrfldTmpERcSMS.Value := FieldByName('RS_SMS').AsInteger;
-                intgrfldTmpERcOwner.Value := FieldByName('RS_OWNER').AsInteger;
-                crncyfldTmpERcBalance.Value := FieldByName('RS_BALANCE').AsInteger;
+                intgrfldTmpERcRS_Simka.Value := FieldByName('RS_SIMKA').AsInteger;
+                intgrfldTmpERcRS_In.Value := FieldByName('RS_IN').AsInteger;
+                intgrfldTmpERcRS_SMS.Value := FieldByName('RS_SMS').AsInteger;
+                intgrfldTmpERcRS_Owner.Value := FieldByName('RS_OWNER').AsInteger;
+                intgrfldTmpERcRS_Balance.Value := FieldByName('RS_BALANCE').AsInteger;
                 intgrfldTmpERcIDRepSim.Value := FieldByName('RSID').AsInteger;
 
                 cdsTmpER.Post;
