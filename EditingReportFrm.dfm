@@ -19,7 +19,7 @@ object frmEditingReport: TfrmEditingReport
   TextHeight = 13
   object stat1: TStatusBar
     Left = 0
-    Top = 424
+    Top = 416
     Width = 799
     Height = 19
     Panels = <
@@ -37,7 +37,7 @@ object frmEditingReport: TfrmEditingReport
     Left = 0
     Top = 0
     Width = 544
-    Height = 424
+    Height = 416
     Align = alClient
     DataGrouping.GroupLevels = <>
     DataSource = ds1
@@ -153,7 +153,7 @@ object frmEditingReport: TfrmEditingReport
     Left = 544
     Top = 0
     Width = 255
-    Height = 424
+    Height = 416
     Align = alRight
     TabOrder = 2
     object lbl2: TLabel
@@ -195,10 +195,8 @@ object frmEditingReport: TfrmEditingReport
       EditButtons = <>
       KeyField = 'FID'
       ListField = 'F_CODE; F_IDACCOUNT'
-      ListSource = frmFinance.ds1
       TabOrder = 1
       Visible = True
-      OnKeyPress = cbbIDAccount1KeyPress
     end
     object cbbIDAccount1: TDBLookupComboboxEh
       Left = 0
@@ -208,10 +206,8 @@ object frmEditingReport: TfrmEditingReport
       EditButtons = <>
       KeyField = 'FID'
       ListField = 'F_CODE; F_IDACCOUNT'
-      ListSource = frmFinance.ds1
       TabOrder = 2
       Visible = True
-      OnKeyPress = cbbIDAccount1KeyPress
     end
     object edtSum1: TEdit
       Left = 0
@@ -252,24 +248,44 @@ object frmEditingReport: TfrmEditingReport
     object dbctrlgrd1: TDBCtrlGrid
       Left = 8
       Top = 136
-      Width = 233
+      Width = 234
       Height = 216
       DataSource = ds2
       PanelWidth = 217
       TabOrder = 7
       object lbl4: TLabel
         Left = 8
-        Top = 8
+        Top = 16
         Width = 66
         Height = 13
         Caption = #1048#1076' '#1083#1080#1094'.'#1089#1095#1077#1090#1072
       end
       object lbl5: TLabel
         Left = 40
-        Top = 40
+        Top = 48
         Width = 34
         Height = 13
         Caption = #1057#1091#1084#1084#1072
+      end
+      object cbbIDAccount: TDBLookupComboboxEh
+        Left = 80
+        Top = 8
+        Width = 121
+        Height = 21
+        DataSource = ds2
+        EditButtons = <>
+        TabOrder = 0
+        Visible = True
+      end
+      object edtSum3: TDBNumberEditEh
+        Left = 80
+        Top = 40
+        Width = 97
+        Height = 21
+        DataSource = ds2
+        EditButtons = <>
+        TabOrder = 1
+        Visible = True
       end
     end
   end

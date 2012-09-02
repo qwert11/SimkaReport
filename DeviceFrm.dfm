@@ -1,6 +1,6 @@
 inherited frmDevice: TfrmDevice
-  Left = 862
-  Top = 331
+  Left = 694
+  Top = 225
   Caption = 'frmDevice'
   OldCreateOrder = True
   PixelsPerInch = 96

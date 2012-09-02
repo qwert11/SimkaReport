@@ -53,8 +53,6 @@ begin
 
     case FEditorState of
       esEdit: with QUpdate do begin
-        if edtTarifPlan.Text = NullAsStringValue then
-          raise Exception.Create('Заполните поля');
         ParamByName('P_TPID').AsInteger := pfbdtst1.FieldByName('TPID').AsInteger;
         ParamByName('P_TP_NAME').AsString := edtTarifPlan.Text;
 
@@ -65,9 +63,6 @@ begin
 
       end;
       esInsert: with QInsert do begin
-        if (edtTarifPlan.Text = NullAsStringValue) then
-          raise Exception.Create('Заполните поля');
-
         ParamByName('P_TP_NAME').AsString := edtTarifPlan.Text;
         EditFieldFlt(ParamByName('P_TP_ABON_BOARD'), edtAbonBoard.Text);
         EditFieldInt(ParamByName('P_TP_SMS_MONTH'), edtSmsMonth.Text);

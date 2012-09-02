@@ -1,6 +1,6 @@
 inherited frmOwner: TfrmOwner
-  Left = 798
-  Top = 334
+  Left = 695
+  Top = 186
   Caption = 'frmOwner'
   OldCreateOrder = True
   PixelsPerInch = 96

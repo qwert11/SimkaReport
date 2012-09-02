@@ -6,7 +6,6 @@ uses
   ChaildFrm in 'include\ChaildFrm.pas' {ChaildForm},
   SimkaFrm in 'SimkaFrm.pas' {frmSimka},
   TarifPlanFrm in 'TarifPlanFrm.pas' {frmTarifPlan},
-  FinanceFrm in 'FinanceFrm.pas' {frmFinance},
   OwnerFrm in 'OwnerFrm.pas' {frmOwner},
   DM_ in 'DM_.pas' {DM: TDataModule},
   CustomerFunctions in 'CustomerFunctions.pas',
@@ -18,7 +17,9 @@ uses
   UsersFrm in 'UsersFrm.pas' {frmUsers},
   PartCallFrm in 'PartCallFrm.pas' {frmPartCall},
   LinkRadioFrm in 'LinkRadioFrm.pas' {frmLinkRadio},
-  AuthorizationFrm in 'AuthorizationFrm.pas' {frmAuthorization};
+  AuthorizationFrm in 'AuthorizationFrm.pas' {frmAuthorization},
+  OperatorsFrm in 'OperatorsFrm.pas' {frmOperators},
+  PersonalAccountFrm in 'PersonalAccountFrm.pas' {frmPersonalAccount};
 
 {$R *.res}
 
@@ -34,10 +35,11 @@ begin
   Application.CreateForm(TfrmPartCall, frmPartCall);
   Application.CreateForm(TfrmLinkRadio, frmLinkRadio);
   Application.CreateForm(TfrmAuthorization, frmAuthorization);
+  Application.CreateForm(TfrmOperators, frmOperators);
+  Application.CreateForm(TfrmPersonalAccount, frmPersonalAccount);
   //Application.CreateForm(TChaildForm, ChaildForm);
-  Application.CreateForm(TfrmTarifPlan, frmTarifPlan);  
+  Application.CreateForm(TfrmTarifPlan, frmTarifPlan);
   Application.CreateForm(TfrmSimka, frmSimka);
-  Application.CreateForm(TfrmFinance, frmFinance);
   Application.CreateForm(TfrmOwner, frmOwner);
   // Application.CreateForm(TfrmEditingReport, frmEditingReport);
   Application.Run;

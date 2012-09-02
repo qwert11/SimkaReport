@@ -31,7 +31,6 @@ type
     btnNewRecord: TButton;
     btnEditRecord: TButton;
     btnDeleteRecord: TButton;
-    btnFinance: TButton;
     btnTarifPlan: TButton;
     btnSimka: TButton;
     btnDevise: TButton;
@@ -63,7 +62,7 @@ var
 
 implementation
 
-uses DM_, CustomerFunctions, FinanceFrm, TarifPlanFrm,
+uses DM_, CustomerFunctions, TarifPlanFrm,
   SimkaFrm, CustomerGlobals, AuthentificationFrm;
 
 const
@@ -76,7 +75,7 @@ procedure TfrmMain.FormCreate(Sender: TObject);
 begin
   
   {$IFDEF TESTMODE}
-    btnFinance.Visible := True;
+    //btnFinance.Visible := True;
     btnTarifPlan.Visible := True;
     btnSimka.Visible := True;
     btnDevise.Visible := True;
@@ -126,7 +125,7 @@ end;
 
 procedure TfrmMain.btnFinanceClick(Sender: TObject);
 begin
-  frmFinance.ShowModal
+  //frmFinance.ShowModal
 end;
 
 procedure TfrmMain.btnTarifPlanClick(Sender: TObject);

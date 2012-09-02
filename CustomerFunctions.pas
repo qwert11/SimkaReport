@@ -17,7 +17,11 @@ type
 
 function ToStrNull(S: string): string; overload;
 function ToStrNull(V: Variant): string; overload;
-function ToStrNull(te: TEdit): string; overload;
+function ToStrNull(edt: TEdit): string; overload;
+
+function StrToVarNull(S: string): Variant; overload;
+function StrToVarNull(edt: TEdit): Variant; overload;
+
 function EditFieldInt(FIBXSQLVAR: TFIBXSQLVAR; const AValue: string): Boolean;
 function EditFieldFlt(FIBXSQLVAR: TFIBXSQLVAR; const AValue: string): Boolean;
 procedure CloseAllCombobox(Form: TForm);
@@ -84,9 +88,9 @@ begin
     Result := S
 end;
 
-function ToStrNull(te: TEdit): string;
+function ToStrNull(edt: TEdit): string;
 begin
-  Result := ToStrNull(te.Text)
+  Result := ToStrNull(edt.Text)
 end;
 
 function ToStrNull(V: Variant): string;
@@ -96,6 +100,18 @@ begin
   else
     Result := VarToStr(V)
 end;
+
+function StrToVarNull(S: string): Variant;
+begin
+  Result := Null;
+  if (S <> '') and (S <> null) then
+    Result := S
+end;
+
+function StrToVarNull(edt: TEdit): Variant; overload;
+begin
+  Result := StrToVarNull(edt.Text)
+end;  
 
 
 function TestInteger(A: string; SilentExcept: Boolean): Boolean;

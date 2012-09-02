@@ -5,7 +5,7 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, ChaildFrm, ActnList, DB, FIBDataSet, pFIBDataSet, Menus,
-  ComCtrls, StdCtrls, Buttons, ExtCtrls, Grids, DBGrids;
+  ComCtrls, StdCtrls, Buttons, ExtCtrls, Grids, DBGrids, fib;
 
 type
   TfrmUsers = class(TChaildForm)
@@ -15,6 +15,10 @@ type
     lbl1: TLabel;
     lbl2: TLabel;
     lbl3: TLabel;
+    fbntgrfldpfbdtst1P_ID: TFIBIntegerField;
+    fpfbdtst1P_SURNAME: TFIBStringField;
+    fpfbdtst1P_NAME: TFIBStringField;
+    fpfbdtst1P_PATRONYMIC: TFIBStringField;
     procedure btnSaveClick(Sender: TObject); override;
   private
     { Private declarations }
@@ -40,24 +44,16 @@ begin
 
     case FEditorState of
       esEdit: with QUpdate do begin
-        if edtSurname.Text = NullAsStringValue then
-          raise Exception.Create('Заполните поля');
-
         ParamByName('P_P_ID').AsInteger := pfbdtst1.FieldByName('P_ID').AsInteger;
-        ParamByName('P_P_SURNAME').Value := edtLinkRadio.Text;
-        ParamByName('P_P_NAME').Value := ToStrNull(edtName);
-        ParamByName('P_P_PATRONYMIC').Value := ToStrNull(edtPatronymic);
-
+        ParamByName('P_P_SURNAME').Value := edtSurname.Text;
+        ParamByName('P_P_NAME').Value := StrToVarNull(edtName);
+        ParamByName('P_P_PATRONYMIC').Value := StrToVarNull(edtPatronymic);
       end;
 
       esInsert: with QInsert do begin
-        if edtSurname.Text = NullAsStringValue then
-          raise Exception.Create('Заполните поля');
-
-        ParamByName('P_P_ID').AsInteger := pfbdtst1.FieldByName('P_ID').AsInteger;
-        ParamByName('P_P_SURNAME').Value := edtLinkRadio.Text;
-        ParamByName('P_P_NAME').Value := ToStrNull(edtName);
-        ParamByName('P_P_PATRONYMIC').Value := ToStrNull(edtPatronymic);          
+        ParamByName('P_P_SURNAME').Value := edtSurname.Text;
+        ParamByName('P_P_NAME').Value := StrToVarNull(edtName);
+        ParamByName('P_P_PATRONYMIC').Value := StrToVarNull(edtPatronymic);
       end;
 
       esDelete: with QDelete do begin

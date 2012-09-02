@@ -5,11 +5,27 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, ChaildFrm, ActnList, DB, FIBDataSet, pFIBDataSet, Menus,
-  ComCtrls, StdCtrls, Buttons, ExtCtrls, Grids, DBGrids;
+  ComCtrls, StdCtrls, Buttons, ExtCtrls, Grids, DBGrids, DBGridEh, Mask,
+  DBCtrlsEh, DBLookupEh, fib;
 
 type
   TfrmAuthorization = class(TChaildForm)
+    fpfbdtst1P_SURNAME: TFIBStringField;
+    fpfbdtst1P_NAME: TFIBStringField;
+    fpfbdtst1P_PATRONYMIC: TFIBStringField;
+    fpfbdtst1A_PASSWORD: TFIBStringField;
+    fpfbdtst1A_LOGIN: TFIBStringField;
+    cbbPeople: TDBLookupComboboxEh;
+    btnPeople: TSpeedButton;
+    edtPassoword: TEdit;
+    edtLogin: TEdit;
+    lbl1: TLabel;
+    lbl2: TLabel;
+    lbl3: TLabel;
+    fbntgrfldpfbdtst1A_ID: TFIBIntegerField;
     procedure btnSaveClick(Sender: TObject); override;
+    procedure FormCreate(Sender: TObject);
+    procedure btnPeopleClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -20,6 +36,8 @@ var
   frmAuthorization: TfrmAuthorization;
 
 implementation
+
+uses UsersFrm;
 
 {$R *.dfm}
 
@@ -32,20 +50,18 @@ begin
 
     case FEditorState of
       esEdit: with QUpdate do begin
-        if edtPartCall.Text = NullAsStringValue then
-          raise Exception.Create('Заполните поля');
-        ParamByName('PC_ID').AsInteger := pfbdtst1.FieldByName('PC_ID').AsInteger;
-        ParamByName('P_PC_ART_ALL').Value := edtPartCall.Text;
+        ParamByName('P_A_ID').AsInteger := pfbdtst1.FieldByName('A_ID').AsInteger;
+        ParamByName('P_A_LOGIN').Value := edtLogin.Text;
+        ParamByName('P_A_PASSWORD').Value := edtPassoword.Text;
       end;
 
       esInsert: with QInsert do begin
-        if edtPartCall.Text = NullAsStringValue then
-          raise Exception.Create('Заполните поля');
-        ParamByName('P_PC_ART_ALL').Value := edtPartCall.Text;
+        ParamByName('P_A_LOGIN').Value := edtLogin.Text;
+        ParamByName('P_A_PASSWORD').Value := edtPassoword.Text;
       end;
 
       esDelete: with QDelete do begin
-        ParamByName('P_PC_ID').AsInteger := pfbdtst1.FieldByName('PC_ID').AsInteger;
+        ParamByName('P_A_ID').AsInteger := pfbdtst1.FieldByName('A_ID').AsInteger;
       end;
     end;
     
@@ -62,6 +78,30 @@ begin
           'Ошибка', MB_ICONERROR);
       Abort;
     end;
+  end;
+end;
+
+procedure TfrmAuthorization.FormCreate(Sender: TObject);
+begin
+  inherited;
+{$IFDEF TESTMODE}
+  edtPassoword.PasswordChar := #0;
+{$ELSE}
+  edtPassoword.PasswordChar := '*';
+{$ENDIF}
+  FCheckComponents.Add(cbbPeople);
+  FCheckComponents.Add(edtLogin);
+  FCheckComponents.Add(edtPassoword);
+end;
+
+procedure TfrmAuthorization.btnPeopleClick(Sender: TObject);
+begin
+  inherited;
+  frmUsers.ShowModal;
+  with frmUsers do begin
+    if ModalResult <> mrOK then
+      Exit;
+    cbbPeople.KeyValue := fbntgrfldpfbdtst1P_ID.Value;
   end;
 end;
 

@@ -37,14 +37,10 @@ begin
 
     case FEditorState of
       esEdit: with QUpdate do begin
-        if edtOwner.Text = NullAsStringValue then
-          raise Exception.Create('Заполните поля');
         ParamByName('P_OID').AsInteger := pfbdtst1.FieldByName('OID').AsInteger;
         ParamByName('P_O_NAME').AsString := edtOwner.Text;
       end;
       esInsert: with QInsert do begin
-        if (edtOwner.Text = NullAsStringValue) then
-          raise Exception.Create('Заполните поля');
         ParamByName('P_O_NAME').AsString := edtOwner.Text;
       end;
       esDelete: with QDelete do begin

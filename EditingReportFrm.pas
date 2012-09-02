@@ -55,6 +55,8 @@ type
     dbctrlgrd1: TDBCtrlGrid;
     lbl4: TLabel;
     lbl5: TLabel;
+    cbbIDAccount: TDBLookupComboboxEh;
+    edtSum3: TDBNumberEditEh;
     procedure tmr1Timer(Sender: TObject);
     procedure FormActivate(Sender: TObject);
     procedure dbgrdhRepSIMKeyPress(Sender: TObject; var Key: Char);
@@ -68,7 +70,6 @@ type
     procedure FormDestroy(Sender: TObject);
     procedure strngfldTmpERDeviceNameGetText(Sender: TField;
       var Text: String; DisplayText: Boolean);
-    procedure cbbIDAccount1KeyPress(Sender: TObject; var Key: Char);
     procedure edtSum1KeyPress(Sender: TObject; var Key: Char);
     function CheckRepSimRecord(ShowWarning: Boolean = True): Boolean;
     procedure cdsTmpERBeforePost(DataSet: TDataSet);
@@ -91,7 +92,7 @@ var
 
 implementation
 
-uses CustomerGlobals, MainFrm, DM_, CustomerFunctions, FinanceFrm,
+uses CustomerGlobals, MainFrm, DM_, CustomerFunctions,
   OwnerFrm, SimkaFrm, TarifPlanFrm, DeviceFrm;
 
 const
@@ -474,17 +475,6 @@ procedure TfrmEditingReport.strngfldTmpERDeviceNameGetText(Sender: TField;
   var Text: String; DisplayText: Boolean);
 begin
   Text := strngfldTmpERDeviceName.Value + '/¹' + intgrfldTmpERDeviceNumbr.AsString
-end;
-
-procedure TfrmEditingReport.cbbIDAccount1KeyPress(Sender: TObject;
-  var Key: Char);
-begin
-  if Key = #13 then begin
-    frmFinance.ShowModal;
-    with frmFinance do
-    if ModalResult = mrOk then
-      (Sender as TDBLookupComboboxEh).KeyValue := pfbdtst1.FieldByName('FID').AsInteger;
-  end;
 end;
 
 procedure TfrmEditingReport.edtSum1KeyPress(Sender: TObject;

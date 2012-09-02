@@ -1,7 +1,8 @@
 inherited frmLinkRadio: TfrmLinkRadio
-  Left = 785
-  Top = 273
+  Left = 723
+  Top = 227
   Caption = 'frmLinkRadio'
+  OldCreateOrder = True
   PixelsPerInch = 96
   TextHeight = 13
   inherited pnl1: TPanel
@@ -58,5 +59,13 @@ inherited frmLinkRadio: TfrmLinkRadio
       '    LR_INK_ADIO'
       'FROM'
       '    LINK_RADIO ')
+    object fbntgrfldpfbdtst1LR_ID: TFIBIntegerField
+      FieldName = 'LR_ID'
+    end
+    object fpfbdtst1LR_INK_ADIO: TFIBStringField
+      FieldName = 'LR_INK_ADIO'
+      Size = 50
+      EmptyStrToNull = True
+    end
   end
 end

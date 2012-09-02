@@ -97,5 +97,23 @@ inherited frmUsers: TfrmUsers
       '    P_PATRONYMIC'
       'FROM'
       '    PEOPLE ')
+    object fbntgrfldpfbdtst1P_ID: TFIBIntegerField
+      FieldName = 'P_ID'
+    end
+    object fpfbdtst1P_SURNAME: TFIBStringField
+      FieldName = 'P_SURNAME'
+      Size = 50
+      EmptyStrToNull = True
+    end
+    object fpfbdtst1P_NAME: TFIBStringField
+      FieldName = 'P_NAME'
+      Size = 50
+      EmptyStrToNull = True
+    end
+    object fpfbdtst1P_PATRONYMIC: TFIBStringField
+      FieldName = 'P_PATRONYMIC'
+      Size = 50
+      EmptyStrToNull = True
+    end
   end
 end

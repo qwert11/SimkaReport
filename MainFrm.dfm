@@ -1,7 +1,7 @@
 object frmMain: TfrmMain
   Left = 236
   Top = 244
-  Width = 1637
+  Width = 1292
   Height = 486
   Caption = 'SIM'
   Color = clBtnFace
@@ -18,8 +18,8 @@ object frmMain: TfrmMain
   object dbgrdh1: TDBGridEh
     Left = 0
     Top = 0
-    Width = 1629
-    Height = 369
+    Width = 1284
+    Height = 361
     Align = alClient
     DataGrouping.GroupLevels = <>
     DataSource = DM.ds1
@@ -213,13 +213,13 @@ object frmMain: TfrmMain
   end
   object pnl1: TPanel
     Left = 0
-    Top = 369
-    Width = 1629
+    Top = 361
+    Width = 1284
     Height = 52
     Align = alBottom
     TabOrder = 1
     DesignSize = (
-      1629
+      1284
       52)
     object btnNewRecord: TButton
       Left = 24
@@ -305,8 +305,8 @@ object frmMain: TfrmMain
   end
   object stat1: TStatusBar
     Left = 0
-    Top = 421
-    Width = 1629
+    Top = 413
+    Width = 1284
     Height = 19
     Panels = <
       item

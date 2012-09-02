@@ -43,20 +43,16 @@ begin
 
     case FEditorState of
       esEdit: with QUpdate do begin
-        if edtNum.Text = NullAsStringValue then
-          raise Exception.Create('Заполните поля');
         ParamByName('P_DID').AsInteger := pfbdtst1.FieldByName('DID').AsInteger;
         EditFieldInt(ParamByName('P_D_Num'), edtNum.Text);
-        ParamByName('P_D_Title').AsString := ToStrNull(edtTitle.Text);
+        ParamByName('P_D_Title').Value := StrToVarNull(edtTitle.Text);
       end;
       esInsert: with QInsert do begin
-        if (edtNum.Text = NullAsStringValue) then
-          raise Exception.Create('Заполните поля');
         EditFieldInt(ParamByName('P_D_Num'), edtNum.Text);
-        ParamByName('P_D_Title').AsString := ToStrNull(edtTitle.Text);
+        ParamByName('P_D_Title').Value := StrToVarNull(edtTitle.Text);
       end;
       esDelete: with QDelete do begin
-        ParamByName('DID').AsInteger := pfbdtst1.FieldByName('DID').AsInteger;
+        ParamByName('P_DID').AsInteger := pfbdtst1.FieldByName('DID').AsInteger;
       end;
     end;
     

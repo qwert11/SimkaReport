@@ -233,6 +233,26 @@ end;
 
 // возможно ли сохранение
 procedure TChaildForm.actSaveUpdate(Sender: TObject);
+{$IFDEF TESTMODE}
+  function ChekedName: string;
+  const
+    PROP_NAME = 'Name';
+  var
+    I: Integer;
+  //  PropInfo: PPropInfo;
+    Value: Variant;
+  begin
+    Result := '';
+    with FCheckComponents do
+    for I := 0 to Count -1 do
+      if IsPublishedProp (TComponent(Items[I]), PROP_NAME) then
+      begin
+        Value := GetPropValue (Items[I], PROP_NAME);
+        Result := string (Value) + '; ' end
+      else
+        Result := 'No ' + TComponent(Items[I]).Name + '.' + PROP_NAME + '; '
+  end;
+{$ENDIF}
 const
   CheckInput = 'Заполните все поля';
 var
@@ -255,11 +275,7 @@ begin
           actSave.Enabled :=
             (TObject(FCheckComponents.Items[I]) as TDBLookupComboBox).KeyValue <> Null;
 {$IFDEF TESTMODE}
-      PropCount := GetPropList(FCheckComponents.)   conec
-      s := 'следим за: '
-      for I := 0 to FCheckComponents.Count - 1 do
-        s := FCheckComponents.Items[I].ClassName
-      stat1.Panels[INFO_PNL_SBAR].Text :=
+      stat1.Panels[INFO_PNL_SBAR].Text := ChekedName;
 {$ELSE}
       if actSave.Enabled then
         stat1.Panels[INFO_PNL_SBAR].Text := NullAsStringValue else
@@ -288,7 +304,7 @@ end;
 
 procedure TChaildForm.SetRightText(AEdit: TEdit);
 begin
-  pPointer(AEdit)^ = TEditTextRight;
+  pPointer(AEdit)^ := TEditTextRight;
   TEditTextRight(AEdit).RecreateWnd;
 end;
 

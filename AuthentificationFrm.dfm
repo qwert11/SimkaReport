@@ -45,9 +45,9 @@ object frmAuthentification: TfrmAuthentification
     Height = 21
     Hint = #1042#1074#1077#1076#1080#1090#1077' '#1083#1086#1075#1080#1085
     EditButtons = <>
-    KeyField = 'REID'
-    ListField = 'RE_LOGIND'
-    ListSource = frmUsers.ds1
+    KeyField = 'A_ID'
+    ListField = 'A_LOGIN'
+    ListSource = frmAuthorization.ds1
     ShowHint = True
     TabOrder = 1
     Visible = True

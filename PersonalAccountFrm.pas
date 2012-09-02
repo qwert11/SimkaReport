@@ -1,21 +1,16 @@
-unit FinanceFrm;
+unit PersonalAccountFrm;
 
 interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, ChaildFrm, ActnList, Menus, StdCtrls, Buttons, ExtCtrls, Grids,
-  DBGrids, DB, FIBDataSet, pFIBDataSet, fib, ComCtrls;
+  Dialogs, ChaildFrm, ActnList, DB, FIBDataSet, pFIBDataSet, Menus,
+  ComCtrls, StdCtrls, Buttons, ExtCtrls, Grids, DBGrids;
 
 type
-  TfrmFinance = class(TChaildForm)
-    edtIDAccount: TEdit;
-    edtCode: TEdit;
+  TfrmPersonalAccount = class(TChaildForm)
+    edtPersonalAccount: TEdit;
     lbl1: TLabel;
-    lbl2: TLabel;
-    pfbdtst1FID: TFIBIntegerField;
-    pfbdtst1F_IDACCOUNT: TFIBStringField;
-    pfbdtst1F_CODE: TFIBStringField; 
     procedure btnSaveClick(Sender: TObject); override;
     procedure FormCreate(Sender: TObject);
   private
@@ -25,32 +20,31 @@ type
   end;
 
 var
-  frmFinance: TfrmFinance;
+  frmPersonalAccount: TfrmPersonalAccount;
 
 implementation
 
 {$R *.dfm}
 
-procedure TfrmFinance.btnSaveClick(Sender: TObject);
+procedure TfrmPersonalAccount.btnSaveClick(Sender: TObject);
 begin
   with pfbdtst1 do
   try
+
     QueryPrepare;
 
     case FEditorState of
       esEdit: with QUpdate do begin
-        ParamByName('P_FID').AsInteger := pfbdtst1.FieldByName('FID').AsInteger;
-        ParamByName('P_F_IDACCOUNT').AsString := edtIDAccount.Text;
-        ParamByName('P_F_CODE').AsString := edtCode.Text;
+        ParamByName('P_PA_ID').AsInteger := pfbdtst1.FieldByName('PA_ID').AsInteger;
+        ParamByName('P_PA_RSNL_CNT').Value := edtPartCall.Text;
       end;
 
       esInsert: with QInsert do begin
-        ParamByName('P_F_IDACCOUNT').AsString := edtIDAccount.Text;
-        ParamByName('P_F_CODE').AsString := edtCode.Text;
+        ParamByName('P_PA_RSNL_CNT').Value := edtPartCall.Text;
       end;
-      
+
       esDelete: with QDelete do begin
-        ParamByName('P_FID').AsInteger := pfbdtst1.FieldByName('FID').AsInteger;
+        ParamByName('P_PA_ID').AsInteger := pfbdtst1.FieldByName('PA_ID').AsInteger;
       end;
     end;
     
@@ -68,12 +62,13 @@ begin
       Abort;
     end;
   end;
+
 end;
 
-procedure TfrmFinance.FormCreate(Sender: TObject);
+procedure TfrmPersonalAccount.FormCreate(Sender: TObject);
 begin
   inherited;
-  FCheckComponents.Add(edtIDAccount)
+  FCheckComponents.Add(edtPersonalAccount)
 end;
 
 end.

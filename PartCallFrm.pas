@@ -35,15 +35,11 @@ begin
 
     case FEditorState of
       esEdit: with QUpdate do begin
-        if edtPartCall.Text = NullAsStringValue then
-          raise Exception.Create('Заполните поля');
         ParamByName('PC_ID').AsInteger := pfbdtst1.FieldByName('PC_ID').AsInteger;
         ParamByName('P_PC_ART_ALL').Value := edtPartCall.Text;
       end;
 
       esInsert: with QInsert do begin
-        if edtPartCall.Text = NullAsStringValue then
-          raise Exception.Create('Заполните поля');
         ParamByName('P_PC_ART_ALL').Value := edtPartCall.Text;
       end;
 

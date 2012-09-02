@@ -5,13 +5,16 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, ChaildFrm, ActnList, DB, FIBDataSet, pFIBDataSet, Menus,
-  ComCtrls, StdCtrls, Buttons, ExtCtrls, Grids, DBGrids;
+  ComCtrls, StdCtrls, Buttons, ExtCtrls, Grids, DBGrids, fib;
 
 type
   TfrmLinkRadio = class(TChaildForm)
     edtLinkRadio: TEdit;
     lbl1: TLabel;
+    fbntgrfldpfbdtst1LR_ID: TFIBIntegerField;
+    fpfbdtst1LR_INK_ADIO: TFIBStringField;
     procedure btnSaveClick(Sender: TObject); override;
+    procedure FormCreate(Sender: TObject);
   private
     { Private declarations }
   public
@@ -34,15 +37,11 @@ begin
 
     case FEditorState of
       esEdit: with QUpdate do begin
-        if edtLinkRadio.Text = NullAsStringValue then
-          raise Exception.Create('Заполните поля');
         ParamByName('P_LR_ID').AsInteger := pfbdtst1.FieldByName('LR_ID').AsInteger;
         ParamByName('P_LR_INK_ADIO').Value := edtLinkRadio.Text;
       end;
 
       esInsert: with QInsert do begin
-        if edtLinkRadio.Text = NullAsStringValue then
-          raise Exception.Create('Заполните поля');
         ParamByName('P_LR_INK_ADIO').Value := edtLinkRadio.Text;
       end;
 
@@ -66,6 +65,12 @@ begin
     end;
   end;
 
+end;
+
+procedure TfrmLinkRadio.FormCreate(Sender: TObject);
+begin
+  inherited;
+  FCheckComponents.Add(edtLinkRadio)
 end;
 
 end.

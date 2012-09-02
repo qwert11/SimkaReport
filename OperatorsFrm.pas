@@ -1,21 +1,18 @@
-unit FinanceFrm;
+unit OperatorsFrm;
 
 interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, ChaildFrm, ActnList, Menus, StdCtrls, Buttons, ExtCtrls, Grids,
-  DBGrids, DB, FIBDataSet, pFIBDataSet, fib, ComCtrls;
+  Dialogs, ChaildFrm, ActnList, DB, FIBDataSet, pFIBDataSet, Menus,
+  ComCtrls, StdCtrls, Buttons, ExtCtrls, Grids, DBGrids, fib;
 
 type
-  TfrmFinance = class(TChaildForm)
-    edtIDAccount: TEdit;
-    edtCode: TEdit;
+  TfrmOperators = class(TChaildForm)
+    edtOperatorLink: TEdit;
     lbl1: TLabel;
-    lbl2: TLabel;
-    pfbdtst1FID: TFIBIntegerField;
-    pfbdtst1F_IDACCOUNT: TFIBStringField;
-    pfbdtst1F_CODE: TFIBStringField; 
+    fbntgrfldpfbdtst1OL_ID: TFIBIntegerField;
+    fpfbdtst1OL_PERATOR_INK: TFIBStringField;
     procedure btnSaveClick(Sender: TObject); override;
     procedure FormCreate(Sender: TObject);
   private
@@ -25,32 +22,31 @@ type
   end;
 
 var
-  frmFinance: TfrmFinance;
+  frmOperators: TfrmOperators;
 
 implementation
 
 {$R *.dfm}
 
-procedure TfrmFinance.btnSaveClick(Sender: TObject);
+procedure TfrmOperators.btnSaveClick(Sender: TObject);
 begin
   with pfbdtst1 do
   try
+
     QueryPrepare;
 
     case FEditorState of
       esEdit: with QUpdate do begin
-        ParamByName('P_FID').AsInteger := pfbdtst1.FieldByName('FID').AsInteger;
-        ParamByName('P_F_IDACCOUNT').AsString := edtIDAccount.Text;
-        ParamByName('P_F_CODE').AsString := edtCode.Text;
+        ParamByName('P_OL_ID').AsInteger := pfbdtst1.FieldByName('OL_ID').AsInteger;
+        ParamByName('P_OL_PERATOR_INK').Value := edtOperatorLink.Text;
       end;
 
       esInsert: with QInsert do begin
-        ParamByName('P_F_IDACCOUNT').AsString := edtIDAccount.Text;
-        ParamByName('P_F_CODE').AsString := edtCode.Text;
+        ParamByName('P_OL_PERATOR_INK').Value := edtOperatorLink.Text;
       end;
-      
+
       esDelete: with QDelete do begin
-        ParamByName('P_FID').AsInteger := pfbdtst1.FieldByName('FID').AsInteger;
+        ParamByName('P_OL_ID').AsInteger := pfbdtst1.FieldByName('OL_ID').AsInteger;
       end;
     end;
     
@@ -70,10 +66,10 @@ begin
   end;
 end;
 
-procedure TfrmFinance.FormCreate(Sender: TObject);
+procedure TfrmOperators.FormCreate(Sender: TObject);
 begin
   inherited;
-  FCheckComponents.Add(edtIDAccount)
+  FCheckComponents.Add(edtOperatorLink)
 end;
 
 end.

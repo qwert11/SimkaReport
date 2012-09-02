@@ -9,10 +9,10 @@ inherited frmTarifPlan: TfrmTarifPlan
   TextHeight = 13
   inherited dbgrd1: TDBGrid
     Width = 717
-    Height = 267
+    Height = 259
   end
   inherited pnl1: TPanel
-    Top = 267
+    Top = 259
     Width = 717
     DesignSize = (
       717
@@ -105,7 +105,7 @@ inherited frmTarifPlan: TfrmTarifPlan
     end
   end
   inherited stat1: TStatusBar
-    Top = 357
+    Top = 349
     Width = 717
   end
   inherited pfbdtst1: TpFIBDataSet

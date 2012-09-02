@@ -28,7 +28,7 @@ var
 
 implementation
 
-uses UsersFrm, CustomerGlobals, RegistrationFrm;
+uses CustomerGlobals, RegistrationFrm, AuthorizationFrm;
 
 var
   CountEnter: Integer = 0;
@@ -40,31 +40,32 @@ begin
   ModalResult := mrNone;
   Inc(CountEnter);
   if CountEnter > 15 then begin
-    ShowMessage('Вы исчерпали на сегодня лимит попыток входа под ' +
-      'своим логином и паролем. Попробуйте зайти завтра. ;-)');
+    ShowMessage('Вы исчерпали на сегодня лимит попыток входа. ' +
+      'Не отчаивайтесь. Попробуйте зайти завтра. ;-)');
     Exit;
   end;
-
-  with frmUsers, user do begin
-    if  (edtPassword.Text <> fpfbdtst1RE_PASSWORD.Value) or
-        (cbbLogin.KeyValue <> fbntgrfldpfbdtst1REID.Value) then begin
+  {$IFDEF NOT TESTMODE}
+  with frmAuthorization, user do begin
+    if  (edtPassword.Text <> fpfbdtst1A_LOGIN.Value) or
+        (cbbLogin.KeyValue <> fbntgrfldpfbdtst1A_ID.Value) then begin
       Application.MessageBox('Введите верно логин и пароль',
         PChar('Предупреждение №' + IntToStr(CountEnter)), MB_ICONWARNING);
       Exit
     end;
-    login := fpfbdtst1RE_LOGIND.Value;
-    ID := fbntgrfldpfbdtst1REID.Value;
-    Surname := fpfbdtst1RE_SURNAME.Value;
-    Name := fpfbdtst1RE_NAME.Value;
-    Patronymic := fpfbdtst1RE_PATRONYMIC.Value;
+    login := fpfbdtst1A_LOGIN.Value;
+    ID := fbntgrfldpfbdtst1A_ID.Value;
+    Surname := fpfbdtst1P_SURNAME.Value;
+    Name := fpfbdtst1P_NAME.Value;
+    Patronymic := fpfbdtst1P_PATRONYMIC.Value;
   end;
-  ModalResult := mrOk;
+  {$ENDIF}
+  ModalResult := mrOk
 end;
 
 procedure TfrmAuthentification.txtRegistrationClick(Sender: TObject);
 begin
   {$IFDEF TESTMODE}
-  frmUsers.Show
+  frmAuthorization.Show
   {$ELSE}
   frmRegistration.ShowModal
   {$ENDIF}
