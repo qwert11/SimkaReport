@@ -75,7 +75,13 @@ object DM: TDM
       '    prcnl_acnt.pa_rsnl_cnt,'
       '    people.p_surname,'
       '    people.p_name,'
-      '    people.p_patronymic'
+      '    people.p_patronymic,'
+      '    report_simka.rs_tarifplan,'
+      '    report_simka.rs_part_call,'
+      '    report_simka.rs_reportday,'
+      '    report_simka.rs_balance,'
+      '    report_simka.rs_user,'
+      '    report_simka.rs_user_brunch'
       'from user_brunch'
       
         '   inner join report_simka on (user_brunch.ub_id = report_simka.' +
@@ -115,139 +121,170 @@ object DM: TDM
     Top = 160
     object fbdtfldViewRD_DATE: TFIBDateField
       FieldName = 'RD_DATE'
+      Origin = 'REPORT_DAY.RD_DATE'
     end
     object fbstrngfldViewTP_NAME: TFIBStringField
       FieldName = 'TP_NAME'
+      Origin = 'TARIF_PLAN.TP_NAME'
       Size = 50
       EmptyStrToNull = True
     end
     object fbcdfldViewTP_ABON_BOARD: TFIBBCDField
       FieldName = 'TP_ABON_BOARD'
+      Origin = 'TARIF_PLAN.TP_ABON_BOARD'
       Size = 2
       RoundByScale = True
     end
     object fbntgrfldViewTP_SMS_MONTH: TFIBIntegerField
       FieldName = 'TP_SMS_MONTH'
+      Origin = 'TARIF_PLAN.TP_SMS_MONTH'
     end
     object fbntgrfldViewRS_SMS: TFIBIntegerField
       FieldName = 'RS_SMS'
+      Origin = 'REPORT_SIMKA.RS_SMS'
     end
     object fbntgrfldViewD_NUM: TFIBIntegerField
       FieldName = 'D_NUM'
+      Origin = 'DEVICE.D_NUM'
     end
     object fbstrngfldViewD_TITLE: TFIBStringField
       FieldName = 'D_TITLE'
+      Origin = 'DEVICE.D_TITLE'
       EmptyStrToNull = True
     end
     object fbstrngfldViewO_NAME: TFIBStringField
       FieldName = 'O_NAME'
+      Origin = 'OWNER.O_NAME'
       Size = 50
       EmptyStrToNull = True
     end
     object fbstrngfldViewS_NUMBER: TFIBStringField
       FieldName = 'S_NUMBER'
+      Origin = 'SIMKA.S_NUMBER'
       Size = 12
       EmptyStrToNull = True
     end
     object fbntgrfldViewRS_SIMKA: TFIBIntegerField
       FieldName = 'RS_SIMKA'
+      Origin = 'REPORT_SIMKA.RS_SIMKA'
     end
     object fbntgrfldViewRS_OWNER: TFIBIntegerField
       FieldName = 'RS_OWNER'
+      Origin = 'REPORT_SIMKA.RS_OWNER'
     end
     object fbntgrfldViewRS_IN: TFIBIntegerField
       FieldName = 'RS_IN'
+      Origin = 'REPORT_SIMKA.RS_IN'
     end
     object fbntgrfldViewRSID: TFIBIntegerField
       FieldName = 'RSID'
+      Origin = 'REPORT_SIMKA.RSID'
     end
     object fbstrngfldViewTP_CLIR: TFIBStringField
       FieldName = 'TP_CLIR'
+      Origin = 'TARIF_PLAN.TP_CLIR'
       Size = 1
       EmptyStrToNull = True
     end
     object fbcdfldViewTP_CLIR_PRICE: TFIBBCDField
       FieldName = 'TP_CLIR_PRICE'
+      Origin = 'TARIF_PLAN.TP_CLIR_PRICE'
       Size = 2
       RoundByScale = True
     end
     object fbstrngfldViewLR_INK_ADIO: TFIBStringField
       FieldName = 'LR_INK_ADIO'
+      Origin = 'LINK_RADIO.LR_INK_ADIO'
       Size = 50
       EmptyStrToNull = True
     end
     object fbstrngfldViewRS_STATUS: TFIBStringField
       FieldName = 'RS_STATUS'
+      Origin = 'REPORT_SIMKA.RS_STATUS'
       Size = 1
       EmptyStrToNull = True
     end
     object fbstrngfldViewPC_ART_ALL: TFIBStringField
       FieldName = 'PC_ART_ALL'
+      Origin = 'PART_CALL.PC_ART_ALL'
       Size = 50
       EmptyStrToNull = True
     end
     object fbstrngfldViewOL_PERATOR_INK: TFIBStringField
       FieldName = 'OL_PERATOR_INK'
+      Origin = 'OPERATOR_LINK.OL_PERATOR_INK'
       Size = 50
       EmptyStrToNull = True
     end
     object fbcdfldViewRB_SUM: TFIBBCDField
       FieldName = 'RB_SUM'
+      Origin = 'REPORT_BALANCE.RB_SUM'
       Size = 2
       RoundByScale = True
     end
     object fbstrngfldViewU_SER: TFIBStringField
       FieldName = 'U_SER'
+      Origin = 'USER.U_SER'
       Size = 50
       EmptyStrToNull = True
     end
     object fbstrngfldViewU_LOCATION: TFIBStringField
       FieldName = 'U_LOCATION'
+      Origin = 'USER.U_LOCATION'
       Size = 50
       EmptyStrToNull = True
     end
     object fbstrngfldViewUB_SER_RUNCH: TFIBStringField
       FieldName = 'UB_SER_RUNCH'
+      Origin = 'USER_BRUNCH.UB_SER_RUNCH'
       Size = 50
       EmptyStrToNull = True
     end
     object fbstrngfldViewRS_IFINSTALL: TFIBStringField
       FieldName = 'RS_IFINSTALL'
+      Origin = 'REPORT_SIMKA.RS_IFINSTALL'
       Size = 1
       EmptyStrToNull = True
     end
     object fbstrngfldViewRS_ICC_SIM: TFIBStringField
       FieldName = 'RS_ICC_SIM'
+      Origin = 'REPORT_SIMKA.RS_ICC_SIM'
       Size = 25
       EmptyStrToNull = True
     end
     object fbstrngfldViewRS_PUK1: TFIBStringField
       FieldName = 'RS_PUK1'
+      Origin = 'REPORT_SIMKA.RS_PUK1'
       Size = 15
       EmptyStrToNull = True
     end
     object fbstrngfldViewRS_PUK2: TFIBStringField
       FieldName = 'RS_PUK2'
+      Origin = 'REPORT_SIMKA.RS_PUK2'
       Size = 15
       EmptyStrToNull = True
     end
     object fbstrngfldViewPA_RSNL_CNT: TFIBStringField
       FieldName = 'PA_RSNL_CNT'
+      Origin = 'PRCNL_ACNT.PA_RSNL_CNT'
       Size = 50
       EmptyStrToNull = True
     end
     object fbstrngfldViewP_SURNAME: TFIBStringField
       FieldName = 'P_SURNAME'
+      Origin = 'PEOPLE.P_SURNAME'
       Size = 50
       EmptyStrToNull = True
     end
     object fbstrngfldViewP_NAME: TFIBStringField
       FieldName = 'P_NAME'
+      Origin = 'PEOPLE.P_NAME'
       Size = 50
       EmptyStrToNull = True
     end
     object fbstrngfldViewP_PATRONYMIC: TFIBStringField
       FieldName = 'P_PATRONYMIC'
+      Origin = 'PEOPLE.P_PATRONYMIC'
       Size = 50
       EmptyStrToNull = True
     end

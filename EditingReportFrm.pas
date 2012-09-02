@@ -144,12 +144,13 @@ end;
 
 //check users
 procedure TfrmEditingReport.FormActivate(Sender: TObject);
+var
+  Balances: TStrings;
+
   procedure DupIgnore(ADS: TDataSet; AField: TIntegerField);
   begin
 
   end;
-var
-  Balanses: array of Currency;
 begin
   { TODO 5 : раскоментировать и добавить вход по паролю }
   if user.login = DEF_USER then begin
@@ -171,6 +172,8 @@ begin
   if not cdsTmpER.Active then
     cdsTmpER.CreateDataSet;
 
+  Balances := TStringList.Create;
+      
   with frmMain.dbgrdh1.DataSource.DataSet do
     try
       // внимание опасный промежуток после выключения - включить
@@ -179,19 +182,31 @@ begin
       { TODO -oFormActive -cCheck  : подумать о том нужен ли обработчик OnBefoInsert и как с ним работать }
 
       case FEditingReport of
-        erEdit:
+        erEdit, erInsert:
           begin
-            if IsEmpty then
-              Exit;
 
-            stat1.Panels[PNL_INF_STAT_EDIT].Text := 'Редактирование записи: ' +
-              FieldByName('RD_ID').AsString;
+            case FEditingReport of
+              erEdit: begin
+                if IsEmpty then
+                  Exit;
 
-            // запоминаем редактируемую запись ReportDay
-            old_rd_id := FieldByName('RD_ID').Value;
+                // запоминаем редактируемую запись ReportDay
+                old_rd_id := FieldByName('RD_ID').Value;
+                
+                stat1.Panels[PNL_INF_STAT_EDIT].Text := 'Редактирование записи: ' +
+                  FieldByName('RD_ID').AsString;
+                stat1.Panels[PNL_INF_RESPONS].Text := 'Отчет составил: ' +
+                  FieldByName('RE_SURNAME').AsString;
+              end;
 
-            stat1.Panels[PNL_INF_RESPONS].Text := 'Отчет составил: ' +
-              FieldByName('RE_SURNAME').AsString;
+              erInsert: begin
+                dtpDate.Date := Date;
+                stat1.Panels[PNL_INF_STAT_EDIT].Text := 'Новая запись';
+                stat1.Panels[PNL_INF_RESPONS].Text := 'Отчет составил: ' +
+                  user.Surname + ' ' + user.Name[1] + '.' + user.Patronymic[1] + '.';
+                actSave.Enabled := False;
+              end;
+            end;
 
             // инициируем поля с последнего заполнения если оно есть
             First;
@@ -207,12 +222,21 @@ begin
             while not Eof do begin
               cdsTmpER.Append;
               try
-                intgrfldTmpERcRS_Simka.Value := FieldByName('RS_SIMKA').AsInteger;
+                intgrfldTmpERcRS_ID.Value := FieldByName('RSID').AsInteger;
                 intgrfldTmpERcRS_In.Value := FieldByName('RS_IN').AsInteger;
                 intgrfldTmpERcRS_SMS.Value := FieldByName('RS_SMS').AsInteger;
                 intgrfldTmpERcRS_Owner.Value := FieldByName('RS_OWNER').AsInteger;
+                intgrfldTmpERcRS_Simka.Value := FieldByName('RS_SIMKA').AsInteger;
+                intgrfldTmpERcRS_TarifPlan.Value := FieldByName('RS_TarifPlan').AsInteger;
+                strngfldTmpERcRS_Status.Value := FieldByName('RS_STATUS').AsString;
                 intgrfldTmpERcRS_Balance.Value := FieldByName('RS_BALANCE').AsInteger;
-                intgrfldTmpERcIDRepSim.Value := FieldByName('RSID').AsInteger;
+                intgrfldTmpERcRS_User.Value := FieldByName('RS_USER').AsInteger;
+                intgrfldTmpERcRS_UserBrunch.Value := FieldByName('RS_USER_BRUNCH').AsInteger;
+                intgrfldTmpERcRS_PartCall.Value := FieldByName('RS_PART_CALL').AsInteger;
+                strngfldTmpERcRS_IfInstall.Value := FieldByName('RS_IFINSTALL').AsString;
+                strngfldTmpERcRS_ICC_SIM.Value := FieldByName('RS_ICC_SIM').AsString;
+                strngfldTmpERcRS_PUK1.Value := FieldByName('RS_PUK1').AsString;
+                strngfldTmpERcRS_PUK2.Value := FieldByName('RS_PUK2').AsString;
 
                 cdsTmpER.Post;
                 Next;
@@ -224,46 +248,12 @@ begin
                 end;
               end;
             end;
-          end;
-        erInsert: begin
-            dtpDate.Date := Date;
-            stat1.Panels[PNL_INF_STAT_EDIT].Text := 'Новая запись';
-            stat1.Panels[PNL_INF_RESPONS].Text := 'Отчет составил: ' +
-              user.Surname + ' ' + user.Name[1] + '.' + user.Patronymic[1] + '.';
-
-            // заполняем поля по умолчанию если они имеются (умолчания)
-            // - т.е. берем данные с последнего отчета
-            First;
-            //
-            if not Eof then begin
-              cbbIDAccount1.KeyValue := FieldByName('RD_FINANCE1').Value;
-              cbbIDAccount2.KeyValue := FieldByName('RD_FINANCE2').Value;
-            end;
-            // CDS
-            while not Eof do begin
-              cdsTmpER.Append;
-              try
-                intgrfldTmpERcSimka.Value := FieldByName('RS_SIMKA').AsInteger;
-                intgrfldTmpERcIn.Value := FieldByName('RS_IN').AsInteger;
-                intgrfldTmpERcOwner.Value := FieldByName('RS_OWNER').AsInteger;
-                crncyfldTmpERcBalance.Value := FieldByName('RS_BALANCE').AsInteger;
-
-                cdsTmpER.Post;
-                Next;
-              except
-                on E: Exception do begin
-                  cdsTmpER.Cancel;
-                  Application.MessageBox(PChar(E.Message), 'Ошибка добавления данных', MB_ICONERROR);
-                  Break;
-                end;
-              end;
-            end;
-            actSave.Enabled := False;
           end;
       else
         raise EAbort.Create('Неверный тип открытия Editing Report');
       end;
     finally
+      Balances.Free;
       // опасный промежуток включаем после - выключить
       cdsTmpER.BeforePost := cdsTmpERBeforePost;    {*}
       //cdsTmpER.BeforeInsert := cdsTmpERBeforePost;  {*}

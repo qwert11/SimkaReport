@@ -1,22 +1,23 @@
 [Closed Files]
-File_0=SourceModule,'F:\myProgram\Delphi\SimkaReport\MainFrm.pas',0,1,118,8,128,1,0
-File_1=SourceModule,'F:\myProgram\Delphi\SimkaReport\PersonalAccountFrm.pas',0,1,29,42,41,1,0
-File_2=SourceModule,'F:\myProgram\Delphi\SimkaReport\OwnerFrm.pas',0,1,25,11,42,1,0
-File_3=SourceModule,'F:\myProgram\Delphi\SimkaReport\RegistrationFrm.pas',0,1,4,1,1,1,0
-File_4=SourceModule,'F:\myProgram\Delphi\SimkaReport\TarifPlanFrm.pas',0,1,52,43,71,1,0
-File_5=SourceModule,'F:\myProgram\Delphi\SimkaReport\PartCallFrm.pas',0,1,15,1,31,1,0
-File_6=SourceModule,'F:\myProgram\Delphi\SimkaReport\FinanceFrm.pas',0,1,1,1,1,1,0
-File_7=SourceModule,'c:\program files\borland\delphi7\source\rtl\common\classes.pas',0,1,1275,1,1286,0,0
-File_8=SourceModule,'c:\program files\borland\delphi7\source\rtl\common\TypInfo.pas',0,1,131,1,142,0,0
+File_0=SourceModule,'F:\myProgram\Delphi\SimkaReport\DM_.pas',0,1,1,1,1,1,0
+File_1=SourceModule,'F:\myProgram\Delphi\SimkaReport\MainFrm.pas',0,1,118,8,128,1,0
+File_2=SourceModule,'F:\myProgram\Delphi\SimkaReport\PersonalAccountFrm.pas',0,1,29,42,41,1,0
+File_3=SourceModule,'F:\myProgram\Delphi\SimkaReport\OwnerFrm.pas',0,1,25,11,42,1,0
+File_4=SourceModule,'F:\myProgram\Delphi\SimkaReport\RegistrationFrm.pas',0,1,4,1,1,1,0
+File_5=SourceModule,'F:\myProgram\Delphi\SimkaReport\TarifPlanFrm.pas',0,1,52,43,71,1,0
+File_6=SourceModule,'F:\myProgram\Delphi\SimkaReport\PartCallFrm.pas',0,1,15,1,31,1,0
+File_7=SourceModule,'F:\myProgram\Delphi\SimkaReport\FinanceFrm.pas',0,1,1,1,1,1,0
+File_8=SourceModule,'c:\program files\borland\delphi7\source\rtl\common\classes.pas',0,1,1275,1,1286,0,0
+File_9=SourceModule,'c:\program files\borland\delphi7\source\rtl\common\TypInfo.pas',0,1,131,1,142,0,0
 
 [Modules]
 Module0=F:\myProgram\Delphi\SimkaReport\EditingReportFrm.pas
-Module1=F:\myProgram\Delphi\SimkaReport\SimkaFrm.pas
-Module2=F:\myProgram\Delphi\SimkaReport\OperatorsFrm.pas
-Module3=F:\myProgram\Delphi\SimkaReport\AuthorizationFrm.pas
-Module4=F:\myProgram\Delphi\SimkaReport\AuthentificationFrm.pas
-Module5=F:\myProgram\Delphi\SimkaReport\DeviceFrm.pas
-Module6=F:\myProgram\Delphi\SimkaReport\UsersFrm.pas
+Module1=F:\myProgram\Delphi\SimkaReport\UsersFrm.pas
+Module2=F:\myProgram\Delphi\SimkaReport\DeviceFrm.pas
+Module3=F:\myProgram\Delphi\SimkaReport\AuthentificationFrm.pas
+Module4=F:\myProgram\Delphi\SimkaReport\AuthorizationFrm.pas
+Module5=F:\myProgram\Delphi\SimkaReport\OperatorsFrm.pas
+Module6=F:\myProgram\Delphi\SimkaReport\SimkaFrm.pas
 Module7=F:\myProgram\Delphi\SimkaReport\CustomerFunctions.pas
 Module8=F:\myProgram\Delphi\SimkaReport\LinkRadioFrm.pas
 Count=9
@@ -27,12 +28,17 @@ ModuleType=SourceModule
 FormState=1
 FormOnTop=0
 
-[F:\myProgram\Delphi\SimkaReport\SimkaFrm.pas]
+[F:\myProgram\Delphi\SimkaReport\UsersFrm.pas]
 ModuleType=SourceModule
 FormState=1
-FormOnTop=0
+FormOnTop=1
 
-[F:\myProgram\Delphi\SimkaReport\OperatorsFrm.pas]
+[F:\myProgram\Delphi\SimkaReport\DeviceFrm.pas]
+ModuleType=SourceModule
+FormState=1
+FormOnTop=1
+
+[F:\myProgram\Delphi\SimkaReport\AuthentificationFrm.pas]
 ModuleType=SourceModule
 FormState=1
 FormOnTop=0
@@ -42,17 +48,12 @@ ModuleType=SourceModule
 FormState=1
 FormOnTop=0
 
-[F:\myProgram\Delphi\SimkaReport\AuthentificationFrm.pas]
+[F:\myProgram\Delphi\SimkaReport\OperatorsFrm.pas]
 ModuleType=SourceModule
 FormState=1
 FormOnTop=0
 
-[F:\myProgram\Delphi\SimkaReport\DeviceFrm.pas]
-ModuleType=SourceModule
-FormState=1
-FormOnTop=1
-
-[F:\myProgram\Delphi\SimkaReport\UsersFrm.pas]
+[F:\myProgram\Delphi\SimkaReport\SimkaFrm.pas]
 ModuleType=SourceModule
 FormState=1
 FormOnTop=0
@@ -67,6 +68,10 @@ ModuleType=SourceModule
 FormState=0
 FormOnTop=0
 
+[F:\myProgram\Delphi\SimkaReport\DM_.pas]
+FormState=1
+FormOnTop=0
+
 [C:\Program Files\Borland\Delphi7\Projects\ProjectGroup1.bpg]
 FormState=0
 FormOnTop=0
@@ -75,16 +80,12 @@ FormOnTop=0
 FormState=0
 FormOnTop=0
 
-[F:\myProgram\Delphi\SimkaReport\DM_.pas]
-FormState=0
-FormOnTop=0
-
 [F:\myProgram\Delphi\SimkaReport\include\ChaildFrm.pas]
 FormState=0
 FormOnTop=0
 
 [EditWindow0]
-ViewCount=9
+ViewCount=10
 CurrentView=2
 View0=0
 View1=1
@@ -95,6 +96,7 @@ View5=5
 View6=6
 View7=7
 View8=8
+View9=9
 CodeExplorer=CodeExplorer@EditWindow0
 MessageView=MessageView@EditWindow0
 Create=1
@@ -102,19 +104,19 @@ Visible=1
 State=0
 Left=204
 Top=132
-Width=937
+Width=1038
 Height=621
-MaxLeft=-1
-MaxTop=-1
-ClientWidth=929
+MaxLeft=-4
+MaxTop=-4
+ClientWidth=1030
 ClientHeight=587
 LeftPanelSize=205
 LeftPanelClients=CodeExplorer@EditWindow0
 LeftPanelData=000004000000000000000000000000000000000000000000000100000000000000000C000000436F64654578706C6F726572FFFFFFFF
 RightPanelSize=0
-BottomPanelSize=0
+BottomPanelSize=85
 BottomPanelClients=MessageView@EditWindow0
-BottomPanelData=00000400010000000B0000004D6573736167655669657758030000000000000255000000000000000100000000000000000000000001000000005803000000000000010000000058030000000000000100000000580300000000000001000000005803000000000000FFFFFFFF
+BottomPanelData=0000040000000000060400000000000002550000000000000001000000000000000000000000010000000058030000000000000100000000580300000000000001000000005803000000000000010000000058030000000000000100000000060400000B0000004D65737361676556696577FFFFFFFF
 
 [View0]
 Module=F:\myProgram\Delphi\SimkaReport\AuthentificationFrm.pas
@@ -132,47 +134,54 @@ LeftCol=1
 
 [View2]
 Module=F:\myProgram\Delphi\SimkaReport\EditingReportFrm.pas
-CursorX=36
-CursorY=147
-TopLine=132
+CursorX=29
+CursorY=184
+TopLine=174
 LeftCol=1
 
 [View3]
+Module=F:\myProgram\Delphi\SimkaReport\DM_.pas
+CursorX=39
+CursorY=13
+TopLine=1
+LeftCol=1
+
+[View4]
 Module=F:\myProgram\Delphi\SimkaReport\LinkRadioFrm.pas
 CursorX=27
 CursorY=14
 TopLine=12
 LeftCol=1
 
-[View4]
+[View5]
 Module=F:\myProgram\Delphi\SimkaReport\AuthorizationFrm.pas
 CursorX=36
 CursorY=90
 TopLine=81
 LeftCol=1
 
-[View5]
+[View6]
 Module=F:\myProgram\Delphi\SimkaReport\OperatorsFrm.pas
 CursorX=27
 CursorY=14
 TopLine=1
 LeftCol=1
 
-[View6]
+[View7]
 Module=F:\myProgram\Delphi\SimkaReport\DeviceFrm.pas
 CursorX=81
 CursorY=55
 TopLine=37
 LeftCol=1
 
-[View7]
+[View8]
 Module=F:\myProgram\Delphi\SimkaReport\UsersFrm.pas
-CursorX=44
+CursorX=28
 CursorY=45
-TopLine=40
+TopLine=34
 LeftCol=1
 
-[View8]
+[View9]
 Module=F:\myProgram\Delphi\SimkaReport\CustomerFunctions.pas
 CursorX=27
 CursorY=93
@@ -203,7 +212,7 @@ Dockable=1
 [Breakpoints]
 Count=2
 Breakpoint0='d:\Prog\SimkaReport\MainFrm.pas',271,'',0,1,'',1,0,0,'',1,'','',''
-Breakpoint1='d:\Prog\SimkaReport\EditingReportFrm.pas',435,'',0,1,'',1,0,0,'',1,'','',''
+Breakpoint1='d:\Prog\SimkaReport\EditingReportFrm.pas',425,'',0,1,'',1,0,0,'',1,'','',''
 
 [AddressBreakpoints]
 Count=0
@@ -218,9 +227,9 @@ Width=1280
 Height=112
 MaxLeft=-1
 MaxTop=-1
-MaxWidth=1288
+MaxWidth=1280
 MaxHeight=112
-ClientWidth=1280
+ClientWidth=1272
 ClientHeight=78
 
 [ProjectManager]
@@ -230,11 +239,11 @@ State=0
 Left=1136
 Top=108
 Width=167
-Height=240
+Height=351
 MaxLeft=-1
 MaxTop=-1
 ClientWidth=159
-ClientHeight=214
+ClientHeight=325
 TBDockHeight=240
 LRDockWidth=160
 Dockable=1
@@ -403,26 +412,26 @@ State=0
 Left=0
 Top=12
 Width=205
-Height=575
+Height=487
 MaxLeft=-1
 MaxTop=-1
 ClientWidth=205
-ClientHeight=575
+ClientHeight=487
 TBDockHeight=575
 LRDockWidth=205
 Dockable=1
 
 [MessageView@EditWindow0]
 Create=1
-Visible=0
+Visible=1
 State=0
 Left=12
 Top=0
-Width=844
+Width=1018
 Height=85
 MaxLeft=-1
 MaxTop=-1
-ClientWidth=844
+ClientWidth=1018
 ClientHeight=85
 TBDockHeight=85
 LRDockWidth=443

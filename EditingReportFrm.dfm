@@ -129,7 +129,6 @@ object frmEditingReport: TfrmEditingReport
         EditButtons = <>
         FieldName = 'cRS_PUK1'
         Footers = <>
-        Width = 64
       end
       item
         EditButtons = <>
