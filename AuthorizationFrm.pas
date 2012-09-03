@@ -37,7 +37,7 @@ var
 
 implementation
 
-uses UsersFrm;
+uses PeopleFrm;
 
 {$R *.dfm}
 
@@ -97,8 +97,8 @@ end;
 procedure TfrmAuthorization.btnPeopleClick(Sender: TObject);
 begin
   inherited;
-  frmUsers.ShowModal;
-  with frmUsers do begin
+  frmPeople.ShowModal;
+  with frmPeople do begin
     if ModalResult <> mrOK then
       Exit;
     cbbPeople.KeyValue := fbntgrfldpfbdtst1P_ID.Value;

@@ -107,7 +107,6 @@ inherited frmAuthorization: TfrmAuthorization
       EditButtons = <>
       KeyField = 'P_ID'
       ListField = 'P_SURNAME; P_NAME'
-      ListSource = frmUsers.ds1
       TabOrder = 4
       Visible = True
     end

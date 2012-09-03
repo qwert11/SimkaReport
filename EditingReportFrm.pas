@@ -57,29 +57,6 @@ type
     lbl5: TLabel;
     cbbIDAccount: TDBLookupComboboxEh;
     edtSumMony: TDBNumberEditEh;
-    crncyfldTmpErBccSUM: TCurrencyField;
-    intgrfldTmpErBccPrsnlAcnt: TIntegerField;
-    intgrfldTmpERcRS_ID: TIntegerField;
-    intgrfldTmpERcRS_In: TIntegerField;
-    intgrfldTmpERcRS_SMS: TIntegerField;
-    intgrfldTmpERcRS_Owner: TIntegerField;
-    intgrfldTmpERcRS_Simka: TIntegerField;
-    intgrfldTmpERcRS_TarifPlan: TIntegerField;
-    strngfldTmpERcRS_Status: TStringField;
-    intgrfldTmpERcRS_Balance: TIntegerField;
-    intgrfldTmpERcRS_User: TIntegerField;
-    intgrfldTmpERcRS_UserBrunch: TIntegerField;
-    intgrfldTmpERcRS_PartCall: TIntegerField;
-    strngfldTmpERcRS_IfInstall: TStringField;
-    strngfldTmpERcRS_ICC_SIM: TStringField;
-    strngfldTmpERcRS_PUK1: TStringField;
-    strngfldTmpERcRS_PUK2: TStringField;
-    dtfldTmpERcRS_ReportDay: TDateField;
-    crncyfldTmpERcRB_Sum: TCurrencyField;
-    strngfldTmpERIn: TStringField;
-    strngfldTmpEROwner: TStringField;
-    strngfldTmpERSimka: TStringField;
-    strngfldTmpERTarifPlan: TStringField;
     procedure tmr1Timer(Sender: TObject);
     procedure FormActivate(Sender: TObject);
     procedure dbgrdhRepSIMKeyPress(Sender: TObject; var Key: Char);
@@ -118,7 +95,8 @@ var
 implementation
 
 uses CustomerGlobals, MainFrm, DM_, CustomerFunctions,
-  OwnerFrm, SimkaFrm, TarifPlanFrm, DeviceFrm, UsersFrm;
+  OwnerFrm, SimkaFrm, TarifPlanFrm, DeviceFrm, PeopleFrm, UserBrunchFrm,
+  UserFrm;
 
 const
   PNL_INF_STAT_EDIT = 0;
@@ -151,8 +129,6 @@ end;
 
 //check users
 procedure TfrmEditingReport.FormActivate(Sender: TObject);
-var
-  Balances: TStrings;
 
   procedure DupIgnore(ADS: TDataSet; AField: TIntegerField);
   begin
@@ -179,8 +155,9 @@ begin
   if not cdsTmpER.Active then
     cdsTmpER.CreateDataSet;
 
-  Balances := TStringList.Create;
-      
+  if not cdsTmpErBc.Active then
+    cdsTmpErBc.CreateDataSet;
+
   with frmMain.dbgrdh1.DataSource.DataSet do
     try
       // внимание опасный промежуток после выключения - включить
@@ -262,7 +239,6 @@ begin
         raise EAbort.Create('Неверный тип открытия Editing Report');
       end;
     finally
-      Balances.Free;
       // опасный промежуток включаем после - выключить
       cdsTmpER.BeforePost := cdsTmpERBeforePost;    {*}
       //cdsTmpER.BeforeInsert := cdsTmpERBeforePost;  {*}
@@ -491,7 +467,9 @@ end;
 procedure TfrmEditingReport.FormDestroy(Sender: TObject);
 begin
   if Assigned(cdsTmpER.DataSetField) then
-    cdsTmpER.EmptyDataSet
+    cdsTmpER.EmptyDataSet;
+  if Assigned(cdsTmpErBc.DataSetField) then
+    cdsTmpErBc.EmptyDataSet;
 end;
 
 procedure TfrmEditingReport.strngfldTmpERDeviceNameGetText(Sender: TField;
@@ -590,7 +568,7 @@ procedure TfrmEditingReport.dbgrdhRepSIMDrawColumnCell(Sender: TObject;
           2, Rect.Top + 2, Column.Field.Text)
     end;
   end;
-  { TODO 1 -oDrawCellColum -cCheck : Закончить ф-цию FindDiff для erEdit}
+  { TODO  -oDrawCellColum -cCheck : Закончить ф-цию FindDiff для erEdit - решение создать  для сравнения поля CONST}
 //  function FindDiff: Boolean;
 //  begin
 //

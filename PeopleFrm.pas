@@ -1,4 +1,4 @@
-unit UsersFrm;
+unit PeopleFrm;
 
 interface
 
@@ -8,7 +8,7 @@ uses
   ComCtrls, StdCtrls, Buttons, ExtCtrls, Grids, DBGrids, fib;
 
 type
-  TfrmUsers = class(TChaildForm)
+  TfrmPeople = class(TChaildForm)
     edtSurname: TEdit;
     edtName: TEdit;
     edtPatronymic: TEdit;
@@ -27,7 +27,7 @@ type
   end;
 
 var
-  frmUsers: TfrmUsers;
+  frmPeople: TfrmPeople;
 
 implementation
 
@@ -35,7 +35,7 @@ uses CustomerFunctions;
 
 {$R *.dfm}
 
-procedure TfrmUsers.btnSaveClick(Sender: TObject);
+procedure TfrmPeople.btnSaveClick(Sender: TObject);
 begin
   with pfbdtst1 do
   try

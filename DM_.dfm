@@ -81,7 +81,9 @@ object DM: TDM
       '    report_simka.rs_reportday,'
       '    report_simka.rs_balance,'
       '    report_simka.rs_user,'
-      '    report_simka.rs_user_brunch'
+      '    report_simka.rs_user_brunch,'
+      '    report_balance.rb_prsnl_acnt,'
+      '    report_day.rd_respons'
       'from user_brunch'
       
         '   inner join report_simka on (user_brunch.ub_id = report_simka.' +
@@ -287,6 +289,37 @@ object DM: TDM
       Origin = 'PEOPLE.P_PATRONYMIC'
       Size = 50
       EmptyStrToNull = True
+    end
+    object fbntgrfldViewRS_TARIFPLAN: TFIBIntegerField
+      FieldName = 'RS_TARIFPLAN'
+      Origin = 'REPORT_SIMKA.RS_TARIFPLAN'
+    end
+    object fbntgrfldViewRS_PART_CALL: TFIBIntegerField
+      FieldName = 'RS_PART_CALL'
+      Origin = 'REPORT_SIMKA.RS_PART_CALL'
+    end
+    object fbdtfldViewRS_REPORTDAY: TFIBDateField
+      FieldName = 'RS_REPORTDAY'
+      Origin = 'REPORT_SIMKA.RS_REPORTDAY'
+    end
+    object fbntgrfldViewRS_BALANCE: TFIBIntegerField
+      FieldName = 'RS_BALANCE'
+      Origin = 'REPORT_SIMKA.RS_BALANCE'
+    end
+    object fbntgrfldViewRS_USER: TFIBIntegerField
+      FieldName = 'RS_USER'
+      Origin = 'REPORT_SIMKA.RS_USER'
+    end
+    object fbntgrfldViewRS_USER_BRUNCH: TFIBIntegerField
+      FieldName = 'RS_USER_BRUNCH'
+      Origin = 'REPORT_SIMKA.RS_USER_BRUNCH'
+    end
+    object fbntgrfldViewRB_PRSNL_ACNT: TFIBIntegerField
+      FieldName = 'RB_PRSNL_ACNT'
+      Origin = 'REPORT_BALANCE.RB_PRSNL_ACNT'
+    end
+    object fbntgrfldViewRD_RESPONS: TFIBIntegerField
+      FieldName = 'RD_RESPONS'
     end
   end
   object pfbqryDelete: TpFIBQuery

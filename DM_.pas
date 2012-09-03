@@ -45,6 +45,14 @@ type
     fbstrngfldViewP_SURNAME: TFIBStringField;
     fbstrngfldViewP_NAME: TFIBStringField;
     fbstrngfldViewP_PATRONYMIC: TFIBStringField;
+    fbntgrfldViewRS_TARIFPLAN: TFIBIntegerField;
+    fbntgrfldViewRS_PART_CALL: TFIBIntegerField;
+    fbdtfldViewRS_REPORTDAY: TFIBDateField;
+    fbntgrfldViewRS_BALANCE: TFIBIntegerField;
+    fbntgrfldViewRS_USER: TFIBIntegerField;
+    fbntgrfldViewRS_USER_BRUNCH: TFIBIntegerField;
+    fbntgrfldViewRB_PRSNL_ACNT: TFIBIntegerField;
+    fbntgrfldViewRD_RESPONS: TFIBIntegerField;
     procedure fbstrngfldViewRE_SURNAMEGetText(Sender: TField;
       var Text: String; DisplayText: Boolean);
   private
