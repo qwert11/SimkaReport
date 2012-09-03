@@ -19,12 +19,6 @@ type
     ds1: TDataSource;
     dtpDate: TDateTimePicker;
     lbl1: TLabel;
-    lbl2: TLabel;
-    lbl3: TLabel;
-    cbbIDAccount2: TDBLookupComboboxEh;
-    cbbIDAccount1: TDBLookupComboboxEh;
-    edtSum1: TEdit;
-    edtSum2: TEdit;
     pnl1: TPanel;
     btnSave: TBitBtn;
     btnClose: TBitBtn;
@@ -55,21 +49,64 @@ type
     dbctrlgrd1: TDBCtrlGrid;
     lbl4: TLabel;
     lbl5: TLabel;
-    cbbIDAccount: TDBLookupComboboxEh;
     edtSumMony: TDBNumberEditEh;
+    intgrfldTmpERcRS_ID: TIntegerField;
+    intgrfldTmpERcRS_In: TIntegerField;
+    intgrfldTmpERcC_RS_In: TIntegerField;
+    intgrfldTmpERcRS_SMS: TIntegerField;
+    intgrfldTmpERcC_RS_SMS: TIntegerField;
+    intgrfldTmpERcRS_Owner: TIntegerField;
+    intgrfldTmpERcC_RS_Owner: TIntegerField;
+    intgrfldTmpERcRS_Simka: TIntegerField;
+    intgrfldTmpERcC_RS_Simka: TIntegerField;
+    intgrfldTmpERcRS_TarifPlan: TIntegerField;
+    intgrfldTmpERcC_RS_TarifPlan: TIntegerField;
+    strngfldTmpERcRS_Status: TStringField;
+    strngfldTmpERcC_RS_Status: TStringField;
+    intgrfldTmpERcRS_Balance: TIntegerField;
+    intgrfldTmpERcC_RS_Balance: TIntegerField;
+    intgrfldTmpERcRS_User: TIntegerField;
+    intgrfldTmpERcC_RS_User: TIntegerField;
+    intgrfldTmpERcRS_UserBrunch: TIntegerField;
+    intgrfldTmpERcC_RS_UserBrunch: TIntegerField;
+    intgrfldTmpERcRS_PartCall: TIntegerField;
+    intgrfldTmpERcC_RS_PartCall: TIntegerField;
+    strngfldTmpERcRS_IfInstall: TStringField;
+    strngfldTmpERcC_RS_IfInctall: TStringField;
+    strngfldTmpERcRS_ICC_SIM: TStringField;
+    strngfldTmpERcC_RS_ICC_SIM: TStringField;
+    strngfldTmpERcRS_PUK1: TStringField;
+    strngfldTmpERcC_RS_PUK1: TStringField;
+    strngfldTmpERcRS_PUK2: TStringField;
+    strngfldTmpERcC_RS_PUK2: TStringField;
+    dtfldTmpERcRS_ReportDay: TDateField;
+    dtfldTmpERcC_RS_ReportDay: TDateField;
+    crncyfldTmpERcRB_Sum: TCurrencyField;
+    crncyfldTmpERcC_RB_SUM: TCurrencyField;
+    intgrfldTmpERcRB_Prsnl_Acnt: TIntegerField;
+    intgrfldTmpERcC_RB_PrsnlAcnt: TIntegerField;
+    strngfldTmpERIn: TStringField;
+    strngfldTmpEROwner: TStringField;
+    strngfldTmpERSimka: TStringField;
+    strngfldTmpERTarifPlan: TStringField;
+    strngfldTmpERPrsnlAcnt: TStringField;
+    strngfldTmpERUser: TStringField;
+    strngfldTmpERUserBrunch: TStringField;
+    strngfldTmpERPartCall: TStringField;
+    intgrfldTmpErBccRB_ID: TIntegerField;
+    crncyfldTmpErBccSUM: TCurrencyField;
+    intgrfldTmpErBccPrsnlAcnt: TIntegerField;
+    strngfldTmpErBcPrsnlAcnt: TStringField;
+    cbbIDAccount: TDBComboBoxEh;
     procedure tmr1Timer(Sender: TObject);
     procedure FormActivate(Sender: TObject);
     procedure dbgrdhRepSIMKeyPress(Sender: TObject; var Key: Char);
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
     procedure actEditUpdate(Sender: TObject);
     procedure actEditExecute(Sender: TObject);
-    procedure strngfldTmpERSimNumberGetText(Sender: TField;
-      var Text: String; DisplayText: Boolean);
     procedure actSaveExecute(Sender: TObject);
     procedure actSaveUpdate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
-    procedure strngfldTmpERDeviceNameGetText(Sender: TField;
-      var Text: String; DisplayText: Boolean);
     procedure edtSum1KeyPress(Sender: TObject; var Key: Char);
     function CheckRepSimRecord(ShowWarning: Boolean = True): Boolean;
     procedure cdsTmpERBeforePost(DataSet: TDataSet);
@@ -96,17 +133,22 @@ implementation
 
 uses CustomerGlobals, MainFrm, DM_, CustomerFunctions,
   OwnerFrm, SimkaFrm, TarifPlanFrm, DeviceFrm, PeopleFrm, UserBrunchFrm,
-  UserFrm;
+  UserFrm, PartCallFrm, PersonalAccountFrm;
 
 const
   PNL_INF_STAT_EDIT = 0;
   PNL_INF_TIMER = 1;
   PNL_INF_RESPONS = 2;
 
-  
-  FN_ER_LOOKUP_SIMKA = 'SimNumber';
-  FN_ER_LOOKUP_DEVICE = 'DeviceName';
+  FN_ER_LOOKUP_DEVICE = 'In';
   FN_ER_LOOKUP_OWNER = 'Owner';
+  FN_ER_LOOKUP_SIMKA = 'Simka';
+  FN_ER_LOOKUP_TARIF_PLAN = 'TarifPlan';
+  FN_ER_LOOKUP_PRSNL_ACNT = 'PrsnlAcnt';
+  FN_ER_LOOKUP_USER = 'User';
+  FN_ER_LOOKUP_USER_BRUNCH = 'UserBrunch';
+  FN_ER_LOOKUP_PART_CALL = 'PartCall';
+  
 
 var
   TimerStop: TTime;
@@ -192,37 +234,68 @@ begin
               end;
             end;
 
-            // инициируем поля с последнего заполнения если оно есть
+            // CDS TmpErBC инициируем поля с последнего заполнения если оно есть
             First;
-            //
             if not Eof then begin
               dtpDate.Date := FieldByName('RD_DATE').AsDateTime;
-              cbbIDAccount1.KeyValue := FieldByName('RD_FINANCE1').Value;
-              edtSum1.Text := FieldByName('RD_FNCE1SUM').AsString;
-              cbbIDAccount2.KeyValue := FieldByName('RD_FINANCE2').Value;
-              edtSum2.Text := FieldByName('RD_FNCE2SUM').AsString;
+              with DM do
+              while not Eof do begin
+                if not cdsTmpErBc.Locate('cPrsnlAcnt', fbntgrfldViewRB_PRSNL_ACNT.Value, []) then 
+                  try
+                    cdsTmpErBc.Append;
+                    intgrfldTmpErBccRB_ID.Value := fbntgrfldViewRS_BALANCE.Value;
+                    crncyfldTmpErBccSUM.Value := fbcdfldViewRB_SUM.Value;
+                    intgrfldTmpErBccPrsnlAcnt.Value := fbntgrfldViewRB_PRSNL_ACNT.Value;
+                    cdsTmpErBc.Post;
+                  except
+                    on E: Exception do begin
+                      cdsTmpErBc.Cancel;
+                      Application.MessageBox(PChar(E.Message), 'Ошибка добавления данных', MB_ICONERROR);
+                      Break;
+                    end;
+                  end;
+                Next;
+              end;
             end;
-            // CDS
+
+            // CDS TmpER
+            First;
             while not Eof do begin
               cdsTmpER.Append;
               try
                 intgrfldTmpERcRS_ID.Value := FieldByName('RSID').AsInteger;
                 intgrfldTmpERcRS_In.Value := FieldByName('RS_IN').AsInteger;
+                intgrfldTmpERcC_RS_In.Value := FieldByName('RS_IN').AsInteger;
                 intgrfldTmpERcRS_SMS.Value := FieldByName('RS_SMS').AsInteger;
+                intgrfldTmpERcC_RS_SMS.Value := FieldByName('RS_SMS').AsInteger;
                 intgrfldTmpERcRS_Owner.Value := FieldByName('RS_OWNER').AsInteger;
+                intgrfldTmpERcC_RS_Owner.Value := FieldByName('RS_OWNER').AsInteger;
                 intgrfldTmpERcRS_Simka.Value := FieldByName('RS_SIMKA').AsInteger;
+                intgrfldTmpERcC_RS_Simka.Value := FieldByName('RS_SIMKA').AsInteger;
                 intgrfldTmpERcRS_TarifPlan.Value := FieldByName('RS_TarifPlan').AsInteger;
+                intgrfldTmpERcC_RS_TarifPlan.Value := FieldByName('RS_TarifPlan').AsInteger;
                 strngfldTmpERcRS_Status.Value := FieldByName('RS_STATUS').AsString;
+                strngfldTmpERcC_RS_Status.Value := FieldByName('RS_STATUS').AsString;
                 intgrfldTmpERcRS_Balance.Value := FieldByName('RS_BALANCE').AsInteger;
+                intgrfldTmpERcC_RS_Balance.Value := FieldByName('RS_BALANCE').AsInteger;
                 intgrfldTmpERcRS_User.Value := FieldByName('RS_USER').AsInteger;
+                intgrfldTmpERcC_RS_User.Value := FieldByName('RS_USER').AsInteger;
                 intgrfldTmpERcRS_UserBrunch.Value := FieldByName('RS_USER_BRUNCH').AsInteger;
+                intgrfldTmpERcC_RS_UserBrunch.Value := FieldByName('RS_USER_BRUNCH').AsInteger;
                 intgrfldTmpERcRS_PartCall.Value := FieldByName('RS_PART_CALL').AsInteger;
+                intgrfldTmpERcC_RS_PartCall.Value := FieldByName('RS_PART_CALL').AsInteger;
                 strngfldTmpERcRS_IfInstall.Value := FieldByName('RS_IFINSTALL').AsString;
+                strngfldTmpERcC_RS_IfInctall.Value := FieldByName('RS_IFINSTALL').AsString;
                 strngfldTmpERcRS_ICC_SIM.Value := FieldByName('RS_ICC_SIM').AsString;
+                strngfldTmpERcC_RS_ICC_SIM.Value := FieldByName('RS_ICC_SIM').AsString;
                 strngfldTmpERcRS_PUK1.Value := FieldByName('RS_PUK1').AsString;
+                strngfldTmpERcC_RS_PUK1.Value := FieldByName('RS_PUK1').AsString;
                 strngfldTmpERcRS_PUK2.Value := FieldByName('RS_PUK2').AsString;
-
+                strngfldTmpERcC_RS_PUK2.Value := FieldByName('RS_PUK2').AsString;
                 crncyfldTmpERcRB_Sum.Value := FieldByName('RB_SUM').Value;
+                crncyfldTmpERcC_RB_SUM.Value := FieldByName('RB_SUM').Value;
+                intgrfldTmpERcRB_Prsnl_Acnt.Value := FieldByName('RB_PRCNL_ACNT').Value;
+                intgrfldTmpERcC_RB_PrsnlAcnt.Value := FieldByName('RB_PRCNL_ACNT').Value;
 
                 cdsTmpER.Post;
                 Next;
@@ -275,30 +348,49 @@ begin
       if not (cdsTmpER.State in [dsEdit, dsInsert]) then
         cdsTmpER.Edit;
 
-      if FieldName = FN_ER_LOOKUP_SIMKA then with frmSimka do begin
-        ShowModal;
-        if ModalResult = mrOK then
-          intgrfldTmpERcSimka.Value := pfbdtst1SID.Value;
-      end else
       if FieldName = FN_ER_LOOKUP_DEVICE then with frmDevice do begin
         ShowModal;
         if ModalResult = mrOK then
-          intgrfldTmpERcIn.Value := pfbdtst1DID.Value;
+          intgrfldTmpERcRS_In.Value := pfbdtst1DID.Value;
       end else
       if FieldName = FN_ER_LOOKUP_OWNER then with frmOwner do begin
         ShowModal;
         if ModalResult = mrOK then
-          intgrfldTmpERcOwner.Value := pfbdtst1OID.Value;
+          intgrfldTmpERcRS_Owner.Value := pfbdtst1OID.Value;
+      end else
+      if FieldName = FN_ER_LOOKUP_SIMKA then with frmSimka do begin
+        ShowModal;
+        if ModalResult = mrOK then
+          intgrfldTmpERcRS_Simka.Value := pfbdtst1SID.Value;
+      end else
+      if FieldName = FN_ER_LOOKUP_TARIF_PLAN then with frmTarifPlan do begin
+        ShowModal;
+        if ModalResult = mrOK then
+          intgrfldTmpERcRS_TarifPlan.Value := pfbdtst1TPID.Value;
+      end else
+      if FieldName = FN_ER_LOOKUP_PRSNL_ACNT then with frmPersonalAccount do begin
+        ShowModal;
+        if ModalResult = mrOK then
+          intgrfldTmpERcRB_Prsnl_Acnt.Value := fbntgrfldpfbdtst1PA_ID.Value;
+      end else
+      if FieldName = FN_ER_LOOKUP_USER then with frmUser do begin
+        ShowModal;
+        if ModalResult = mrOK then
+          intgrfldTmpERcRS_User.Value := fbntgrfldpfbdtst1U_ID.Value;
+      end else
+      if FieldName = FN_ER_LOOKUP_USER_BRUNCH then with frmUserBrunch do begin
+        ShowModal;
+        if ModalResult = mrOK then
+          intgrfldTmpERcRS_UserBrunch.Value := fbntgrfldpfbdtst1UB_ID.Value;
+      end else
+      if FieldName = FN_ER_LOOKUP_PART_CALL then with frmPartCall do begin
+        ShowModal;
+        if ModalResult = mrOK then
+          intgrfldTmpERcRS_PartCall.Value := fbntgrfldpfbdtst1PC_ID.Value;
       end;
     end;
 end;
 
-procedure TfrmEditingReport.strngfldTmpERSimNumberGetText(Sender: TField;
-  var Text: String; DisplayText: Boolean);
-begin
-  Text := strngfldTmpERSimNumber.Value + '/ ' +
-    crncyfldTmpERSimAbonBoard.AsString
-end;
 
 { TODO -ocdsTmpER -cSort : сортировка по клику на head }
 procedure TfrmEditingReport.actSaveExecute(Sender: TObject);
@@ -470,12 +562,6 @@ begin
     cdsTmpER.EmptyDataSet;
   if Assigned(cdsTmpErBc.DataSetField) then
     cdsTmpErBc.EmptyDataSet;
-end;
-
-procedure TfrmEditingReport.strngfldTmpERDeviceNameGetText(Sender: TField;
-  var Text: String; DisplayText: Boolean);
-begin
-  Text := strngfldTmpERDeviceName.Value + '/№' + intgrfldTmpERDeviceNumbr.AsString
 end;
 
 procedure TfrmEditingReport.edtSum1KeyPress(Sender: TObject;

@@ -22,11 +22,13 @@ inherited frmSimka: TfrmSimka
       item
         Expanded = False
         FieldName = 'S_LINK_RADIO'
+        Width = 64
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'S_OPERATOR'
+        Width = 64
         Visible = True
       end>
   end
@@ -218,18 +220,18 @@ inherited frmSimka: TfrmSimka
       '    S_OPERATOR'
       'FROM'
       '    SIMKA ')
-    object fbntgrfldpfbdtst1SID: TFIBIntegerField
+    object pfbdtst1SID: TFIBIntegerField
       FieldName = 'SID'
     end
-    object fpfbdtst1S_NUMBER: TFIBStringField
+    object pfbdtst1S_NUMBER: TFIBStringField
       FieldName = 'S_NUMBER'
       Size = 12
       EmptyStrToNull = True
     end
-    object fbntgrfldpfbdtst1S_LINK_RADIO: TFIBIntegerField
+    object pfbdtst1S_LINK_RADIO: TFIBIntegerField
       FieldName = 'S_LINK_RADIO'
     end
-    object fbntgrfldpfbdtst1S_OPERATOR: TFIBIntegerField
+    object pfbdtst1S_OPERATOR: TFIBIntegerField
       FieldName = 'S_OPERATOR'
     end
   end

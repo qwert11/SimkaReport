@@ -13,6 +13,9 @@ type
     lbl1: TLabel;
     edtUserLocation: TEdit;
     lbl2: TLabel;
+    fbntgrfldpfbdtst1U_ID: TFIBIntegerField;
+    fbstrngfldpfbdtst1U_SER: TFIBStringField;
+    fbstrngfldpfbdtst1U_LOCATION: TFIBStringField;
     procedure btnSaveClick(Sender: TObject); override;
     procedure FormCreate(Sender: TObject);
   private
@@ -26,6 +29,8 @@ var
 
 implementation
 
+uses CustomerFunctions;
+
 {$R *.dfm}
 
 procedure TfrmUser.btnSaveClick(Sender: TObject);
@@ -38,14 +43,13 @@ begin
     case FEditorState of
       esEdit: with QUpdate do begin
         ParamByName('P_U_ID').AsInteger := pfbdtst1.FieldByName('U_ID').AsInteger;
-        ParamByName('P_U_SER').Value := edtSurname.Text;
-        ParamByName('P_U_LOCATION').Value := StrToVarNull(edtName);
+        ParamByName('P_U_SER').Value := edtUser.Text;
+        ParamByName('P_U_LOCATION').Value := StrToVarNull(edtUserLocation);
       end;
 
       esInsert: with QInsert do begin
-        ParamByName('P_P_SURNAME').Value := edtSurname.Text;
-        ParamByName('P_P_NAME').Value := StrToVarNull(edtName);
-        ParamByName('P_P_PATRONYMIC').Value := StrToVarNull(edtPatronymic);
+        ParamByName('P_U_SER').Value := edtUser.Text;
+        ParamByName('P_U_LOCATION').Value := StrToVarNull(edtUserLocation);
       end;
 
       esDelete: with QDelete do begin

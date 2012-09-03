@@ -1,8 +1,8 @@
 object frmEditingReport: TfrmEditingReport
-  Left = 247
-  Top = 371
-  Width = 1633
-  Height = 582
+  Left = 342
+  Top = 250
+  Width = 1144
+  Height = 586
   Caption = 'frmEditingReport'
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -19,8 +19,8 @@ object frmEditingReport: TfrmEditingReport
   TextHeight = 13
   object stat1: TStatusBar
     Left = 0
-    Top = 517
-    Width = 1625
+    Top = 521
+    Width = 1136
     Height = 19
     Panels = <
       item
@@ -36,8 +36,8 @@ object frmEditingReport: TfrmEditingReport
   object dbgrdhRepSIM: TDBGridEh
     Left = 0
     Top = 0
-    Width = 1386
-    Height = 517
+    Width = 897
+    Height = 521
     Align = alClient
     DataGrouping.GroupLevels = <>
     DataSource = ds1
@@ -61,13 +61,9 @@ object frmEditingReport: TfrmEditingReport
     Columns = <
       item
         EditButtons = <>
-        FieldName = 'cRS_ID'
+        FieldName = 'In'
         Footers = <>
-      end
-      item
-        EditButtons = <>
-        FieldName = 'cRS_In'
-        Footers = <>
+        Width = 24
       end
       item
         EditButtons = <>
@@ -76,24 +72,27 @@ object frmEditingReport: TfrmEditingReport
       end
       item
         EditButtons = <>
-        FieldName = 'cRS_Owner'
+        FieldName = 'Owner'
         Footers = <>
+        Width = 59
       end
       item
         EditButtons = <>
-        FieldName = 'cRS_Simka'
+        FieldName = 'Simka'
         Footers = <>
+        Width = 75
       end
       item
         EditButtons = <>
-        FieldName = 'cRS_TarifPlan'
+        FieldName = 'TarifPlan'
         Footers = <>
+        Width = 63
       end
       item
         EditButtons = <>
         FieldName = 'cRS_Status'
         Footers = <>
-        Width = 46
+        Width = 71
       end
       item
         EditButtons = <>
@@ -102,41 +101,45 @@ object frmEditingReport: TfrmEditingReport
       end
       item
         EditButtons = <>
-        FieldName = 'cRS_User'
+        FieldName = 'User'
         Footers = <>
+        Width = 45
       end
       item
         EditButtons = <>
-        FieldName = 'cRS_UserBrunch'
+        FieldName = 'UserBrunch'
         Footers = <>
+        Width = 74
       end
       item
         EditButtons = <>
-        FieldName = 'cRS_PartCall'
+        FieldName = 'PartCall'
         Footers = <>
+        Width = 49
       end
       item
         EditButtons = <>
         FieldName = 'cRS_IfInstall'
         Footers = <>
+        Width = 70
       end
       item
         EditButtons = <>
         FieldName = 'cRS_ICC_SIM'
         Footers = <>
-        Width = 77
+        Width = 83
       end
       item
         EditButtons = <>
         FieldName = 'cRS_PUK1'
         Footers = <>
-        Width = 63
+        Width = 66
       end
       item
         EditButtons = <>
         FieldName = 'cRS_PUK2'
         Footers = <>
-        Width = 65
+        Width = 73
       end
       item
         EditButtons = <>
@@ -150,76 +153,26 @@ object frmEditingReport: TfrmEditingReport
       end
       item
         EditButtons = <>
-        FieldName = 'In'
+        FieldName = 'PrsnlAcnt'
         Footers = <>
-        Width = 21
-      end
-      item
-        EditButtons = <>
-        FieldName = 'Owner'
-        Footers = <>
-        Width = 33
-      end
-      item
-        EditButtons = <>
-        FieldName = 'Simka'
-        Footers = <>
-        Width = 34
-      end
-      item
-        EditButtons = <>
-        FieldName = 'TarifPlan'
-        Footers = <>
-        Width = 43
-      end
-      item
-        EditButtons = <>
-        FieldName = 'User'
-        Footers = <>
-        Width = 27
-      end
-      item
-        EditButtons = <>
-        FieldName = 'UserBrunch'
-        Footers = <>
-        Width = 59
-      end
-      item
-        EditButtons = <>
-        FieldName = 'PartCall'
-        Footers = <>
-        Width = 44
+        Width = 62
       end>
     object RowDetailData: TRowDetailPanelControlEh
     end
   end
   object pnl1: TPanel
-    Left = 1386
+    Left = 897
     Top = 0
     Width = 239
-    Height = 517
+    Height = 521
     Align = alRight
     TabOrder = 2
-    object lbl2: TLabel
-      Left = 9
-      Top = 56
-      Width = 112
-      Height = 13
-      Caption = 'ID '#1083#1080#1094#1077#1074#1086#1075#1086' '#1089#1095#1077#1090#1072' '#8470'1'
-    end
     object lbl1: TLabel
       Left = 4
       Top = 32
       Width = 29
       Height = 13
       Caption = #1044#1072#1090#1072':'
-    end
-    object lbl3: TLabel
-      Left = 137
-      Top = 56
-      Width = 112
-      Height = 13
-      Caption = 'ID '#1083#1080#1094#1077#1074#1086#1075#1086' '#1089#1095#1077#1090#1072' '#8470'2'
     end
     object dtpDate: TDateTimePicker
       Left = 40
@@ -230,73 +183,32 @@ object frmEditingReport: TfrmEditingReport
       Time = 41137.684692013890000000
       TabOrder = 0
     end
-    object cbbIDAccount2: TDBLookupComboboxEh
-      Left = 128
-      Top = 80
-      Width = 121
-      Height = 21
-      DataSource = ds2
-      EditButtons = <>
-      KeyField = 'FID'
-      ListField = 'F_CODE; F_IDACCOUNT'
-      TabOrder = 1
-      Visible = True
-    end
-    object cbbIDAccount1: TDBLookupComboboxEh
-      Left = 0
-      Top = 72
-      Width = 121
-      Height = 21
-      EditButtons = <>
-      KeyField = 'FID'
-      ListField = 'F_CODE; F_IDACCOUNT'
-      TabOrder = 2
-      Visible = True
-    end
-    object edtSum1: TEdit
-      Left = 0
-      Top = 104
-      Width = 121
-      Height = 21
-      TabOrder = 3
-      Text = 'edtSum1'
-      OnKeyPress = edtSum1KeyPress
-    end
-    object edtSum2: TEdit
-      Left = 128
-      Top = 104
-      Width = 121
-      Height = 21
-      TabOrder = 4
-      Text = 'edtSum2'
-      OnKeyPress = edtSum1KeyPress
-    end
     object btnSave: TBitBtn
-      Left = 16
-      Top = 376
+      Left = 48
+      Top = 480
       Width = 89
       Height = 25
       Action = actSave
       Caption = #1057#1086#1093#1088#1072#1085#1080#1090#1100
-      TabOrder = 5
+      TabOrder = 1
       Kind = bkOK
     end
     object btnClose: TBitBtn
-      Left = 120
-      Top = 376
+      Left = 152
+      Top = 480
       Width = 75
       Height = 25
-      TabOrder = 6
+      TabOrder = 2
       Kind = bkCancel
     end
     object dbctrlgrd1: TDBCtrlGrid
       Left = 8
-      Top = 136
-      Width = 232
+      Top = 56
+      Width = 233
       Height = 216
       DataSource = ds2
-      PanelWidth = 216
-      TabOrder = 7
+      PanelWidth = 217
+      TabOrder = 3
       object lbl4: TLabel
         Left = 8
         Top = 16
@@ -311,23 +223,23 @@ object frmEditingReport: TfrmEditingReport
         Height = 13
         Caption = #1057#1091#1084#1084#1072
       end
-      object cbbIDAccount: TDBLookupComboboxEh
-        Left = 80
-        Top = 8
-        Width = 121
-        Height = 21
-        DataField = 'cPrsnlAcnt'
-        DataSource = ds2
-        EditButtons = <>
-        TabOrder = 0
-        Visible = True
-      end
       object edtSumMony: TDBNumberEditEh
         Left = 80
         Top = 40
         Width = 97
         Height = 21
         DataField = 'cSUM'
+        DataSource = ds2
+        EditButtons = <>
+        TabOrder = 0
+        Visible = True
+      end
+      object cbbIDAccount: TDBComboBoxEh
+        Left = 80
+        Top = 8
+        Width = 121
+        Height = 21
+        DataField = 'PrsnlAcnt'
         DataSource = ds2
         EditButtons = <>
         TabOrder = 1
@@ -505,6 +417,215 @@ object frmEditingReport: TfrmEditingReport
     BeforePost = cdsTmpERBeforePost
     Left = 48
     Top = 232
+    object intgrfldTmpERcRS_ID: TIntegerField
+      FieldName = 'cRS_ID'
+    end
+    object intgrfldTmpERcRS_In: TIntegerField
+      FieldName = 'cRS_In'
+    end
+    object intgrfldTmpERcC_RS_In: TIntegerField
+      FieldName = 'cC_RS_In'
+      ReadOnly = True
+    end
+    object intgrfldTmpERcRS_SMS: TIntegerField
+      FieldName = 'cRS_SMS'
+    end
+    object intgrfldTmpERcC_RS_SMS: TIntegerField
+      FieldName = 'cC_RS_SMS'
+      ReadOnly = True
+    end
+    object intgrfldTmpERcRS_Owner: TIntegerField
+      FieldName = 'cRS_Owner'
+    end
+    object intgrfldTmpERcC_RS_Owner: TIntegerField
+      FieldName = 'cC_RS_Owner'
+      ReadOnly = True
+    end
+    object intgrfldTmpERcRS_Simka: TIntegerField
+      FieldName = 'cRS_Simka'
+    end
+    object intgrfldTmpERcC_RS_Simka: TIntegerField
+      FieldName = 'cC_RS_Simka'
+      ReadOnly = True
+    end
+    object intgrfldTmpERcRS_TarifPlan: TIntegerField
+      FieldName = 'cRS_TarifPlan'
+    end
+    object intgrfldTmpERcC_RS_TarifPlan: TIntegerField
+      FieldName = 'cC_RS_TarifPlan'
+      ReadOnly = True
+    end
+    object strngfldTmpERcRS_Status: TStringField
+      FieldName = 'cRS_Status'
+      Size = 1
+    end
+    object strngfldTmpERcC_RS_Status: TStringField
+      FieldName = 'cC_RS_Status'
+      ReadOnly = True
+      Size = 1
+    end
+    object intgrfldTmpERcRS_Balance: TIntegerField
+      FieldName = 'cRS_Balance'
+    end
+    object intgrfldTmpERcC_RS_Balance: TIntegerField
+      FieldName = 'cC_RS_Balance'
+      ReadOnly = True
+    end
+    object intgrfldTmpERcRS_User: TIntegerField
+      FieldName = 'cRS_User'
+    end
+    object intgrfldTmpERcC_RS_User: TIntegerField
+      FieldName = 'cC_RS_User'
+      ReadOnly = True
+    end
+    object intgrfldTmpERcRS_UserBrunch: TIntegerField
+      FieldName = 'cRS_UserBrunch'
+    end
+    object intgrfldTmpERcC_RS_UserBrunch: TIntegerField
+      FieldName = 'cC_RS_UserBrunch'
+      ReadOnly = True
+    end
+    object intgrfldTmpERcRS_PartCall: TIntegerField
+      FieldName = 'cRS_PartCall'
+    end
+    object intgrfldTmpERcC_RS_PartCall: TIntegerField
+      FieldName = 'cC_RS_PartCall'
+      ReadOnly = True
+    end
+    object strngfldTmpERcRS_IfInstall: TStringField
+      FieldName = 'cRS_IfInstall'
+      Size = 1
+    end
+    object strngfldTmpERcC_RS_IfInctall: TStringField
+      FieldName = 'cC_RS_IfInctall'
+      ReadOnly = True
+      Size = 1
+    end
+    object strngfldTmpERcRS_ICC_SIM: TStringField
+      FieldName = 'cRS_ICC_SIM'
+      Size = 25
+    end
+    object strngfldTmpERcC_RS_ICC_SIM: TStringField
+      FieldName = 'cC_RS_ICC_SIM'
+      ReadOnly = True
+      Size = 25
+    end
+    object strngfldTmpERcRS_PUK1: TStringField
+      FieldName = 'cRS_PUK1'
+    end
+    object strngfldTmpERcC_RS_PUK1: TStringField
+      FieldName = 'cC_RS_PUK1'
+      ReadOnly = True
+    end
+    object strngfldTmpERcRS_PUK2: TStringField
+      FieldName = 'cRS_PUK2'
+    end
+    object strngfldTmpERcC_RS_PUK2: TStringField
+      FieldName = 'cC_RS_PUK2'
+      ReadOnly = True
+    end
+    object dtfldTmpERcRS_ReportDay: TDateField
+      FieldName = 'cRS_ReportDay'
+    end
+    object dtfldTmpERcC_RS_ReportDay: TDateField
+      FieldName = 'cC_RS_ReportDay'
+      ReadOnly = True
+    end
+    object crncyfldTmpERcRB_Sum: TCurrencyField
+      FieldName = 'cRB_Sum'
+      OnGetText = crncyfldTmpERcRB_SumGetText
+    end
+    object crncyfldTmpERcC_RB_SUM: TCurrencyField
+      FieldName = 'cC_RB_SUM'
+      ReadOnly = True
+    end
+    object intgrfldTmpERcRB_Prsnl_Acnt: TIntegerField
+      FieldName = 'cRB_Prsnl_Acnt'
+    end
+    object intgrfldTmpERcC_RB_PrsnlAcnt: TIntegerField
+      FieldName = 'cC_RB_PrsnlAcnt'
+      ReadOnly = True
+    end
+    object strngfldTmpERIn: TStringField
+      FieldKind = fkLookup
+      FieldName = 'In'
+      LookupDataSet = frmDevice.pfbdtst1
+      LookupKeyFields = 'DID'
+      LookupResultField = 'D_NUM'
+      KeyFields = 'cRS_In'
+      Size = 100
+      Lookup = True
+    end
+    object strngfldTmpEROwner: TStringField
+      FieldKind = fkLookup
+      FieldName = 'Owner'
+      LookupDataSet = frmOwner.pfbdtst1
+      LookupKeyFields = 'OID'
+      LookupResultField = 'O_NAME'
+      KeyFields = 'cRS_Owner'
+      Size = 50
+      Lookup = True
+    end
+    object strngfldTmpERSimka: TStringField
+      FieldKind = fkLookup
+      FieldName = 'Simka'
+      LookupDataSet = frmSimka.pfbdtst1
+      LookupKeyFields = 'SID'
+      LookupResultField = 'S_NUMBER'
+      KeyFields = 'cRS_Simka'
+      Size = 100
+      Lookup = True
+    end
+    object strngfldTmpERTarifPlan: TStringField
+      FieldKind = fkLookup
+      FieldName = 'TarifPlan'
+      LookupDataSet = frmTarifPlan.pfbdtst1
+      LookupKeyFields = 'TPID'
+      LookupResultField = 'TP_NAME'
+      KeyFields = 'cRS_TarifPlan'
+      Size = 100
+      Lookup = True
+    end
+    object strngfldTmpERPrsnlAcnt: TStringField
+      FieldKind = fkLookup
+      FieldName = 'PrsnlAcnt'
+      LookupDataSet = frmPersonalAccount.pfbdtst1
+      LookupKeyFields = 'PA_ID'
+      LookupResultField = 'PA_RSNL_CNT'
+      KeyFields = 'cRB_Prsnl_Acnt'
+      Size = 50
+      Lookup = True
+    end
+    object strngfldTmpERUser: TStringField
+      FieldKind = fkLookup
+      FieldName = 'User'
+      LookupDataSet = frmUser.pfbdtst1
+      LookupKeyFields = 'U_ID'
+      LookupResultField = 'U_SER'
+      KeyFields = 'cRS_User'
+      Size = 50
+      Lookup = True
+    end
+    object strngfldTmpERUserBrunch: TStringField
+      FieldKind = fkLookup
+      FieldName = 'UserBrunch'
+      LookupDataSet = frmUserBrunch.pfbdtst1
+      LookupKeyFields = 'UB_ID'
+      LookupResultField = 'UB_SER_RUNCH'
+      KeyFields = 'cRS_UserBrunch'
+      Size = 50
+      Lookup = True
+    end
+    object strngfldTmpERPartCall: TStringField
+      FieldKind = fkLookup
+      FieldName = 'PartCall'
+      LookupDataSet = frmPartCall.pfbdtst1
+      LookupKeyFields = 'PC_ID'
+      LookupResultField = 'PC_ART_ALL'
+      KeyFields = 'cRS_PartCall'
+      Size = 50
+      Lookup = True
+    end
   end
   object actlst1: TActionList
     Left = 48
@@ -589,6 +710,7 @@ object frmEditingReport: TfrmEditingReport
     Top = 264
   end
   object cdsTmpErBc: TClientDataSet
+    Active = True
     Aggregates = <>
     FieldDefs = <
       item
@@ -608,6 +730,30 @@ object frmEditingReport: TfrmEditingReport
     StoreDefs = True
     Left = 184
     Top = 232
+    Data = {
+      5D0000009619E0BD0100000018000000030000000000030000005D0006635242
+      5F49440400010000000000046353554D08000400000001000753554254595045
+      0200490006004D6F6E6579000A635072736E6C41636E74040001000000000000
+      00}
+    object intgrfldTmpErBccRB_ID: TIntegerField
+      FieldName = 'cRB_ID'
+    end
+    object crncyfldTmpErBccSUM: TCurrencyField
+      FieldName = 'cSUM'
+    end
+    object intgrfldTmpErBccPrsnlAcnt: TIntegerField
+      FieldName = 'cPrsnlAcnt'
+    end
+    object strngfldTmpErBcPrsnlAcnt: TStringField
+      FieldKind = fkLookup
+      FieldName = 'PrsnlAcnt'
+      LookupDataSet = frmPersonalAccount.pfbdtst1
+      LookupKeyFields = 'PA_ID'
+      LookupResultField = 'PA_RSNL_CNT'
+      KeyFields = 'cPrsnlAcnt'
+      Size = 50
+      Lookup = True
+    end
   end
   object ds2: TDataSource
     DataSet = cdsTmpErBc

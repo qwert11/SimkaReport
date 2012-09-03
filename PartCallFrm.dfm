@@ -57,5 +57,13 @@ inherited frmPartCall: TfrmPartCall
       '    PC_ART_ALL'
       'FROM'
       '    PART_CALL ')
+    object fbntgrfldpfbdtst1PC_ID: TFIBIntegerField
+      FieldName = 'PC_ID'
+    end
+    object fbstrngfldpfbdtst1PC_ART_ALL: TFIBStringField
+      FieldName = 'PC_ART_ALL'
+      Size = 50
+      EmptyStrToNull = True
+    end
   end
 end

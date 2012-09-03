@@ -77,5 +77,18 @@ inherited frmUser: TfrmUser
       '    U_LOCATION'
       'FROM'
       '    "USER" ')
+    object fbntgrfldpfbdtst1U_ID: TFIBIntegerField
+      FieldName = 'U_ID'
+    end
+    object fbstrngfldpfbdtst1U_SER: TFIBStringField
+      FieldName = 'U_SER'
+      Size = 50
+      EmptyStrToNull = True
+    end
+    object fbstrngfldpfbdtst1U_LOCATION: TFIBStringField
+      FieldName = 'U_LOCATION'
+      Size = 50
+      EmptyStrToNull = True
+    end
   end
 end

@@ -1,5 +1,6 @@
 inherited frmUserBrunch: TfrmUserBrunch
   Caption = 'frmUserBrunch'
+  OldCreateOrder = True
   PixelsPerInch = 96
   TextHeight = 13
   inherited pnl1: TPanel
@@ -56,5 +57,13 @@ inherited frmUserBrunch: TfrmUserBrunch
       '    UB_SER_RUNCH'
       'FROM'
       '    USER_BRUNCH ')
+    object fbntgrfldpfbdtst1UB_ID: TFIBIntegerField
+      FieldName = 'UB_ID'
+    end
+    object fbstrngfldpfbdtst1UB_SER_RUNCH: TFIBStringField
+      FieldName = 'UB_SER_RUNCH'
+      Size = 50
+      EmptyStrToNull = True
+    end
   end
 end

@@ -5,14 +5,16 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, ChaildFrm, ActnList, DB, FIBDataSet, pFIBDataSet, Menus,
-  ComCtrls, StdCtrls, Buttons, ExtCtrls, Grids, DBGrids;
+  ComCtrls, StdCtrls, Buttons, ExtCtrls, Grids, DBGrids, fib;
 
 type
   TfrmUserBrunch = class(TChaildForm)
     edtUserBrunch: TEdit;
     lbl1: TLabel;
+    fbntgrfldpfbdtst1UB_ID: TFIBIntegerField;
+    fbstrngfldpfbdtst1UB_SER_RUNCH: TFIBStringField;
     procedure FormCreate(Sender: TObject);
-    procedure btnSaveClick(Sender: TObject);
+    procedure btnSaveClick(Sender: TObject); override;
   private
     { Private declarations }
   public

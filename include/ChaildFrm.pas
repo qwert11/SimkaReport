@@ -17,8 +17,6 @@ type
   TTextAlign = (taRight);
 
   TEditTextRight = class(TEdit)
-  private
-    FTextAlign: TTextAlign;
   protected
     procedure CreateParams(var Params: TCreateParams); override;
   end;
@@ -48,6 +46,8 @@ type
     actEdit: TAction;
     actDelete: TAction;
     actSave: TAction;
+    actClearAll: TAction;
+    mniClearAll: TMenuItem;
     procedure FormCreate(Sender: TObject);
     procedure Edit1Click(Sender: TObject);
     procedure Insert1Click(Sender: TObject);
@@ -59,6 +59,7 @@ type
     procedure actSaveUpdate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
+    procedure actClearAllExecute(Sender: TObject);
   private
     { Private declarations }
     procedure NullAllField;
@@ -257,13 +258,6 @@ const
   CheckInput = 'Заполните все поля';
 var
   I: Integer;
-{$IFDEF TESTMODE}
-  pList: TStrings;
-  PropList: PPropList;
-  PropInfo: PPropInfo;
-  PropCount, Sise: Integer;
-
-{$ENDIF}
 begin
   case FEditorState of
     esEdit, esInsert: begin
@@ -316,5 +310,10 @@ begin
   Params.Style := Params.Style or ES_CENTER;
 end;     
 
+
+procedure TChaildForm.actClearAllExecute(Sender: TObject);
+begin
+  //
+end;
 
 end.

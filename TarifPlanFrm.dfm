@@ -1,5 +1,5 @@
 inherited frmTarifPlan: TfrmTarifPlan
-  Left = 461
+  Left = 491
   Top = 222
   Width = 725
   Height = 422

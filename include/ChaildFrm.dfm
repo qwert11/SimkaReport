@@ -22,7 +22,7 @@ object ChaildForm: TChaildForm
     Left = 0
     Top = 0
     Width = 472
-    Height = 245
+    Height = 253
     Align = alClient
     DataSource = ds1
     PopupMenu = pm1
@@ -36,7 +36,7 @@ object ChaildForm: TChaildForm
   end
   object pnl1: TPanel
     Left = 0
-    Top = 245
+    Top = 253
     Width = 472
     Height = 90
     Align = alBottom
@@ -85,7 +85,7 @@ object ChaildForm: TChaildForm
   end
   object stat1: TStatusBar
     Left = 0
-    Top = 335
+    Top = 343
     Width = 472
     Height = 19
     Panels = <
@@ -113,6 +113,9 @@ object ChaildForm: TChaildForm
     object Delete1: TMenuItem
       Caption = 'Delete'
       OnClick = Delete1Click
+    end
+    object mniClearAll: TMenuItem
+      Action = actClearAll
     end
   end
   object pm1: TPopupMenu
@@ -164,6 +167,11 @@ object ChaildForm: TChaildForm
       Caption = #1057#1086#1093#1088#1072#1085#1080#1090#1100
       OnExecute = btnSaveClick
       OnUpdate = actSaveUpdate
+    end
+    object actClearAll: TAction
+      Caption = 'Clear All'
+      Hint = #1054#1095#1080#1089#1090#1080#1090#1100' '#1090#1072#1073#1083#1080#1094#1091
+      OnExecute = actClearAllExecute
     end
   end
 end

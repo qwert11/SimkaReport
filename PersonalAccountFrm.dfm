@@ -1,5 +1,6 @@
 inherited frmPersonalAccount: TfrmPersonalAccount
   Caption = 'frmPersonalAccount'
+  OldCreateOrder = True
   PixelsPerInch = 96
   TextHeight = 13
   inherited pnl1: TPanel
@@ -56,5 +57,14 @@ inherited frmPersonalAccount: TfrmPersonalAccount
       '    PA_RSNL_CNT'
       'FROM'
       '    PRCNL_ACNT ')
+    Active = True
+    object fbntgrfldpfbdtst1PA_ID: TFIBIntegerField
+      FieldName = 'PA_ID'
+    end
+    object fbstrngfldpfbdtst1PA_RSNL_CNT: TFIBStringField
+      FieldName = 'PA_RSNL_CNT'
+      Size = 50
+      EmptyStrToNull = True
+    end
   end
 end

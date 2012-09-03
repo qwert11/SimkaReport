@@ -14,14 +14,14 @@ type
     lbl1: TLabel;
     lbl2: TLabel;
     btnLinkRadio: TSpeedButton;
-    fbntgrfldpfbdtst1SID: TFIBIntegerField;
-    fpfbdtst1S_NUMBER: TFIBStringField;
-    fbntgrfldpfbdtst1S_LINK_RADIO: TFIBIntegerField;
-    fbntgrfldpfbdtst1S_OPERATOR: TFIBIntegerField;
     btnOperator: TSpeedButton;
     cbbOperator: TDBLookupComboboxEh;
     lbl3: TLabel;
     cbbLinkRadio: TDBLookupComboboxEh;
+    pfbdtst1SID: TFIBIntegerField;
+    pfbdtst1S_NUMBER: TFIBStringField;
+    pfbdtst1S_LINK_RADIO: TFIBIntegerField;
+    pfbdtst1S_OPERATOR: TFIBIntegerField;
     procedure btnSaveClick(Sender: TObject); override;
     procedure btnLinkRadioClick(Sender: TObject);
     procedure edtNumberKeyPress(Sender: TObject; var Key: Char);

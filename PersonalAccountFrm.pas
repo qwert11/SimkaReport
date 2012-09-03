@@ -5,12 +5,14 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, ChaildFrm, ActnList, DB, FIBDataSet, pFIBDataSet, Menus,
-  ComCtrls, StdCtrls, Buttons, ExtCtrls, Grids, DBGrids;
+  ComCtrls, StdCtrls, Buttons, ExtCtrls, Grids, DBGrids, fib;
 
 type
   TfrmPersonalAccount = class(TChaildForm)
     edtPersonalAccount: TEdit;
     lbl1: TLabel;
+    fbntgrfldpfbdtst1PA_ID: TFIBIntegerField;
+    fbstrngfldpfbdtst1PA_RSNL_CNT: TFIBStringField;
     procedure btnSaveClick(Sender: TObject); override;
     procedure FormCreate(Sender: TObject);
   private
@@ -36,11 +38,11 @@ begin
     case FEditorState of
       esEdit: with QUpdate do begin
         ParamByName('P_PA_ID').AsInteger := pfbdtst1.FieldByName('PA_ID').AsInteger;
-        ParamByName('P_PA_RSNL_CNT').Value := edtPartCall.Text;
+        ParamByName('P_PA_RSNL_CNT').Value := edtPersonalAccount.Text;
       end;
 
       esInsert: with QInsert do begin
-        ParamByName('P_PA_RSNL_CNT').Value := edtPartCall.Text;
+        ParamByName('P_PA_RSNL_CNT').Value := edtPersonalAccount.Text;
       end;
 
       esDelete: with QDelete do begin
