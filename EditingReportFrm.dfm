@@ -1,8 +1,8 @@
 object frmEditingReport: TfrmEditingReport
-  Left = 193
-  Top = 206
-  Width = 1061
-  Height = 481
+  Left = 272
+  Top = 374
+  Width = 1364
+  Height = 527
   Caption = 'frmEditingReport'
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -19,8 +19,8 @@ object frmEditingReport: TfrmEditingReport
   TextHeight = 13
   object stat1: TStatusBar
     Left = 0
-    Top = 408
-    Width = 1053
+    Top = 462
+    Width = 1356
     Height = 19
     Panels = <
       item
@@ -36,8 +36,8 @@ object frmEditingReport: TfrmEditingReport
   object dbgrdhRepSIM: TDBGridEh
     Left = 0
     Top = 0
-    Width = 814
-    Height = 408
+    Width = 1117
+    Height = 462
     Align = alClient
     DataGrouping.GroupLevels = <>
     DataSource = ds1
@@ -129,6 +129,7 @@ object frmEditingReport: TfrmEditingReport
         EditButtons = <>
         FieldName = 'cRS_PUK1'
         Footers = <>
+        Width = 58
       end
       item
         EditButtons = <>
@@ -140,15 +141,20 @@ object frmEditingReport: TfrmEditingReport
         EditButtons = <>
         FieldName = 'cRS_ReportDay'
         Footers = <>
+      end
+      item
+        EditButtons = <>
+        FieldName = 'cRS_BalanceSum'
+        Footers = <>
       end>
     object RowDetailData: TRowDetailPanelControlEh
     end
   end
   object pnl1: TPanel
-    Left = 814
+    Left = 1117
     Top = 0
     Width = 239
-    Height = 408
+    Height = 462
     Align = alRight
     TabOrder = 2
     object lbl2: TLabel
@@ -243,7 +249,7 @@ object frmEditingReport: TfrmEditingReport
     object dbctrlgrd1: TDBCtrlGrid
       Left = 8
       Top = 136
-      Width = 233
+      Width = 232
       Height = 216
       DataSource = ds2
       PanelWidth = 216
@@ -297,7 +303,6 @@ object frmEditingReport: TfrmEditingReport
     Top = 264
   end
   object cdsTmpER: TClientDataSet
-    Active = True
     Aggregates = <>
     FieldDefs = <
       item
@@ -368,6 +373,14 @@ object frmEditingReport: TfrmEditingReport
       item
         Name = 'cRS_ReportDay'
         DataType = ftDate
+      end
+      item
+        Name = 'cRS_BalanceSum'
+        DataType = ftCurrency
+      end
+      item
+        Name = 'cRB_Sum'
+        DataType = ftCurrency
       end>
     IndexDefs = <>
     FetchOnDemand = False
@@ -376,20 +389,6 @@ object frmEditingReport: TfrmEditingReport
     BeforePost = cdsTmpERBeforePost
     Left = 48
     Top = 232
-    Data = {
-      840100009619E0BD010000001800000010000000000003000000840106635253
-      5F49440400010000000000066352535F496E0400010000000000076352535F53
-      4D530400010000000000096352535F4F776E6572040001000000000009635253
-      5F53696D6B6104000100000000000D6352535F5461726966506C616E04000100
-      000000000A6352535F5374617475730100490000000100055749445448020002
-      0001000B6352535F42616C616E63650400010000000000086352535F55736572
-      04000100000000000E6352535F557365724272756E636804000100000000000C
-      6352535F5061727443616C6C04000100000000000D6352535F4966496E737461
-      6C6C01004900000001000557494454480200020001000B6352535F4943435F53
-      494D0100490000000100055749445448020002001900086352535F50554B3101
-      00490000000100055749445448020002001400086352535F50554B3201004900
-      000001000557494454480200020014000D6352535F5265706F72744461790400
-      0600000000000000}
     object intgrfldTmpERcRS_ID: TIntegerField
       FieldName = 'cRS_ID'
     end
@@ -440,6 +439,51 @@ object frmEditingReport: TfrmEditingReport
     end
     object dtfldTmpERcRS_ReportDay: TDateField
       FieldName = 'cRS_ReportDay'
+    end
+    object crncyfldTmpERcRB_Sum: TCurrencyField
+      FieldKind = fkInternalCalc
+      FieldName = 'cRB_Sum'
+      OnGetText = crncyfldTmpERcRB_SumGetText
+    end
+    object strngfldTmpERIn: TStringField
+      FieldKind = fkLookup
+      FieldName = 'In'
+      LookupDataSet = frmDevice.pfbdtst1
+      LookupKeyFields = 'DID'
+      LookupResultField = 'D_NUM'
+      KeyFields = 'cRS_In'
+      Size = 70
+      Lookup = True
+    end
+    object strngfldTmpEROwner: TStringField
+      FieldKind = fkLookup
+      FieldName = 'Owner'
+      LookupDataSet = frmOwner.pfbdtst1
+      LookupKeyFields = 'OID'
+      LookupResultField = 'O_NAME'
+      KeyFields = 'cRS_Owner'
+      Size = 50
+      Lookup = True
+    end
+    object strngfldTmpERSimka: TStringField
+      FieldKind = fkLookup
+      FieldName = 'Simka'
+      LookupDataSet = frmSimka.pfbdtst1
+      LookupKeyFields = 'SID'
+      LookupResultField = 'S_NUMBER'
+      KeyFields = 'cRS_Simka'
+      Size = 100
+      Lookup = True
+    end
+    object strngfldTmpERTarifPlan: TStringField
+      FieldKind = fkLookup
+      FieldName = 'TarifPlan'
+      LookupDataSet = frmTarifPlan.pfbdtst1
+      LookupKeyFields = 'TPID'
+      LookupResultField = 'TP_NAME'
+      KeyFields = 'cRS_TarifPlan'
+      Size = 100
+      Lookup = True
     end
   end
   object actlst1: TActionList
@@ -525,7 +569,6 @@ object frmEditingReport: TfrmEditingReport
     Top = 264
   end
   object cdsTmpErBc: TClientDataSet
-    Active = True
     Aggregates = <>
     FieldDefs = <
       item
@@ -541,10 +584,6 @@ object frmEditingReport: TfrmEditingReport
     StoreDefs = True
     Left = 184
     Top = 232
-    Data = {
-      4E0000009619E0BD0100000018000000020000000000030000004E0004635355
-      4D080004000000010007535542545950450200490006004D6F6E6579000A6350
-      72736E6C41636E7404000100000000000000}
     object crncyfldTmpErBccSUM: TCurrencyField
       FieldName = 'cSUM'
     end

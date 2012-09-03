@@ -75,6 +75,11 @@ type
     strngfldTmpERcRS_PUK1: TStringField;
     strngfldTmpERcRS_PUK2: TStringField;
     dtfldTmpERcRS_ReportDay: TDateField;
+    crncyfldTmpERcRB_Sum: TCurrencyField;
+    strngfldTmpERIn: TStringField;
+    strngfldTmpEROwner: TStringField;
+    strngfldTmpERSimka: TStringField;
+    strngfldTmpERTarifPlan: TStringField;
     procedure tmr1Timer(Sender: TObject);
     procedure FormActivate(Sender: TObject);
     procedure dbgrdhRepSIMKeyPress(Sender: TObject; var Key: Char);
@@ -96,6 +101,8 @@ type
       State: TGridDrawState);
     procedure actApplyExecute(Sender: TObject);
     procedure actApplyUpdate(Sender: TObject);
+    procedure crncyfldTmpERcRB_SumGetText(Sender: TField; var Text: String;
+      DisplayText: Boolean);
   private
     { Private declarations }
     FEditingReport: TEditingReport;
@@ -111,7 +118,7 @@ var
 implementation
 
 uses CustomerGlobals, MainFrm, DM_, CustomerFunctions,
-  OwnerFrm, SimkaFrm, TarifPlanFrm, DeviceFrm;
+  OwnerFrm, SimkaFrm, TarifPlanFrm, DeviceFrm, UsersFrm;
 
 const
   PNL_INF_STAT_EDIT = 0;
@@ -238,6 +245,8 @@ begin
                 strngfldTmpERcRS_PUK1.Value := FieldByName('RS_PUK1').AsString;
                 strngfldTmpERcRS_PUK2.Value := FieldByName('RS_PUK2').AsString;
 
+                crncyfldTmpERcRB_Sum.Value := FieldByName('RB_SUM').Value;
+
                 cdsTmpER.Post;
                 Next;
               except
@@ -274,7 +283,7 @@ begin
   CloseAllCombobox(Self)
 end;
 
-// окно редактирования показывать?  
+// показать окно редактирования 
 procedure TfrmEditingReport.actEditUpdate(Sender: TObject);
 begin
   with dbgrdhRepSIM.Columns[dbgrdhRepSIM.SelectedIndex] do
@@ -607,6 +616,15 @@ end;
 procedure TfrmEditingReport.actApplyUpdate(Sender: TObject);
 begin
   actApply.Enabled := (cdsTmpER.State = dsEdit) or (cdsTmpER.State =  dsInsert)
+end;
+
+procedure TfrmEditingReport.crncyfldTmpERcRB_SumGetText(Sender: TField;
+  var Text: String; DisplayText: Boolean);
+begin
+  if VarIsNull(intgrfldTmpERcRS_Balance.Value) then
+    Text := VarToStr(cdsTmpErBc.Lookup('cPrsnlAcnt', intgrfldTmpERcRS_Balance.Value, []))
+  else
+    Text := crncyfldTmpERcRS_BalanceSum.AsString
 end;
 
 end.
