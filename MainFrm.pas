@@ -6,7 +6,8 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, IniFiles, DBGridEhGrouping, ExtCtrls, GridsEh, DBGridEh,
   ActnList, Menus, StdCtrls, DB, DBTables, BDE, DBXpress,
-  fib, ComCtrls, EditingReportFrm, FIBDatabase, pFIBDatabase;
+  fib, ComCtrls, EditingReportFrm, FIBDatabase, pFIBDatabase, FIBQuery,
+  pFIBQuery;
 
 type
   TfrmMain = class(TForm)
@@ -39,6 +40,7 @@ type
     btnAutentification: TButton;
     actAutentification: TAction;
     trnUpdate: TpFIBTransaction;
+    pfbqryUpdate: TpFIBQuery;
     procedure FormCreate(Sender: TObject);
     procedure actEditUpdate(Sender: TObject);
     procedure actInsertExecute(Sender: TObject);
@@ -228,8 +230,10 @@ begin
     Exit;
 
   trnUpdate.StartTransaction;
+  with pfbqryUpdate, dbgrdh1.DataSource.DataSet do
   try
-    with dbgrdh1.DataSource.DataSet do
+    pfbqryUpdate.Close;
+    
     case AEdit of
       erEdit: begin
         EditingReport := TfrmEditingReport.Create(Self, erEdit);
@@ -237,11 +241,7 @@ begin
         Filtered := True;
         try
           EditingReport.ShowModal;
-          if EditingReport.ModalResult = mrOk then begin
-            trnUpdate.Commit;
-            Close;
-            Open end
-          else
+          if EditingReport.ModalResult <> mrOk then
             raise EAbort.Create('отмена редактирования');
         finally
           Filtered := False;
@@ -253,11 +253,7 @@ begin
         EditingReport := TfrmEditingReport.Create(Self, erInsert);
         try
           EditingReport.ShowModal;
-          if EditingReport.ModalResult = mrOk then begin
-            trnUpdate.Commit;
-            Close;
-            Open end
-          else
+          if EditingReport.ModalResult <> mrOk then
             raise EAbort.Create('отмена редактирования');
         finally
           EditingReport.Free
@@ -268,23 +264,23 @@ begin
         if MessageDlg('Вы действительно хотите удалить запись', mtWarning,
             mbOKCancel, 0) <> mrOk then
           Exit;
-        with DM, pfbqryDelete, pfbtrnsctn1 do
+          
         try
-          Close;
-          if pfbdtstView.IsEmpty then
-            raise EAbort.Create('Пустая таблица');
-          DateReport := fbdtfldViewRD_DATE.Value;  conec
-          ParamByName('P_RD_DATE').AsDate := DateReport;
+          SQL.Text :=
+            'DELETE FROM REPORT_DAY ' +
+            'WHERE ' +
+            'RD_DATE = ''' + DM.fbdtfldViewRD_DATE.AsString + '''';
           ExecQuery;
-          CommitRetaining;
-          Close;
-          pfbdtstView.Close;
-          pfbdtstView.Open;
         except
           raise Exception.Create('Нельзя удалить запись из пустой таблицы');
         end;
       end;
     end;
+
+    trnUpdate.Commit;
+    trnUpdate.Active := False;
+    Close;
+    Open
   except
     trnUpdate.Rollback;
   end;

@@ -6,7 +6,7 @@ object DM: TDM
   Width = 174
   object DB: TpFIBDatabase
     Connected = True
-    DBName = 'd:\Prog\SimkaReport\SimkaReport.FDB'
+    DBName = 'f:\myProgram\Delphi\SimkaReport\SimkaReport.FDB'
     DBParams.Strings = (
       'password=masterkey'
       'user_name=SYSDBA'
@@ -321,15 +321,5 @@ object DM: TDM
     object fbntgrfldViewRD_RESPONS: TFIBIntegerField
       FieldName = 'RD_RESPONS'
     end
-  end
-  object pfbqryDelete: TpFIBQuery
-    Transaction = pfbtrnsctn1
-    Database = DB
-    SQL.Strings = (
-      'DELETE FROM REPORT_DAY'
-      'WHERE'
-      '    RD_DATE=:P_RD_DATE')
-    Left = 104
-    Top = 112
   end
 end

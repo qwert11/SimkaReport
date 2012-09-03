@@ -1,7 +1,7 @@
 object frmMain: TfrmMain
-  Left = 236
-  Top = 244
-  Width = 1292
+  Left = 0
+  Top = 242
+  Width = 1280
   Height = 486
   Caption = 'SIM'
   Color = clBtnFace
@@ -18,8 +18,8 @@ object frmMain: TfrmMain
   object dbgrdh1: TDBGridEh
     Left = 0
     Top = 0
-    Width = 1284
-    Height = 369
+    Width = 1272
+    Height = 361
     Align = alClient
     DataGrouping.GroupLevels = <>
     DataSource = DM.ds1
@@ -213,13 +213,13 @@ object frmMain: TfrmMain
   end
   object pnl1: TPanel
     Left = 0
-    Top = 369
-    Width = 1284
+    Top = 361
+    Width = 1272
     Height = 52
     Align = alBottom
     TabOrder = 1
     DesignSize = (
-      1284
+      1272
       52)
     object btnNewRecord: TButton
       Left = 24
@@ -294,7 +294,7 @@ object frmMain: TfrmMain
       Visible = False
     end
     object btnAutentification: TButton
-      Left = 1567
+      Left = 1555
       Top = 16
       Width = 55
       Height = 25
@@ -305,8 +305,8 @@ object frmMain: TfrmMain
   end
   object stat1: TStatusBar
     Left = 0
-    Top = 421
-    Width = 1284
+    Top = 413
+    Width = 1272
     Height = 19
     Panels = <
       item
@@ -388,6 +388,12 @@ object frmMain: TfrmMain
     DefaultDatabase = DM.DB
     TimeoutAction = TARollback
     Left = 40
+    Top = 296
+  end
+  object pfbqryUpdate: TpFIBQuery
+    Transaction = trnUpdate
+    Database = DM.DB
+    Left = 80
     Top = 296
   end
 end

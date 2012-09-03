@@ -13,7 +13,6 @@ type
     pfbtrnsView: TpFIBTransaction;
     ds1: TDataSource;
     pfbdtstView: TpFIBDataSet;
-    pfbqryDelete: TpFIBQuery;
     fbdtfldViewRD_DATE: TFIBDateField;
     fbstrngfldViewTP_NAME: TFIBStringField;
     fbcdfldViewTP_ABON_BOARD: TFIBBCDField;

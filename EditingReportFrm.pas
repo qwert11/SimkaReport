@@ -408,9 +408,8 @@ begin
         Exit;
   end;
 
-  with pfbqryUpdate, frmMain.trnUpdate do
+  with pfbqryUpdate do
   try
-    StartTransaction;
     Close;
 
     case FEditingReport of
@@ -508,9 +507,7 @@ begin
         'Обратитесь к разработчику');
     end;
 
-    Commit;
     Close;
-    Active := False;
   except
     on E: Exception do begin
       Rollback;

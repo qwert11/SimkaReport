@@ -1,6 +1,6 @@
 object frmEditingReport: TfrmEditingReport
-  Left = 640
-  Top = 215
+  Left = 136
+  Top = 184
   Width = 1144
   Height = 586
   Caption = 'frmEditingReport'
@@ -19,7 +19,7 @@ object frmEditingReport: TfrmEditingReport
   TextHeight = 13
   object stat1: TStatusBar
     Left = 0
-    Top = 521
+    Top = 513
     Width = 1136
     Height = 19
     Panels = <
@@ -37,7 +37,7 @@ object frmEditingReport: TfrmEditingReport
     Left = 0
     Top = 0
     Width = 897
-    Height = 521
+    Height = 513
     Align = alClient
     DataGrouping.GroupLevels = <>
     DataSource = ds1
@@ -164,7 +164,7 @@ object frmEditingReport: TfrmEditingReport
     Left = 897
     Top = 0
     Width = 239
-    Height = 521
+    Height = 513
     Align = alRight
     TabOrder = 2
     object lbl1: TLabel
@@ -204,7 +204,7 @@ object frmEditingReport: TfrmEditingReport
     object dbctrlgrd1: TDBCtrlGrid
       Left = 8
       Top = 56
-      Width = 233
+      Width = 234
       Height = 216
       DataSource = ds2
       PanelWidth = 217
