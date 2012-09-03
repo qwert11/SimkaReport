@@ -19,7 +19,7 @@ object frmMain: TfrmMain
     Left = 0
     Top = 0
     Width = 1284
-    Height = 361
+    Height = 369
     Align = alClient
     DataGrouping.GroupLevels = <>
     DataSource = DM.ds1
@@ -213,7 +213,7 @@ object frmMain: TfrmMain
   end
   object pnl1: TPanel
     Left = 0
-    Top = 361
+    Top = 369
     Width = 1284
     Height = 52
     Align = alBottom
@@ -305,7 +305,7 @@ object frmMain: TfrmMain
   end
   object stat1: TStatusBar
     Left = 0
-    Top = 413
+    Top = 421
     Width = 1284
     Height = 19
     Panels = <
@@ -383,5 +383,11 @@ object frmMain: TfrmMain
         Action = actDelete
       end
     end
+  end
+  object trnUpdate: TpFIBTransaction
+    DefaultDatabase = DM.DB
+    TimeoutAction = TARollback
+    Left = 40
+    Top = 296
   end
 end

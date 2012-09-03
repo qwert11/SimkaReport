@@ -1,6 +1,6 @@
 object frmEditingReport: TfrmEditingReport
-  Left = 342
-  Top = 250
+  Left = 640
+  Top = 215
   Width = 1144
   Height = 586
   Caption = 'frmEditingReport'
@@ -697,20 +697,13 @@ object frmEditingReport: TfrmEditingReport
       Action = actApply
     end
   end
-  object pfbtrnsctUpdate: TpFIBTransaction
-    DefaultDatabase = DM.DB
-    TimeoutAction = TARollback
-    Left = 104
-    Top = 232
-  end
   object pfbqryUpdate: TpFIBQuery
-    Transaction = pfbtrnsctUpdate
+    Transaction = frmMain.trnUpdate
     Database = DM.DB
     Left = 104
     Top = 264
   end
   object cdsTmpErBc: TClientDataSet
-    Active = True
     Aggregates = <>
     FieldDefs = <
       item
@@ -730,11 +723,6 @@ object frmEditingReport: TfrmEditingReport
     StoreDefs = True
     Left = 184
     Top = 232
-    Data = {
-      5D0000009619E0BD0100000018000000030000000000030000005D0006635242
-      5F49440400010000000000046353554D08000400000001000753554254595045
-      0200490006004D6F6E6579000A635072736E6C41636E74040001000000000000
-      00}
     object intgrfldTmpErBccRB_ID: TIntegerField
       FieldName = 'cRB_ID'
     end

@@ -40,7 +40,6 @@ type
     mniN2: TMenuItem;
     mniDelete1: TMenuItem;
     actSave: TAction;
-    pfbtrnsctUpdate: TpFIBTransaction;
     pfbqryUpdate: TpFIBQuery;
     actApply: TAction;
     mniApply: TMenuItem;
@@ -152,7 +151,7 @@ const
 
 var
   TimerStop: TTime;
-  old_rd_id: Integer; // редактируемая запись ReportDay
+  old_rd_date: TDate; // редактируемая запись ReportDay
 
 {$R *.dfm}
 
@@ -217,7 +216,7 @@ begin
                   Exit;
 
                 // запоминаем редактируемую запись ReportDay
-                old_rd_id := FieldByName('RD_ID').Value;
+                old_rd_date := FieldByName('RD_ID').Value;
                 
                 stat1.Panels[PNL_INF_STAT_EDIT].Text := 'Редактирование записи: ' +
                   FieldByName('RD_ID').AsString;
@@ -409,7 +408,7 @@ begin
         Exit;
   end;
 
-  with pfbqryUpdate, pfbtrnsctUpdate do
+  with pfbqryUpdate, frmMain.trnUpdate do
   try
     StartTransaction;
     Close;
@@ -422,12 +421,8 @@ begin
         Close;
 
         SQL.Text := 'UPDATE REPORT_DAY SET RD_DATE = ''' + DateToStr(dtpDate.Date) + ''', ' +
-            'RD_FINANCE1 = ' + VarToStr(cbbIDAccount1.KeyValue) + ', ' +
-            'RD_FNCE1SUM = ' + ToStrPoint(edtSum1.Text) + ', ' +
-            'RD_FINANCE2 = ' + VarToStr(cbbIDAccount2.KeyValue) + ', ' +
-            'RD_FNCE2SUM = ' + ToStrPoint(edtSum2.Text) + ', ' +
             'RD_RESPONS = ' + IntToStr(user.ID) + ' ' +
-            'WHERE RD_ID = ' + IntToStr(old_rd_id);
+            'WHERE RD_DATE = ' + DateToStr(old_rd_date);
         ExecQuery;
         Close;
 
@@ -435,16 +430,41 @@ begin
         ExecQuery;
         Close;
 
+        with cdsTmpErBc do begin
+          cdsTmpErBc.First;
+          while not Eof do begin
+            pfbqryUpdate.Close;
+            SQL.Text := 'UPDATE REPORT_BALANCE ' +
+                'WHERE RB_ID = '
+            ExecQuery;
+
+            cdsTmpErBc.Next;
+          end;
+        end;
+
         with cdsTmpER do begin
           First;
           while not Eof do begin
             pfbqryUpdate.Close;
-            SQL.Text := 'UPDATE REPORT_SIMKA SET RS_SIMKA = ' + intgrfldTmpERcSimka.AsString + ', ' +
-                'RS_IN = ' + intgrfldTmpERcIn.AsString + ', ' +
-                'RS_SMS = ' + intgrfldTmpERcSMS.AsString + ', ' +
-                'RS_REPORTDAY = ' + IntToStr(old_rd_id) + ', ' +
-                'RS_OWNER = ' + intgrfldTmpERcOwner.AsString + ', ' +
-                'RS_BALANCE = ' + crncyfldTmpERcBalance.AsString + ' ' +
+            SQL.Text := 'UPDATE REPORT_SIMKA SET ' +
+                'RS_IN = ' + intgrfldTmpERcRS_In.AsString + ', ' +
+                'RS_SMS = ' + intgrfldTmpERcRS_SMS.AsString + ', ' +
+                'RS_OWNER = ' + intgrfldTmpERcRS_Owner.AsString + ', ' +
+                'RS_SIMKA = ' + intgrfldTmpERcRS_Simka.AsString + ', ' +
+                'RS_TARIFPLAN = ' + intgrfldTmpERcRS_TarifPlan.AsString + ', ' +
+                'RS_STARUS = ' + strngfldTmpERcRS_Status.AsString + ', ' +
+
+                'RS_BALANCE = ' + crncyfldTmpERcBalance.AsString + ', ' + // не решено
+
+                'RS_USER = ' + intgrfldTmpERcRS_User.AsString + ', ' +
+                'RS_USER_BRUNCH = ' + intgrfldTmpERcRS_UserBrunch.AsString + ', ' +
+                'RS_PART_CALL = ' + intgrfldTmpERcRS_PartCall.AsString + ', ' +
+                'RS_IFINSTALL = ' + strngfldTmpERcRS_IfInstall.AsString + ', ' +
+                'RS_ICC_SIM = ' + strngfldTmpERcRS_ICC_SIM.AsString + ', ' +
+                'RS_PUK1 = ' + strngfldTmpERcRS_PUK1.AsString + ', ' +
+                'RS_PUK2 = ' + strngfldTmpERcRS_PUK2.AsString + ', ' +
+
+                'RS_REPORTDAY = ' + DateToStr(dtpDate.Date) + ' ' +
                 'WHERE RSID = ' + intgrfldTmpERcIDRepSim.AsString;
             ExecQuery;
             Next;
@@ -457,9 +477,8 @@ begin
         ExecQuery;
         Close;
 
-        SQL.Text := 'INSERT INTO REPORT_DAY (RD_DATE, RD_FINANCE1, RD_FNCE1SUM, RD_FINANCE2, RD_FNCE2SUM, RD_RESPONS) VALUES ' +
-            '(''' + DateToStr(dtpDate.Date) + ''',' + VarToStr(cbbIDAccount1.KeyValue) + ', ' + ToStrPoint(edtSum1.Text) + ', ' +
-            VarToStr(cbbIDAccount2.KeyValue) + ', ' + ToStrPoint(edtSum2.Text) + ', ' + IntToStr(user.ID) + ') RETURNING RD_ID';
+        SQL.Text := 'INSERT INTO REPORT_DAY (RD_DATE, RD_RESPONS) VALUES ' +
+            '(''' + DateToStr(dtpDate.Date) + ''',' + IntToStr(user.ID) + ') RETURNING RD_ID';
         {$IFDEF DEBUG}      // TESTMODE
         ShowMessage(SQL.Text);
         Abort;
@@ -479,10 +498,6 @@ begin
                 intgrfldTmpERcSimka.AsString + ', ' + intgrfldTmpERcIn.AsString + ', ' +
                 intgrfldTmpERcSMS.AsString + ', ' + IntToStr(RDB_DB_KEY_LAST_REPORT_DAY) + ', ' +
                 intgrfldTmpERcOwner.AsString + ', ' + crncyfldTmpERcBalance.AsString + ')';
-            {$IFDEF DEBUG}      // TESTMODE
-            ShowMessage(SQL.Text);
-            Abort;
-            {$ENDIF}
             ExecQuery;
             Next;
           end;

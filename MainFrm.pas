@@ -6,7 +6,7 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, IniFiles, DBGridEhGrouping, ExtCtrls, GridsEh, DBGridEh,
   ActnList, Menus, StdCtrls, DB, DBTables, BDE, DBXpress,
-  fib, ComCtrls, EditingReportFrm;
+  fib, ComCtrls, EditingReportFrm, FIBDatabase, pFIBDatabase;
 
 type
   TfrmMain = class(TForm)
@@ -38,6 +38,7 @@ type
     stat1: TStatusBar;
     btnAutentification: TButton;
     actAutentification: TAction;
+    trnUpdate: TpFIBTransaction;
     procedure FormCreate(Sender: TObject);
     procedure actEditUpdate(Sender: TObject);
     procedure actInsertExecute(Sender: TObject);
@@ -226,59 +227,67 @@ begin
   if not CheckAutentification(True) then
     Exit;
 
-  with dbgrdh1.DataSource.DataSet do
-  case AEdit of
-    erEdit: begin
-      EditingReport := TfrmEditingReport.Create(Self, erEdit);
-      Filter := 'RD_DATE = ''' + DM.fbdtfldViewRD_DATE.AsString + '''';
-      Filtered := True;
-      try    
-        EditingReport.ShowModal;
-        if EditingReport.ModalResult = mrOk then begin
-          Close;
-          Open;
+  trnUpdate.StartTransaction;
+  try
+    with dbgrdh1.DataSource.DataSet do
+    case AEdit of
+      erEdit: begin
+        EditingReport := TfrmEditingReport.Create(Self, erEdit);
+        Filter := 'RD_DATE = ''' + DM.fbdtfldViewRD_DATE.AsString + '''';
+        Filtered := True;
+        try
+          EditingReport.ShowModal;
+          if EditingReport.ModalResult = mrOk then begin
+            trnUpdate.Commit;
+            Close;
+            Open end
+          else
+            raise EAbort.Create('отмена редактирования');
+        finally
+          Filtered := False;
+          EditingReport.Free
         end;
-      finally
-        Filtered := False;
-        EditingReport.Free
       end;
-    end;
-    
-    erInsert: begin
-      EditingReport := TfrmEditingReport.Create(Self, erInsert);
-      try
-        EditingReport.ShowModal;
-        if EditingReport.ModalResult = mrOk then begin
-          Close;
-          Open;
-        end;
-      finally
-        EditingReport.Free
-      end;
-    end;
 
-    erDelete: begin
-      if MessageDlg('Вы действительно хотите удалить запись', mtWarning,
-          mbOKCancel, 0) <> mrOk then
-        Exit;
-      with DM, pfbqryDelete, pfbtrnsctn1 do
-      try
-        Close;
-        if pfbdtstView.IsEmpty then
-          raise EAbort.Create('Пустая таблица');
-        DateReport := fbdtfldViewRD_DATE.Value;
-        ParamByName('P_RD_DATE').AsDate := DateReport;
-        ExecQuery;
-        CommitRetaining;
-        Close;
-        pfbdtstView.Close;
-        pfbdtstView.Open;
-      except
-        Rollback;
-        MessageDlg('Нельзя удалить запись из пустой таблицы', mtError, [mbOK], 0);
+      erInsert: begin
+        EditingReport := TfrmEditingReport.Create(Self, erInsert);
+        try
+          EditingReport.ShowModal;
+          if EditingReport.ModalResult = mrOk then begin
+            trnUpdate.Commit;
+            Close;
+            Open end
+          else
+            raise EAbort.Create('отмена редактирования');
+        finally
+          EditingReport.Free
+        end;
+      end;
+
+      erDelete: begin
+        if MessageDlg('Вы действительно хотите удалить запись', mtWarning,
+            mbOKCancel, 0) <> mrOk then
+          Exit;
+        with DM, pfbqryDelete, pfbtrnsctn1 do
+        try
+          Close;
+          if pfbdtstView.IsEmpty then
+            raise EAbort.Create('Пустая таблица');
+          DateReport := fbdtfldViewRD_DATE.Value;  conec
+          ParamByName('P_RD_DATE').AsDate := DateReport;
+          ExecQuery;
+          CommitRetaining;
+          Close;
+          pfbdtstView.Close;
+          pfbdtstView.Open;
+        except
+          raise Exception.Create('Нельзя удалить запись из пустой таблицы');
+        end;
       end;
     end;
-  end;    
+  except
+    trnUpdate.Rollback;
+  end;
 end;
 
 end.
