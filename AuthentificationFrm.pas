@@ -44,7 +44,7 @@ begin
       'Не отчаивайтесь. Попробуйте зайти завтра. ;-)');
     Exit;
   end;
-  {$IFDEF NOT TESTMODE}
+  {$IFNDEF TESTMODE}
   with frmAuthorization, user do begin
     if  (edtPassword.Text <> fpfbdtst1A_LOGIN.Value) or
         (cbbLogin.KeyValue <> fbntgrfldpfbdtst1A_ID.Value) then begin

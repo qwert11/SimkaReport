@@ -117,13 +117,17 @@ end;
 
 procedure TfrmMain.actInsertUpdate(Sender: TObject);
 begin
+{$IFNDEF TESTMODE}
   (Sender as TAction).Enabled := CheckAutentification
+{$ENDIF}
 end;
 
 procedure TfrmMain.actEditUpdate(Sender: TObject);
 begin
+{$IFNDEF TESTMODE}
   (Sender as TAction).Enabled :=
     not dbgrdh1.DataSource.DataSet.Eof and CheckAutentification
+{$ENDIF}
 end;
 
 procedure TfrmMain.btnFinanceClick(Sender: TObject);
@@ -224,10 +228,11 @@ end;
 procedure TfrmMain.SetEditReport(AEdit: TEditingReport);
 var
   EditingReport: TfrmEditingReport;
-  DateReport: TDate;
 begin
+{$IFNDEF TESTMODE}
   if not CheckAutentification(True) then
     Exit;
+{$ENDIF}
 
   trnUpdate.StartTransaction;
   with pfbqryUpdate, dbgrdh1.DataSource.DataSet do

@@ -1,6 +1,6 @@
 object frmEditingReport: TfrmEditingReport
-  Left = 136
-  Top = 184
+  Left = 389
+  Top = 164
   Width = 1144
   Height = 586
   Caption = 'frmEditingReport'
@@ -19,7 +19,7 @@ object frmEditingReport: TfrmEditingReport
   TextHeight = 13
   object stat1: TStatusBar
     Left = 0
-    Top = 513
+    Top = 521
     Width = 1136
     Height = 19
     Panels = <
@@ -37,7 +37,7 @@ object frmEditingReport: TfrmEditingReport
     Left = 0
     Top = 0
     Width = 897
-    Height = 513
+    Height = 521
     Align = alClient
     DataGrouping.GroupLevels = <>
     DataSource = ds1
@@ -164,7 +164,7 @@ object frmEditingReport: TfrmEditingReport
     Left = 897
     Top = 0
     Width = 239
-    Height = 513
+    Height = 521
     Align = alRight
     TabOrder = 2
     object lbl1: TLabel
@@ -202,9 +202,9 @@ object frmEditingReport: TfrmEditingReport
       Kind = bkCancel
     end
     object dbctrlgrd1: TDBCtrlGrid
-      Left = 8
+      Left = 0
       Top = 56
-      Width = 234
+      Width = 233
       Height = 216
       DataSource = ds2
       PanelWidth = 217
@@ -533,7 +533,6 @@ object frmEditingReport: TfrmEditingReport
     end
     object crncyfldTmpERcRB_Sum: TCurrencyField
       FieldName = 'cRB_Sum'
-      OnGetText = crncyfldTmpERcRB_SumGetText
     end
     object crncyfldTmpERcC_RB_SUM: TCurrencyField
       FieldName = 'cC_RB_SUM'
@@ -697,12 +696,6 @@ object frmEditingReport: TfrmEditingReport
       Action = actApply
     end
   end
-  object pfbqryUpdate: TpFIBQuery
-    Transaction = frmMain.trnUpdate
-    Database = DM.DB
-    Left = 104
-    Top = 264
-  end
   object cdsTmpErBc: TClientDataSet
     Aggregates = <>
     FieldDefs = <
@@ -718,9 +711,15 @@ object frmEditingReport: TfrmEditingReport
         Name = 'cPrsnlAcnt'
         DataType = ftInteger
       end>
-    IndexDefs = <>
+    IndexDefs = <
+      item
+        Name = 'cdsTmpErBcIndex1'
+        Fields = 'cPrsnlAcnt'
+        Options = [ixUnique]
+      end>
     Params = <>
     StoreDefs = True
+    AfterPost = cdsTmpErBcAfterPost
     Left = 184
     Top = 232
     object intgrfldTmpErBccRB_ID: TIntegerField
