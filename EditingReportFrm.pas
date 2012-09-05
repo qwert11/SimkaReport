@@ -7,7 +7,8 @@ uses
   Dialogs, ExtCtrls, ComCtrls, DBGridEh, StdCtrls, Mask, DBCtrlsEh,
   DBLookupEh, pFIBDataSet, DBGridEhGrouping, GridsEh, Grids,
   MemTableDataEh, Db, DataDriverEh, DBClient, DBGrids, MConnect, ActnList,
-  Menus, Buttons, FIBQuery, pFIBQuery, FIBDatabase, pFIBDatabase, dbcgrids;
+  Menus, Buttons, FIBQuery, pFIBQuery, FIBDatabase, pFIBDatabase, dbcgrids,
+  DBCtrls;
 
 type
   TEditingReport = (erEdit, erInsert, erDelete);
@@ -25,7 +26,7 @@ type
     cdsTmpER: TClientDataSet;
     actlst1: TActionList;
     actInsert: TAction;
-    actEdit: TAction;
+    actEditField: TAction;
     actDelete: TAction;
     pm1: TPopupMenu;
     mniInsert: TMenuItem;
@@ -47,7 +48,6 @@ type
     dbctrlgrd1: TDBCtrlGrid;
     lbl4: TLabel;
     lbl5: TLabel;
-    edtSumMony: TDBNumberEditEh;
     intgrfldTmpERcRS_ID: TIntegerField;
     intgrfldTmpERcRS_In: TIntegerField;
     intgrfldTmpERcC_RS_In: TIntegerField;
@@ -96,18 +96,21 @@ type
     intgrfldTmpErBccPrsnlAcnt: TIntegerField;
     strngfldTmpErBcPrsnlAcnt: TStringField;
     cbbIDAccount: TDBComboBoxEh;
+    mniN3: TMenuItem;
+    mniSave: TMenuItem;
+    edtSUM: TDBEditEh;
+    actPrsnlAcnt: TAction;
+    dbnvgrBalance: TDBNavigator;
     procedure tmr1Timer(Sender: TObject);
     procedure FormActivate(Sender: TObject);
     procedure dbgrdhRepSIMKeyPress(Sender: TObject; var Key: Char);
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
-    procedure actEditUpdate(Sender: TObject);
-    procedure actEditExecute(Sender: TObject);
+    procedure actEditFieldUpdate(Sender: TObject);
+    procedure actEditFieldExecute(Sender: TObject);
     procedure actSaveExecute(Sender: TObject);
     procedure actSaveUpdate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
-    function CheckRepSimRecord(ShowWarning: Boolean = True): Boolean;
-    procedure ShowsWarning(SG: TDBGridEh; F: TField;
-      InPnl: TStatusPanel; AMsg: string);
+
     procedure cdsTmpERBeforePost(DataSet: TDataSet);
     procedure dbgrdhRepSIMDrawColumnCell(Sender: TObject;
       const Rect: TRect; DataCol: Integer; Column: TColumnEh;
@@ -115,9 +118,17 @@ type
     procedure actApplyExecute(Sender: TObject);
     procedure actApplyUpdate(Sender: TObject);
     procedure cdsTmpErBcAfterPost(DataSet: TDataSet);
+    procedure cdsTmpErBcBeforePost(DataSet: TDataSet);
+    procedure actInsertExecute(Sender: TObject);
+    procedure actInsertUpdate(Sender: TObject);
+    procedure actPrsnlAcntExecute(Sender: TObject);
   private
     { Private declarations }
     FEditingReport: TEditingReport;
+    function CheckField(F: TField; ShowWarning: Boolean = True): Boolean;
+    function CheckRepSimRecord(ShowWarning: Boolean = True): Boolean;
+    function CheckRepBalanceRecord(ShowWarning: Boolean = True): Boolean;
+    procedure ShowsWarningStat1(F: TField; AMsg: string);
   public
     { Public declarations }
     constructor Create(AOwner: TComponent;
@@ -316,7 +327,7 @@ procedure TfrmEditingReport.dbgrdhRepSIMKeyPress(Sender: TObject;
   var Key: Char);
 begin
   if Ord(Key) = VK_RETURN then
-    actEditExecute(nil);
+    actEditFieldExecute(nil);
 end;
 
 procedure TfrmEditingReport.FormCloseQuery(Sender: TObject;
@@ -326,14 +337,14 @@ begin
 end;
 
 // показать окно редактировани€ 
-procedure TfrmEditingReport.actEditUpdate(Sender: TObject);
+procedure TfrmEditingReport.actEditFieldUpdate(Sender: TObject);
 begin
   with dbgrdhRepSIM.Columns[dbgrdhRepSIM.SelectedIndex] do
       (Sender as TAction).Enabled := (FieldName = FN_ER_LOOKUP_SIMKA) or
       (FieldName = FN_ER_LOOKUP_DEVICE) or (FieldName = FN_ER_LOOKUP_OWNER);
 end;
 
-procedure TfrmEditingReport.actEditExecute(Sender: TObject);
+procedure TfrmEditingReport.actEditFieldExecute(Sender: TObject);
 begin
   with dbgrdhRepSIM.Columns[dbgrdhRepSIM.SelectedIndex] do
     if (FieldName = FN_ER_LOOKUP_SIMKA) or (FieldName = FN_ER_LOOKUP_DEVICE) or
@@ -396,14 +407,13 @@ begin
     cdsTmpER.First;
 
     with cdsTmpER do
-    while not Eof do begin
+    while not Eof do
       if Locate('cRB_Prsnl_Acnt', intgrfldTmpErBccPrsnlAcnt.Value, []) then
         Next
       else begin
         Exit;
       end;
-
-    end;
+      
     cdsTmpErBc.Next;
   end;
 
@@ -609,26 +619,25 @@ begin
     cdsTmpErBc.EmptyDataSet;
 end;
 
+function TfrmEditingReport.CheckField(F: TField; ShowWarning: Boolean = True): Boolean;
+begin
+  Result := True;
+  if VarIsNull(F.AsVariant) then
+    Result := False;
+  if F is TCurrencyField then
+    if not TestFloat(F.AsString) then
+      Result := False;
+  if F is TIntegerField then
+    if not TestFloat(F.AsString) then
+      Result := False;
+  if (not Result) and ShowWarning then
+    ShowsWarningStat1(F, 'Ќе верно!!!');
+end;
 
 { DONE 5 -oBeforePost -cCheck :
 post в Insert(первом) и Insert(копирован€ посл.данных) и Edit из ReportSim и добавление пользователем  данных }
 // проверка записи
 function TfrmEditingReport.CheckRepSimRecord(ShowWarning: Boolean = True): Boolean;
-
-  function CheckField(F: TField): Boolean;
-  begin
-    Result := True;
-    if VarIsNull(F.AsVariant) then
-      Result := False;
-    if F is TCurrencyField then
-      if not TestFloat(F.AsString) then
-        Result := False;
-    if F is TIntegerField then
-      if not TestFloat(F.AsString) then
-        Result := False;
-    if (not Result) and ShowWarning then
-      ShowsWarning(dbgrdhRepSIM, F, stat1.Panels[PNL_INF_TIMER], 'Ќе верно!!!');
-  end;
 begin
   Result := False;
   if not CheckField(intgrfldTmpERcRS_Simka) then Exit;
@@ -640,12 +649,27 @@ begin
   Result := True;
 end;
 
+
+function TfrmEditingReport.CheckRepBalanceRecord(
+  ShowWarning: Boolean): Boolean;
+begin
+  Result := False;
+  if not CheckField(crncyfldTmpErBccSUM) then Exit;
+  Result := True;
+end;
+
 { TODO -oFormActive -cCheck  : где - то EOF помен€ть на IsEmpty }
 
 procedure TfrmEditingReport.cdsTmpERBeforePost(DataSet: TDataSet);
 begin
   if not CheckRepSimRecord then
     Abort;
+end;
+
+procedure TfrmEditingReport.cdsTmpErBcBeforePost(DataSet: TDataSet);
+begin
+  if not CheckRepBalanceRecord then
+    Abort
 end;
 { TODO 1 : apply }
 { TODO 5 -cCheck : различи€ выделить цветом (разные дл€ edit и insert)}
@@ -712,8 +736,7 @@ begin
   )
 end;
 
-procedure TfrmEditingReport.ShowsWarning(SG: TDBGridEh; F: TField;
-  InPnl: TStatusPanel; AMsg: string);
+procedure TfrmEditingReport.ShowsWarningStat1(F: TField; AMsg: string);
 const
   COUNT_SHOWS = 3;
 var
@@ -722,11 +745,12 @@ begin
   tmr1.Enabled := False;
   try
     for I := 1 to COUNT_SHOWS do begin
-      InPnl.Text :=
-        SG.FieldColumns[F.FieldName].Title.Caption + AMsg;
+      //dbgrdhRepSIM.FindFieldColumn()
+      stat1.Panels[PNL_INF_TIMER].Text := F.FieldName + ': ' + AMsg;           
+        //dbgrdhRepSIM.FieldColumns[F.FieldName].Title.Caption + ': ' + AMsg;
       //stat1.Refresh;
       Delay(400);
-      InPnl.Text := '';
+      stat1.Panels[PNL_INF_TIMER].Text := '';
       //stat1.Refresh;
       Delay(100);
     end;
@@ -745,6 +769,37 @@ begin
       else
         crncyfldTmpERcRB_Sum.AsVariant := null;
     cdsTmpErBc.Next;
+  end;
+end;
+
+
+procedure TfrmEditingReport.actInsertExecute(Sender: TObject);
+begin
+  if (Sender is TDBGridEh) then
+    (Sender as TDBGridEh).DataSource.DataSet.Insert;
+  if (Sender is TDBCtrlGrid) then
+    (Sender as TDBCtrlGrid).DataSource.DataSet.Insert;
+end;
+
+procedure TfrmEditingReport.actInsertUpdate(Sender: TObject);
+begin
+  actInsert.Enabled :=
+      ((cdsTmpER.State <> dsEdit) and (cdsTmpER.State <> dsInsert))
+      and
+      ((cdsTmpErBc.State <> dsEdit) and (cdsTmpErBc.State <> dsInsert))
+end;
+
+procedure TfrmEditingReport.actPrsnlAcntExecute(Sender: TObject);
+begin
+  frmPersonalAccount.ShowModal;
+  with frmPersonalAccount, cdsTmpErBc do
+  if ModalResult = mrOK then begin
+    if not (State in [dsEdit, dsInsert]) then
+      if IsEmpty then
+        Insert
+      else
+        Edit;
+    intgrfldTmpErBccPrsnlAcnt.Value := fbntgrfldpfbdtst1PA_ID.Value
   end;
 end;
 

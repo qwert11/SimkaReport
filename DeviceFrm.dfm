@@ -101,7 +101,6 @@ inherited frmDevice: TfrmDevice
       '    D_TITLE'
       'FROM'
       '    DEVICE ')
-    Active = True
     object pfbdtst1DID: TFIBIntegerField
       FieldName = 'DID'
       Origin = 'DEVICE.DID'

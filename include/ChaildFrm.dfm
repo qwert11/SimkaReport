@@ -12,6 +12,7 @@ object ChaildForm: TChaildForm
   Font.Style = []
   Menu = mm1
   OldCreateOrder = False
+  OnActivate = FormActivate
   OnCloseQuery = FormCloseQuery
   OnCreate = FormCreate
   OnDestroy = FormDestroy
@@ -138,6 +139,15 @@ object ChaildForm: TChaildForm
     end
   end
   object pfbdtst1: TpFIBDataSet
+    SelectSQL.Strings = (
+      'SELECT'
+      '    A_ID,'
+      '    A_PEOPLE,'
+      '    A_PASSWORD,'
+      '    A_LOGIN'
+      'FROM'
+      '    AUTHORIZATION ')
+    Active = True
     Transaction = DM.pfbtrnsctn1
     Database = DM.DB
     Left = 240
@@ -172,6 +182,7 @@ object ChaildForm: TChaildForm
       Caption = 'Clear All'
       Hint = #1054#1095#1080#1089#1090#1080#1090#1100' '#1090#1072#1073#1083#1080#1094#1091
       OnExecute = actClearAllExecute
+      OnUpdate = actClearAllUpdate
     end
   end
 end

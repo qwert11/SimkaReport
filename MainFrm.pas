@@ -53,6 +53,8 @@ type
     procedure actAutentificationExecute(Sender: TObject);
     procedure actInsertUpdate(Sender: TObject);
     procedure SetEditReport(AEdit: TEditingReport);
+    procedure btnOwnerClick(Sender: TObject);
+    procedure btnDeviseClick(Sender: TObject);
   private
     { Private declarations }
     property EditReport: TEditingReport write SetEditReport;
@@ -66,7 +68,7 @@ var
 implementation
 
 uses DM_, CustomerFunctions, TarifPlanFrm,
-  SimkaFrm, CustomerGlobals, AuthentificationFrm;
+  SimkaFrm, CustomerGlobals, AuthentificationFrm, OwnerFrm, DeviceFrm;
 
 const
   PNL_INF_STATUS = 2;
@@ -147,7 +149,7 @@ end;
 
 procedure TfrmMain.ApplicationEventException(Sender: TObject; E: Exception);
 var
-  err: DBIResult;
+  //err: DBIResult;
   EDlg: TForm;
   error_string: string;
   ErrorsList: TStrings;
@@ -155,20 +157,21 @@ var
   phnSimkaReportLog: string;
 begin
   error_string := '';
-  if E is EDatabaseError then begin
-     err := (E as EDBEngineError).errors[(E as EDBEngineError).errorcount - 1].errorcode;
-     if (err = DBIERR_KEYVIOL) then
-       error_string := 'Ошибка Key violation!'
-     else if (err = DBIERR_LOCKED) then
-       error_string := 'Запись блокирована другим пользователем'
-     else if (err = DBIERR_FILELOCKED) then
-       error_string := 'Таблица блокирована кем-то еще'
-     else
-       error_string := 'Другая ошибка DB' end else
-  if E is EFIBError then 
+
+  if E is EDatabaseError then
+    error_string := 'Ошибка EDatabaseError' else
+//     err := (E as EDBEngineError).errors[(E as EDBEngineError).errorcount - 1].errorcode; { TODO -oGlobalError -cException : Error TypeCast в этой строке }
+//     if (err = DBIERR_KEYVIOL) then
+//       error_string := 'Ошибка Key violation!'
+//     else if (err = DBIERR_LOCKED) then
+//       error_string := 'Запись блокирована другим пользователем'
+//     else if (err = DBIERR_FILELOCKED) then
+//       error_string := 'Таблица блокирована кем-то еще'
+//     else
+//       error_string := 'Другая ошибка DB' end else
+  if E is EFIBError then
   { DONE  -oexception -cошибки  : отлавливать все ошибки}
     error_string := 'Ошибка базы данных FireBird';
-
   error_string := E.Message + ' ' + error_string;
 
   GetDir(0, sPatch);
@@ -289,6 +292,16 @@ begin
   except
     trnUpdate.Rollback;
   end;
+end;
+
+procedure TfrmMain.btnOwnerClick(Sender: TObject);
+begin
+  frmOwner.ShowModal
+end;
+
+procedure TfrmMain.btnDeviseClick(Sender: TObject);
+begin
+  frmDevice.ShowModal
 end;
 
 end.

@@ -60,6 +60,8 @@ type
     procedure FormDestroy(Sender: TObject);
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
     procedure actClearAllExecute(Sender: TObject);
+    procedure actClearAllUpdate(Sender: TObject);
+    procedure FormActivate(Sender: TObject);
   private
     { Private declarations }
     procedure NullAllField;
@@ -84,6 +86,9 @@ const
 
   INFO_PNL_SBAR = 1;
 
+var
+  select_table: string = '';
+
 {$R *.dfm}
 
 
@@ -92,7 +97,7 @@ const
 procedure TChaildForm.FormCreate(Sender: TObject);
 begin
   FEditorState := esNone;
-  btnSave.Enabled := False;
+  //btnSave.Enabled := False;
   pfbdtst1.Open;
   FCheckComponents := TList.Create;
 end;
@@ -105,14 +110,14 @@ begin
   end;
   FEditorState := esEdit;
   stat1.Panels[STATE_PNL_SBAR].Text := 'Edit';
-  btnSave.Enabled := True;
+  //btnSave.Enabled := True;
 end;
 
 procedure TChaildForm.Insert1Click(Sender: TObject);
 begin
   FEditorState := esInsert;
   stat1.Panels[STATE_PNL_SBAR].Text := 'Insert';
-  btnSave.Enabled := True;
+  //btnSave.Enabled := True;
 end;
 
 // вызывает метод потомка потому что virtual
@@ -132,7 +137,7 @@ end;
 procedure TChaildForm.btnCancelClick(Sender: TObject);
 begin
   FEditorState := esNone;
-  btnSave.Enabled := False;
+  //btnSave.Enabled := False;
   stat1.Panels[STATE_PNL_SBAR].Text := '';
   NullAllField;
 end;
@@ -249,27 +254,41 @@ procedure TChaildForm.actSaveUpdate(Sender: TObject);
       if IsPublishedProp (TComponent(Items[I]), PROP_NAME) then
       begin
         Value := GetPropValue (Items[I], PROP_NAME);
-        Result := string (Value) + '; ' end
+        Result := Result + string (Value) + '; ' end
       else
-        Result := 'No ' + TComponent(Items[I]).Name + '.' + PROP_NAME + '; '
+        Result := Result + 'No ' + TComponent(Items[I]).Name + '.' + PROP_NAME + '; '
   end;
 {$ENDIF}
 const
   CheckInput = 'Заполните все поля';
 var
   I: Integer;
+  IsSave: Boolean;
 begin
+  IsSave := True;
+
+  case FEditorState of
+    esEdit: begin
+      
+    end;
+    esInsert: ;
+    esDelete: ;
+    esNone:
+  end;
+
   case FEditorState of
     esEdit, esInsert: begin
       for I := 0 to FCheckComponents.Count - 1 do
-        if (TObject(FCheckComponents.Items[I]) is TEdit) then
-          actSave.Enabled :=
-            (TObject(FCheckComponents.Items[I]) as TEdit).Text <> '' else
+        if (TObject(FCheckComponents.Items[I]) is TEdit) then begin
+          if (TObject(FCheckComponents.Items[I]) as TEdit).Text = '' then
+            IsSave := False end else
         if (TObject(FCheckComponents.Items[I]) is TDBLookupComboBox) then
-          actSave.Enabled :=
-            (TObject(FCheckComponents.Items[I]) as TDBLookupComboBox).KeyValue <> Null;
+          if (TObject(FCheckComponents.Items[I]) as TDBLookupComboBox).KeyValue = Null then
+            IsSave := False;
+            
+      actSave.Enabled := IsSave;
 {$IFDEF TESTMODE}
-      stat1.Panels[INFO_PNL_SBAR].Text := ChekedName;
+      stat1.Panels[INFO_PNL_SBAR].Text := 'TESTMODE: ' + select_table + ', ' + ChekedName;
 {$ELSE}
       if actSave.Enabled then
         stat1.Panels[INFO_PNL_SBAR].Text := NullAsStringValue else
@@ -313,7 +332,36 @@ end;
 
 procedure TChaildForm.actClearAllExecute(Sender: TObject);
 begin
-  //
+  with frmMain, pfbqryUpdate, trnUpdate do
+  try
+    Active := False;
+    StartTransaction;
+    SQL.Text := 'DELETE FROM ' + select_table;
+    ExecQuery;
+    Commit;
+  except
+    Rollback;
+  end;
+end;
+
+procedure TChaildForm.actClearAllUpdate(Sender: TObject);
+begin
+{$IFDEF TESTMODE}
+  actClearAll.Enabled := select_table <> NullAsStringValue;
+{$ELSE}
+  actClearAll.Enabled := False;
+{$ENDIF}
+end;
+
+procedure TChaildForm.FormActivate(Sender: TObject);
+const
+  FROM_TABLE = 'FROM';
+var
+  s: string;
+begin
+  s := pfbdtst1.SQLs.SelectSQL.Text;
+  if (Pos(FROM_TABLE, s) > 0) and (Pos(FROM_TABLE, s) + Length(FROM_TABLE) < Length(s)) then
+    select_table := Trim(Copy(s, Pos('FROM', s) + Length(FROM_TABLE), Length(s)))
 end;
 
 end.

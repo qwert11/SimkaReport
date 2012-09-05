@@ -1,6 +1,6 @@
 object frmMain: TfrmMain
-  Left = 279
-  Top = 326
+  Left = 242
+  Top = 328
   Width = 1280
   Height = 486
   Caption = 'SIM'
@@ -283,6 +283,7 @@ object frmMain: TfrmMain
       Caption = 'Devise'
       TabOrder = 6
       Visible = False
+      OnClick = btnDeviseClick
     end
     object btnOwner: TButton
       Left = 728
@@ -292,6 +293,7 @@ object frmMain: TfrmMain
       Caption = 'Owner'
       TabOrder = 7
       Visible = False
+      OnClick = btnOwnerClick
     end
     object btnAutentification: TButton
       Left = 1555
