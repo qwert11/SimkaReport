@@ -63,6 +63,7 @@ type
     procedure actClearAllExecute(Sender: TObject);
     procedure actClearAllUpdate(Sender: TObject);
     procedure FormActivate(Sender: TObject);
+    procedure dbgrd1KeyPress(Sender: TObject; var Key: Char);
   private
     { Private declarations }
     procedure NullAllField;
@@ -217,7 +218,7 @@ end;
 procedure TChaildForm.dbgrd1DblClick(Sender: TObject);
 begin
   ModalResult := mrNone;
-  if not dbgrd1.DataSource.DataSet.Eof then
+  if not dbgrd1.DataSource.DataSet.IsEmpty and (FEditorState = esNone) then
     ModalResult := mrOk;
 end;
 
@@ -360,6 +361,12 @@ begin
   s := pfbdtst1.SQLs.SelectSQL.Text;
   if (Pos(FROM_TABLE, s) > 0) and (Pos(FROM_TABLE, s) + Length(FROM_TABLE) < Length(s)) then
     FSelectTable := Trim(Copy(s, Pos('FROM', s) + Length(FROM_TABLE), Length(s)))
+end;
+
+procedure TChaildForm.dbgrd1KeyPress(Sender: TObject; var Key: Char);
+begin
+  if Key = #13 then
+    dbgrd1DblClick(nil)
 end;
 
 end.

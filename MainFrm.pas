@@ -93,11 +93,8 @@ begin
     btnDevise.Visible := True;
     btnOwner.Visible := True;
     stat1.Panels[PNL_INF_STATUS].Text := 'Вы находитесь в режиме тестирования';
-  {$ELSE}
-    SetExtendedReports(False);
   {$ENDIF}
-
-
+  SetExtendedReports;
 
   Application.OnException := ApplicationEventException;
 

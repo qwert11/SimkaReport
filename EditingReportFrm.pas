@@ -16,7 +16,6 @@ type
   TfrmEditingReport = class(TForm)
     tmr1: TTimer;
     stat1: TStatusBar;
-    dbgrdhRepSIM: TDBGridEh;
     ds1: TDataSource;
     dtpDate: TDateTimePicker;
     lbl1: TLabel;
@@ -110,6 +109,8 @@ type
     intgrfldTmpERcRS_NUM_NOANSWR: TIntegerField;
     strngfldTmpERcRS_RADRSNG_OUTSD: TStringField;
     intgrfldTmpERcRS_NUM_OUTSD: TIntegerField;
+    mniExtendedReport: TMenuItem;
+    dbgrdhRepSIM: TDBGridEh;
     procedure tmr1Timer(Sender: TObject);
     procedure FormActivate(Sender: TObject);
     procedure dbgrdhRepSIMKeyPress(Sender: TObject; var Key: Char);
@@ -133,13 +134,14 @@ type
     procedure actPrsnlAcntExecute(Sender: TObject);
     procedure actExtendedReportExecute(Sender: TObject);
     procedure actExtendedReportUpdate(Sender: TObject);
+    procedure cdsTmpERAfterPost(DataSet: TDataSet);
   private
     { Private declarations }
     FEditingReport: TEditingReport;
     function CheckField(F: TField; ShowWarning: Boolean = True): Boolean;
     function CheckRepSimRecord(ShowWarning: Boolean = True): Boolean;
     function CheckRepBalanceRecord(ShowWarning: Boolean = True): Boolean;
-    procedure ShowsWarningStat1(F: TField; AMsg: string);
+    procedure ShowsWarningStat1(AMsg: string);
     procedure SetExtendedReports(IsExtended: Boolean = True);
   public
     { Public declarations }
@@ -201,6 +203,8 @@ begin
     Exit;
 {$ENDIF}
   end;
+
+  SetExtendedReports(extended_reports);  
 
   TimerStop := Time;
 
@@ -641,7 +645,7 @@ begin
     if not TestFloat(F.AsString) then
       Result := False;
   if (not Result) and ShowWarning then
-    ShowsWarningStat1(F, 'Не верно!!!');
+    ShowsWarningStat1(F.FieldName + ': ' + 'Не верно!!!');
 end;
 
 { DONE 5 -oBeforePost -cCheck :
@@ -674,12 +678,20 @@ procedure TfrmEditingReport.cdsTmpERBeforePost(DataSet: TDataSet);
 begin
   if not CheckRepSimRecord then
     Abort;
+  if cdsTmpErBc.State <> dsBrowse then begin
+    ShowsWarningStat1('Cхраните таблицу 2');
+    Abort;
+  end;
 end;
 
 procedure TfrmEditingReport.cdsTmpErBcBeforePost(DataSet: TDataSet);
 begin
   if not CheckRepBalanceRecord then
-    Abort
+    Abort;
+  if  cdsTmpER.State <> dsBrowse then begin
+    ShowsWarningStat1('Cхраните таблицу 1');
+    Abort;
+  end;
 end;
 { TODO 1 : apply }
 { TODO 5 -cCheck : различия выделить цветом (разные для edit и insert)}
@@ -690,7 +702,10 @@ procedure TfrmEditingReport.dbgrdhRepSIMDrawColumnCell(Sender: TObject;
   procedure SetFormatingCell(AColor: TColor);
   begin
     with dbgrdhRepSIM.Canvas do begin
-      Brush.Color := AColor;
+      if gdSelected in State then
+        Brush.Color := clWhite
+      else
+        Brush.Color := AColor;
       FillRect(Rect);
       Font.Color := clWhite;
       if Column.Field.DataType = ftString then
@@ -722,19 +737,17 @@ procedure TfrmEditingReport.dbgrdhRepSIMDrawColumnCell(Sender: TObject;
 //  end;
 begin
   { TODO -cCheck : cC_RB_PrsnlAcnt не совместимо с cRB_Prsnl_Acnt }
-  case FEditingReport of
-    erEdit:
-      if  VarIsNull(cdsTmpER.FieldByName(Column.FieldName).Value) then
-        SetFormatingCell(clRed);
-    erInsert:
-      if VarIsNull(cdsTmpER.FieldByName(Column.FieldName).Value) then
-        SetFormatingCell(clRed);
-  end;
+
+  if cdsTmpER.State = dsBrowse then begin
+    if VarIsNull(cdsTmpER.FieldByName(Column.FieldName).Value) then
+      SetFormatingCell(clRed) end
+  else
+    SetFormatingCell(clGray);
 
   with Column do
   if (FieldName = 'cRS_Status') or (FieldName = 'cRS_IfInstall') or (FieldName = 'SRADRSNG_ALL')
-      or (FieldName = 'SRADRSNG_BUSY') or (FieldName = 'SRADRSNG_NOANSWR') or
-        (FieldName = 'SRADRSNG_OUTSD') or (FieldName = 'SCLIR')
+      or (FieldName = 'cRS_RADRSNG_ALL') or (FieldName = 'cRS_RADRSNG_BUSY') or
+        (FieldName = 'cRS_RADRSNG_NOANSWR') or (FieldName = 'cRS_RADRSNG_OUTSD')
           then // Модифицируйте под себя
     if CharToBool(Column.Field.AsString) then
       DrawGridCheckBox(dbgrdhRepSIM.Canvas, Rect, true)
@@ -769,22 +782,18 @@ begin
   )
 end;
 
-procedure TfrmEditingReport.ShowsWarningStat1(F: TField; AMsg: string);
+procedure TfrmEditingReport.ShowsWarningStat1(AMsg: string);
 const
-  COUNT_SHOWS = 3;
+  COUNT_SHOWS = 2;
 var
   I: Integer;
 begin
   tmr1.Enabled := False;
   try
     for I := 1 to COUNT_SHOWS do begin
-      //dbgrdhRepSIM.FindFieldColumn()
-      stat1.Panels[PNL_INF_TIMER].Text := F.FieldName + ': ' + AMsg;           
-        //dbgrdhRepSIM.FieldColumns[F.FieldName].Title.Caption + ': ' + AMsg;
-      //stat1.Refresh;
-      Delay(400);
+      stat1.Panels[PNL_INF_TIMER].Text := AMsg;
+      Delay(1000);
       stat1.Panels[PNL_INF_TIMER].Text := '';
-      //stat1.Refresh;
       Delay(100);
     end;
   finally
@@ -794,17 +803,32 @@ end;
 
 procedure TfrmEditingReport.cdsTmpErBcAfterPost(DataSet: TDataSet);
 begin
-  cdsTmpER.First;
-  while not cdsTmpER.Eof do begin
-    if not VarIsNull(intgrfldTmpERcRB_Prsnl_Acnt.AsVariant) then
-      if cdsTmpErBc.Locate('cPrsnlAcnt', intgrfldTmpERcRB_Prsnl_Acnt.Value, []) then
-        crncyfldTmpERcRB_Sum.Value := crncyfldTmpErBccSUM.Value
-      else
-        crncyfldTmpERcRB_Sum.AsVariant := null;
-    cdsTmpErBc.Next;
+  if (cdsTmpER.State <> dsBrowse) or
+      VarIsNull(intgrfldTmpERcRB_Prsnl_Acnt.AsVariant) then
+    Exit;
+
+  with cdsTmpER do
+  try
+    AfterPost := nil;
+
+    First;
+    while not Eof do begin
+        if intgrfldTmpERcRB_Prsnl_Acnt.Value = intgrfldTmpERcRB_Prsnl_Acnt.Value then begin
+          Edit;
+          crncyfldTmpERcRB_Sum.Value := crncyfldTmpErBccSUM.Value;
+          Post
+        end;
+      Next;
+    end;
+  finally
+    AfterPost := cdsTmpERAfterPost;
   end;
 end;
 
+procedure TfrmEditingReport.cdsTmpERAfterPost(DataSet: TDataSet);
+begin
+  //
+end;
 
 procedure TfrmEditingReport.actInsertExecute(Sender: TObject);
 begin
@@ -838,7 +862,7 @@ end;
 
 procedure TfrmEditingReport.SetExtendedReports(IsExtended: Boolean);
 const
-  BEGIN_EXRENDED_COLUMN = 20;
+  BEGIN_EXRENDED_COLUMN = 11;
 var
   I: Integer;
 begin
@@ -859,5 +883,6 @@ begin
   else
     actExtendedReport.Caption := 'Включить расширеный отчет'
 end;
+
 
 end.
