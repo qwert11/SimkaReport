@@ -52,6 +52,14 @@ type
     fbntgrfldViewRS_USER_BRUNCH: TFIBIntegerField;
     fbntgrfldViewRB_PRSNL_ACNT: TFIBIntegerField;
     fbntgrfldViewRD_RESPONS: TFIBIntegerField;
+    fbstrngfldViewRS_RADRSNG_ALL: TFIBStringField;
+    fbstrngfldViewRS_RADRSNG_BUSY: TFIBStringField;
+    fbstrngfldViewRS_RADRSNG_NOANSWR: TFIBStringField;
+    fbstrngfldViewRS_RADRSNG_OUTSD: TFIBStringField;
+    fbntgrfldViewRS_NUM_ALL: TFIBIntegerField;
+    fbntgrfldViewRS_NUM_BUSY: TFIBIntegerField;
+    fbntgrfldViewRS_NUM_NOANSWR: TFIBIntegerField;
+    fbntgrfldViewRS_NUM_OUTSD: TFIBIntegerField;
     procedure fbstrngfldViewRE_SURNAMEGetText(Sender: TField;
       var Text: String; DisplayText: Boolean);
   private

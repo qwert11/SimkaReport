@@ -20,6 +20,7 @@ type
 
 var
   user: TUser = (login: DEF_USER; ID: -1; Name: DEF_USER; Patronymic: DEF_USER; Surname: DEF_USER);
+  extended_reports: Boolean = False;
 
 implementation
 

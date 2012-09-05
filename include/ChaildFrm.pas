@@ -9,7 +9,8 @@ uses
 {$IFDEF TESTMODE}
   TypInfo,
 {$ENDIF}
-  pFIBDatabase, FIBDataSet, pFIBDataSet, FIBQuery, fib, ComCtrls;
+  pFIBDatabase, FIBDataSet, pFIBDataSet, FIBQuery, fib, ComCtrls, 
+  DBLookupEh;
 
 type
   TEditorSetState = (esEdit, esInsert, esDelete, esNone);
@@ -69,6 +70,7 @@ type
     { Public declarations }
     FEditorState: TEditorSetState;
     FCheckComponents: TList;
+    FSelectTable: string;
   protected
     procedure QueryPrepare;
     procedure SetRightText(AEdit: TEdit);
@@ -86,9 +88,6 @@ const
 
   INFO_PNL_SBAR = 1;
 
-var
-  select_table: string = '';
-
 {$R *.dfm}
 
 
@@ -97,7 +96,6 @@ var
 procedure TChaildForm.FormCreate(Sender: TObject);
 begin
   FEditorState := esNone;
-  //btnSave.Enabled := False;
   pfbdtst1.Open;
   FCheckComponents := TList.Create;
 end;
@@ -110,14 +108,12 @@ begin
   end;
   FEditorState := esEdit;
   stat1.Panels[STATE_PNL_SBAR].Text := 'Edit';
-  //btnSave.Enabled := True;
 end;
 
 procedure TChaildForm.Insert1Click(Sender: TObject);
 begin
   FEditorState := esInsert;
   stat1.Panels[STATE_PNL_SBAR].Text := 'Insert';
-  //btnSave.Enabled := True;
 end;
 
 // вызывает метод потомка потому что virtual
@@ -128,7 +124,12 @@ begin
   stat1.Refresh;
   if Application.MessageBox('Вы действительно хотите удалить запись?',
       'Удаление', MB_ICONQUESTION + MB_YESNO) = ID_YES then
-    FEditorState := esDelete;
+    FEditorState := esDelete
+  else begin
+    btnCancelClick(nil);
+    Exit;
+  end;
+
   btnSaveClick(nil);
   stat1.Panels[STATE_PNL_SBAR].Text := '';
 end;
@@ -137,8 +138,8 @@ end;
 procedure TChaildForm.btnCancelClick(Sender: TObject);
 begin
   FEditorState := esNone;
-  //btnSave.Enabled := False;
   stat1.Panels[STATE_PNL_SBAR].Text := '';
+  stat1.Panels[INFO_PNL_SBAR].Text := '';
   NullAllField;
 end;
 
@@ -200,7 +201,9 @@ begin
     if Components[I] is TEdit then
       (Components[I] as TEdit).Clear else
     if Components[I] is TDBLookupComboBox then
-      (Components[I] as TDBLookupComboBox).KeyValue := null
+      (Components[I] as TDBLookupComboBox).KeyValue := null else
+    if Components[I] is TDBLookupComboBoxEh then
+      (Components[I] as TDBLookupComboBoxEh).KeyValue := null
 end;
 
 procedure TChaildForm.FormShow(Sender: TObject);
@@ -267,14 +270,9 @@ var
 begin
   IsSave := True;
 
-  case FEditorState of
-    esEdit: begin
-      
-    end;
-    esInsert: ;
-    esDelete: ;
-    esNone:
-  end;
+  actEdit.Enabled := (FEditorState <> esEdit) and not pfbdtst1.IsEmpty;
+  actInsert.Enabled := FEditorState <> esInsert;
+  actDelete.Enabled := (FEditorState <> esDelete) and not pfbdtst1.IsEmpty;
 
   case FEditorState of
     esEdit, esInsert: begin
@@ -288,7 +286,7 @@ begin
             
       actSave.Enabled := IsSave;
 {$IFDEF TESTMODE}
-      stat1.Panels[INFO_PNL_SBAR].Text := 'TESTMODE: ' + select_table + ', ' + ChekedName;
+      stat1.Panels[INFO_PNL_SBAR].Text := 'TESTMODE: ' + FSelectTable + ', ' + ChekedName;
 {$ELSE}
       if actSave.Enabled then
         stat1.Panels[INFO_PNL_SBAR].Text := NullAsStringValue else
@@ -336,7 +334,7 @@ begin
   try
     Active := False;
     StartTransaction;
-    SQL.Text := 'DELETE FROM ' + select_table;
+    SQL.Text := 'DELETE FROM ' + FSelectTable;
     ExecQuery;
     Commit;
   except
@@ -347,7 +345,7 @@ end;
 procedure TChaildForm.actClearAllUpdate(Sender: TObject);
 begin
 {$IFDEF TESTMODE}
-  actClearAll.Enabled := select_table <> NullAsStringValue;
+  actClearAll.Enabled := FSelectTable <> NullAsStringValue;
 {$ELSE}
   actClearAll.Enabled := False;
 {$ENDIF}
@@ -361,7 +359,7 @@ var
 begin
   s := pfbdtst1.SQLs.SelectSQL.Text;
   if (Pos(FROM_TABLE, s) > 0) and (Pos(FROM_TABLE, s) + Length(FROM_TABLE) < Length(s)) then
-    select_table := Trim(Copy(s, Pos('FROM', s) + Length(FROM_TABLE), Length(s)))
+    FSelectTable := Trim(Copy(s, Pos('FROM', s) + Length(FROM_TABLE), Length(s)))
 end;
 
 end.

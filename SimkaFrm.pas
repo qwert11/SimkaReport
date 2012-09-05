@@ -58,8 +58,9 @@ begin
       end;
 
       esInsert: with QInsert do begin
-        ParamByName('P_S_TARIFPLAN').Value := cbbLinkRadio.KeyValue;
+        ParamByName('P_S_LINK_RADIO').Value := cbbLinkRadio.KeyValue;
         ParamByName('P_S_NUMBER').AsString := edtNumber.Text;
+        ParamByName('P_S_OPERATOR').AsString := edtNumber.Text;
       end;
 
       esDelete: with QDelete do begin

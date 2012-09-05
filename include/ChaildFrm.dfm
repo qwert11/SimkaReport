@@ -27,6 +27,7 @@ object ChaildForm: TChaildForm
     Align = alClient
     DataSource = ds1
     PopupMenu = pm1
+    ReadOnly = True
     TabOrder = 0
     TitleFont.Charset = DEFAULT_CHARSET
     TitleFont.Color = clWindowText
@@ -104,16 +105,13 @@ object ChaildForm: TChaildForm
       Caption = 'File'
     end
     object Edit1: TMenuItem
-      Caption = 'Edit'
-      OnClick = Edit1Click
+      Action = actEdit
     end
     object Insert1: TMenuItem
-      Caption = 'Insert'
-      OnClick = Insert1Click
+      Action = actInsert
     end
     object Delete1: TMenuItem
-      Caption = 'Delete'
-      OnClick = Delete1Click
+      Action = actDelete
     end
     object mniClearAll: TMenuItem
       Action = actClearAll
@@ -123,19 +121,16 @@ object ChaildForm: TChaildForm
     Left = 280
     Top = 144
     object Edit2: TMenuItem
-      Caption = 'Edit'
-      OnClick = Edit1Click
+      Action = actEdit
     end
     object Insert2: TMenuItem
-      Caption = 'Insert'
-      OnClick = Insert1Click
+      Action = actInsert
     end
     object N1: TMenuItem
       Caption = '-'
     end
     object Delete2: TMenuItem
-      Caption = 'Delete'
-      OnClick = Delete1Click
+      Action = actDelete
     end
   end
   object pfbdtst1: TpFIBDataSet
@@ -147,7 +142,6 @@ object ChaildForm: TChaildForm
       '    A_LOGIN'
       'FROM'
       '    AUTHORIZATION ')
-    Active = True
     Transaction = DM.pfbtrnsctn1
     Database = DM.DB
     Left = 240
@@ -164,14 +158,17 @@ object ChaildForm: TChaildForm
     object actInsert: TAction
       Caption = #1053#1086#1074#1072#1103' '#1079#1072#1087#1080#1089#1100
       Hint = #1044#1086#1073#1072#1074#1080#1090#1100' '#1085#1086#1074#1091#1102' '#1079#1072#1087#1080#1089#1100
+      OnExecute = Insert1Click
     end
     object actEdit: TAction
       Caption = #1056#1077#1076#1072#1082#1090#1080#1088#1086#1074#1072#1090#1100' '#1079#1072#1087#1080#1089#1100
       Hint = #1056#1077#1076#1072#1082#1090#1080#1088#1086#1074#1072#1085#1080#1077' '#1090#1077#1082#1091#1097#1077#1081' '#1079#1072#1087#1080#1089#1080
+      OnExecute = Edit1Click
     end
     object actDelete: TAction
       Caption = #1059#1076#1072#1083#1080#1090#1100' '#1079#1072#1087#1080#1089#1100
       Hint = #1059#1076#1072#1083#1077#1085#1080#1077' '#1090#1077#1082#1091#1097#1077#1081' '#1079#1072#1087#1080#1089#1080
+      OnExecute = Delete1Click
     end
     object actSave: TAction
       Caption = #1057#1086#1093#1088#1072#1085#1080#1090#1100

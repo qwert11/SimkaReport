@@ -101,6 +101,15 @@ type
     edtSUM: TDBEditEh;
     actPrsnlAcnt: TAction;
     dbnvgrBalance: TDBNavigator;
+    actExtendedReport: TAction;
+    strngfldTmpERcRS_RADRSNG_ALL: TStringField;
+    intgrfldTmpERcRS_NUM_ALL: TIntegerField;
+    strngfldTmpERcRS_RADRSNG_BUSY: TStringField;
+    intgrfldTmpERcRS_NUM_BUSY: TIntegerField;
+    strngfldTmpERcRS_RADRSNG_NOANSWR: TStringField;
+    intgrfldTmpERcRS_NUM_NOANSWR: TIntegerField;
+    strngfldTmpERcRS_RADRSNG_OUTSD: TStringField;
+    intgrfldTmpERcRS_NUM_OUTSD: TIntegerField;
     procedure tmr1Timer(Sender: TObject);
     procedure FormActivate(Sender: TObject);
     procedure dbgrdhRepSIMKeyPress(Sender: TObject; var Key: Char);
@@ -122,6 +131,8 @@ type
     procedure actInsertExecute(Sender: TObject);
     procedure actInsertUpdate(Sender: TObject);
     procedure actPrsnlAcntExecute(Sender: TObject);
+    procedure actExtendedReportExecute(Sender: TObject);
+    procedure actExtendedReportUpdate(Sender: TObject);
   private
     { Private declarations }
     FEditingReport: TEditingReport;
@@ -129,6 +140,7 @@ type
     function CheckRepSimRecord(ShowWarning: Boolean = True): Boolean;
     function CheckRepBalanceRecord(ShowWarning: Boolean = True): Boolean;
     procedure ShowsWarningStat1(F: TField; AMsg: string);
+    procedure SetExtendedReports(IsExtended: Boolean = True);
   public
     { Public declarations }
     constructor Create(AOwner: TComponent;
@@ -346,9 +358,7 @@ end;
 
 procedure TfrmEditingReport.actEditFieldExecute(Sender: TObject);
 begin
-  with dbgrdhRepSIM.Columns[dbgrdhRepSIM.SelectedIndex] do
-    if (FieldName = FN_ER_LOOKUP_SIMKA) or (FieldName = FN_ER_LOOKUP_DEVICE) or
-        (FieldName = FN_ER_LOOKUP_OWNER) then begin
+  with dbgrdhRepSIM.Columns[dbgrdhRepSIM.SelectedIndex] do begin
       if not (cdsTmpER.State in [dsEdit, dsInsert]) then
         cdsTmpER.Edit;
 
@@ -692,6 +702,19 @@ procedure TfrmEditingReport.dbgrdhRepSIMDrawColumnCell(Sender: TObject;
           2, Rect.Top + 2, Column.Field.Text)
     end;
   end;
+
+  procedure DrawGridCheckBox(Canvas: TCanvas; Rect: TRect; Checked: boolean);
+  var
+    DrawFlags: Integer;
+  begin
+    Canvas.TextRect(Rect, Rect.Left + 1, Rect.Top + 1, ' ');
+    DrawFrameControl(Canvas.Handle, Rect, DFC_BUTTON, DFCS_BUTTONPUSH or DFCS_ADJUSTRECT);
+    DrawFlags := DFCS_BUTTONCHECK or DFCS_ADJUSTRECT;// DFCS_BUTTONCHECK
+    if Checked then
+      DrawFlags := DrawFlags or DFCS_CHECKED;
+    DrawFrameControl(Canvas.Handle, Rect, DFC_BUTTON, DrawFlags);
+  end;
+    
   { TODO  -oDrawCellColum -cCheck : Закончить ф-цию FindDiff для erEdit - решение создать  для сравнения поля CONST}
 //  function FindDiff: Boolean;
 //  begin
@@ -707,6 +730,16 @@ begin
       if VarIsNull(cdsTmpER.FieldByName(Column.FieldName).Value) then
         SetFormatingCell(clRed);
   end;
+
+  with Column do
+  if (FieldName = 'cRS_Status') or (FieldName = 'cRS_IfInstall') or (FieldName = 'SRADRSNG_ALL')
+      or (FieldName = 'SRADRSNG_BUSY') or (FieldName = 'SRADRSNG_NOANSWR') or
+        (FieldName = 'SRADRSNG_OUTSD') or (FieldName = 'SCLIR')
+          then // Модифицируйте под себя
+    if CharToBool(Column.Field.AsString) then
+      DrawGridCheckBox(dbgrdhRepSIM.Canvas, Rect, true)
+    else
+      DrawGridCheckBox(dbgrdhRepSIM.Canvas, Rect, false)
 end;
 
 
@@ -801,6 +834,30 @@ begin
         Edit;
     intgrfldTmpErBccPrsnlAcnt.Value := fbntgrfldpfbdtst1PA_ID.Value
   end;
+end;
+
+procedure TfrmEditingReport.SetExtendedReports(IsExtended: Boolean);
+const
+  BEGIN_EXRENDED_COLUMN = 20;
+var
+  I: Integer;
+begin
+  extended_reports := IsExtended;
+  for I := BEGIN_EXRENDED_COLUMN to dbgrdhRepSIM.Columns.Count - 1 do
+    dbgrdhRepSIM.Columns[I].Visible := IsExtended;
+end;
+
+procedure TfrmEditingReport.actExtendedReportExecute(Sender: TObject);
+begin
+  SetExtendedReports(not extended_reports);
+end;
+
+procedure TfrmEditingReport.actExtendedReportUpdate(Sender: TObject);
+begin
+  if extended_reports then
+    actExtendedReport.Caption := 'Включить компактный отчет'
+  else
+    actExtendedReport.Caption := 'Включить расширеный отчет'
 end;
 
 end.

@@ -1,6 +1,6 @@
 object frmMain: TfrmMain
-  Left = 242
-  Top = 328
+  Left = 441
+  Top = 343
   Width = 1280
   Height = 486
   Caption = 'SIM'
@@ -37,6 +37,7 @@ object frmMain: TfrmMain
     TitleFont.Height = -11
     TitleFont.Name = 'MS Sans Serif'
     TitleFont.Style = []
+    OnDrawColumnCell = dbgrdh1DrawColumnCell
     Columns = <
       item
         EditButtons = <>
@@ -77,14 +78,14 @@ object frmMain: TfrmMain
       end
       item
         EditButtons = <>
-        FieldName = 'O_NAME'
+        FieldName = 'S_NUMBER'
         Footers = <>
-        Width = 78
       end
       item
         EditButtons = <>
-        FieldName = 'S_NUMBER'
+        FieldName = 'O_NAME'
         Footers = <>
+        Width = 78
       end
       item
         EditButtons = <>
@@ -147,6 +148,12 @@ object frmMain: TfrmMain
       end
       item
         EditButtons = <>
+        FieldName = 'UB_SER_RUNCH'
+        Footers = <>
+        Width = 94
+      end
+      item
+        EditButtons = <>
         FieldName = 'U_SER'
         Footers = <>
         Width = 60
@@ -156,12 +163,6 @@ object frmMain: TfrmMain
         FieldName = 'U_LOCATION'
         Footers = <>
         Width = 78
-      end
-      item
-        EditButtons = <>
-        FieldName = 'UB_SER_RUNCH'
-        Footers = <>
-        Width = 94
       end
       item
         EditButtons = <>
@@ -207,6 +208,46 @@ object frmMain: TfrmMain
         FieldName = 'P_PATRONYMIC'
         Footers = <>
         Width = 83
+      end
+      item
+        EditButtons = <>
+        FieldName = 'RS_RADRSNG_ALL'
+        Footers = <>
+      end
+      item
+        EditButtons = <>
+        FieldName = 'RS_NUM_ALL'
+        Footers = <>
+      end
+      item
+        EditButtons = <>
+        FieldName = 'RS_RADRSNG_BUSY'
+        Footers = <>
+      end
+      item
+        EditButtons = <>
+        FieldName = 'RS_NUM_BUSY'
+        Footers = <>
+      end
+      item
+        EditButtons = <>
+        FieldName = 'RS_RADRSNG_NOANSWR'
+        Footers = <>
+      end
+      item
+        EditButtons = <>
+        FieldName = 'RS_NUM_NOANSWR'
+        Footers = <>
+      end
+      item
+        EditButtons = <>
+        FieldName = 'RS_RADRSNG_OUTSD'
+        Footers = <>
+      end
+      item
+        EditButtons = <>
+        FieldName = 'RS_NUM_OUTSD'
+        Footers = <>
       end>
     object RowDetailData: TRowDetailPanelControlEh
     end
@@ -347,6 +388,12 @@ object frmMain: TfrmMain
       Hint = #1042#1086#1081#1090#1080' '#1087#1086#1076' '#1089#1074#1086#1080#1084' '#1083#1086#1075#1080#1085#1086#1084' '#1080' '#1087#1072#1088#1086#1083#1077#1084
       OnExecute = actAutentificationExecute
     end
+    object actExtendedReport: TAction
+      Caption = #1042#1080#1076
+      Hint = #1042#1080#1076' '#1086#1090#1095#1077#1090#1072
+      OnExecute = actExtendedReportExecute
+      OnUpdate = actExtendedReportUpdate
+    end
   end
   object pm1: TPopupMenu
     Left = 48
@@ -384,6 +431,9 @@ object frmMain: TfrmMain
       object mniDelete1: TMenuItem
         Action = actDelete
       end
+    end
+    object mniExtendedReport: TMenuItem
+      Action = actExtendedReport
     end
   end
   object trnUpdate: TpFIBTransaction

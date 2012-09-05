@@ -34,6 +34,7 @@ function ToStrPoint(Value: Real): string; overload;
 function ToStrPoint(Value: string): string; overload;
 
 function BoolToChar(B: Boolean; UseBoolChr: Boolean = False): Char;
+function CharToBool(ch: string): Boolean;
 
 function ReadIni(ASection, AString : String; ReadIni: TReadIni) : Variant;
 
@@ -48,6 +49,22 @@ procedure Delay(MiliSeconds: Integer);
 implementation
 
 uses CustomerGlobals;
+
+function CharToBool(ch: string): Boolean;
+begin
+  Result := False;
+
+  if Length(ch) <> 1 then begin
+    if ch <> NullAsStringValue then
+      Result := StrToBool(ch);
+    Exit;
+  end;
+
+  if (ch = 't') or (ch = 'T') or (ch = '1') then
+    Result := True
+  else
+    Result := False
+end;
 
 function BoolToChar(B: Boolean; UseBoolChr: Boolean = False): Char;
 begin

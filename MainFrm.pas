@@ -41,6 +41,8 @@ type
     actAutentification: TAction;
     trnUpdate: TpFIBTransaction;
     pfbqryUpdate: TpFIBQuery;
+    actExtendedReport: TAction;
+    mniExtendedReport: TMenuItem;
     procedure FormCreate(Sender: TObject);
     procedure actEditUpdate(Sender: TObject);
     procedure actInsertExecute(Sender: TObject);
@@ -55,9 +57,14 @@ type
     procedure SetEditReport(AEdit: TEditingReport);
     procedure btnOwnerClick(Sender: TObject);
     procedure btnDeviseClick(Sender: TObject);
+    procedure dbgrdh1DrawColumnCell(Sender: TObject; const Rect: TRect;
+      DataCol: Integer; Column: TColumnEh; State: TGridDrawState);
+    procedure actExtendedReportExecute(Sender: TObject);
+    procedure actExtendedReportUpdate(Sender: TObject);
   private
     { Private declarations }
     property EditReport: TEditingReport write SetEditReport;
+    procedure SetExtendedReports(IsExtended: Boolean = True);
   public
     { Public declarations }
   end;
@@ -78,7 +85,7 @@ const
 
 procedure TfrmMain.FormCreate(Sender: TObject);
 begin
-  
+
   {$IFDEF TESTMODE}
     //btnFinance.Visible := True;
     btnTarifPlan.Visible := True;
@@ -86,7 +93,11 @@ begin
     btnDevise.Visible := True;
     btnOwner.Visible := True;
     stat1.Panels[PNL_INF_STATUS].Text := 'Вы находитесь в режиме тестирования';
+  {$ELSE}
+    SetExtendedReports(False);
   {$ENDIF}
+
+
 
   Application.OnException := ApplicationEventException;
 
@@ -302,6 +313,58 @@ end;
 procedure TfrmMain.btnDeviseClick(Sender: TObject);
 begin
   frmDevice.ShowModal
+end;
+
+procedure TfrmMain.dbgrdh1DrawColumnCell(Sender: TObject;
+  const Rect: TRect; DataCol: Integer; Column: TColumnEh;
+  State: TGridDrawState);
+
+  procedure DrawGridCheckBox(Canvas: TCanvas; Rect: TRect; Checked: boolean);
+  var
+    DrawFlags: Integer;
+  begin
+    Canvas.TextRect(Rect, Rect.Left + 1, Rect.Top + 1, ' ');
+    DrawFrameControl(Canvas.Handle, Rect, DFC_BUTTON, DFCS_BUTTONPUSH or DFCS_ADJUSTRECT);
+    DrawFlags := DFCS_BUTTONCHECK or DFCS_ADJUSTRECT;// DFCS_BUTTONCHECK
+    if Checked then
+      DrawFlags := DrawFlags or DFCS_CHECKED;
+    DrawFrameControl(Canvas.Handle, Rect, DFC_BUTTON, DrawFlags);
+  end;
+begin
+  with Column do
+  if (FieldName = 'cRS_Status') or (FieldName = 'cRS_IfInstall') or (FieldName = 'SRADRSNG_ALL')
+      or (FieldName = 'SRADRSNG_BUSY') or (FieldName = 'SRADRSNG_NOANSWR') or
+        (FieldName = 'SRADRSNG_OUTSD') or (FieldName = 'SCLIR')
+          then // Модифицируйте под себя
+    if CharToBool(Column.Field.AsString) then
+      DrawGridCheckBox(dbgrdh1.Canvas, Rect, true)
+    else
+      DrawGridCheckBox(dbgrdh1.Canvas, Rect, false)
+end;
+
+
+procedure TfrmMain.SetExtendedReports(IsExtended: Boolean);
+const
+  BEGIN_EXRENDED_COLUMN = 20;
+var
+  I: Integer;
+begin
+  extended_reports := IsExtended;
+  for I := BEGIN_EXRENDED_COLUMN to dbgrdh1.Columns.Count - 1 do
+    dbgrdh1.Columns[I].Visible := IsExtended;
+end;
+
+procedure TfrmMain.actExtendedReportExecute(Sender: TObject);
+begin
+  SetExtendedReports(not extended_reports);
+end;
+
+procedure TfrmMain.actExtendedReportUpdate(Sender: TObject);
+begin
+  if extended_reports then
+    actExtendedReport.Caption := 'Включить компактный отчет'
+  else
+    actExtendedReport.Caption := 'Включить расширеный отчет'
 end;
 
 end.

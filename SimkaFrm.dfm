@@ -22,13 +22,11 @@ inherited frmSimka: TfrmSimka
       item
         Expanded = False
         FieldName = 'S_LINK_RADIO'
-        Width = 64
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'S_OPERATOR'
-        Width = 64
         Visible = True
       end>
   end

@@ -83,7 +83,15 @@ object DM: TDM
       '    report_simka.rs_user,'
       '    report_simka.rs_user_brunch,'
       '    report_balance.rb_prsnl_acnt,'
-      '    report_day.rd_respons'
+      '    report_day.rd_respons,'
+      '    report_simka.rs_radrsng_all,'
+      '    report_simka.rs_radrsng_busy,'
+      '    report_simka.rs_radrsng_noanswr,'
+      '    report_simka.rs_radrsng_outsd,'
+      '    report_simka.rs_num_all,'
+      '    report_simka.rs_num_busy,'
+      '    report_simka.rs_num_noanswr,'
+      '    report_simka.rs_num_outsd'
       'from user_brunch'
       
         '   inner join report_simka on (user_brunch.ub_id = report_simka.' +
@@ -124,6 +132,7 @@ object DM: TDM
     object fbdtfldViewRD_DATE: TFIBDateField
       FieldName = 'RD_DATE'
       Origin = 'REPORT_DAY.RD_DATE'
+      DisplayFormat = 'dd.mm.yyyy'
     end
     object fbstrngfldViewTP_NAME: TFIBStringField
       FieldName = 'TP_NAME'
@@ -134,18 +143,23 @@ object DM: TDM
     object fbcdfldViewTP_ABON_BOARD: TFIBBCDField
       FieldName = 'TP_ABON_BOARD'
       Origin = 'TARIF_PLAN.TP_ABON_BOARD'
+      DisplayFormat = '#,##0.00'
+      EditFormat = '0.00'
       Size = 2
       RoundByScale = True
     end
     object fbntgrfldViewTP_SMS_MONTH: TFIBIntegerField
+      DefaultExpression = '0'
       FieldName = 'TP_SMS_MONTH'
       Origin = 'TARIF_PLAN.TP_SMS_MONTH'
     end
     object fbntgrfldViewRS_SMS: TFIBIntegerField
+      DefaultExpression = '0'
       FieldName = 'RS_SMS'
       Origin = 'REPORT_SIMKA.RS_SMS'
     end
     object fbntgrfldViewD_NUM: TFIBIntegerField
+      DefaultExpression = '0'
       FieldName = 'D_NUM'
       Origin = 'DEVICE.D_NUM'
     end
@@ -191,6 +205,8 @@ object DM: TDM
     object fbcdfldViewTP_CLIR_PRICE: TFIBBCDField
       FieldName = 'TP_CLIR_PRICE'
       Origin = 'TARIF_PLAN.TP_CLIR_PRICE'
+      DisplayFormat = '#,##0.00'
+      EditFormat = '0.00'
       Size = 2
       RoundByScale = True
     end
@@ -219,8 +235,11 @@ object DM: TDM
       EmptyStrToNull = True
     end
     object fbcdfldViewRB_SUM: TFIBBCDField
+      DefaultExpression = '0'
       FieldName = 'RB_SUM'
       Origin = 'REPORT_BALANCE.RB_SUM'
+      DisplayFormat = '#,##0.00'
+      EditFormat = '0.00'
       Size = 2
       RoundByScale = True
     end
@@ -301,6 +320,7 @@ object DM: TDM
     object fbdtfldViewRS_REPORTDAY: TFIBDateField
       FieldName = 'RS_REPORTDAY'
       Origin = 'REPORT_SIMKA.RS_REPORTDAY'
+      DisplayFormat = 'dd.mm.yyyy'
     end
     object fbntgrfldViewRS_BALANCE: TFIBIntegerField
       FieldName = 'RS_BALANCE'
@@ -320,6 +340,39 @@ object DM: TDM
     end
     object fbntgrfldViewRD_RESPONS: TFIBIntegerField
       FieldName = 'RD_RESPONS'
+      Origin = 'REPORT_DAY.RD_RESPONS'
+    end
+    object fbstrngfldViewRS_RADRSNG_ALL: TFIBStringField
+      FieldName = 'RS_RADRSNG_ALL'
+      Size = 1
+      EmptyStrToNull = True
+    end
+    object fbstrngfldViewRS_RADRSNG_BUSY: TFIBStringField
+      FieldName = 'RS_RADRSNG_BUSY'
+      Size = 1
+      EmptyStrToNull = True
+    end
+    object fbstrngfldViewRS_RADRSNG_NOANSWR: TFIBStringField
+      FieldName = 'RS_RADRSNG_NOANSWR'
+      Size = 1
+      EmptyStrToNull = True
+    end
+    object fbstrngfldViewRS_RADRSNG_OUTSD: TFIBStringField
+      FieldName = 'RS_RADRSNG_OUTSD'
+      Size = 1
+      EmptyStrToNull = True
+    end
+    object fbntgrfldViewRS_NUM_ALL: TFIBIntegerField
+      FieldName = 'RS_NUM_ALL'
+    end
+    object fbntgrfldViewRS_NUM_BUSY: TFIBIntegerField
+      FieldName = 'RS_NUM_BUSY'
+    end
+    object fbntgrfldViewRS_NUM_NOANSWR: TFIBIntegerField
+      FieldName = 'RS_NUM_NOANSWR'
+    end
+    object fbntgrfldViewRS_NUM_OUTSD: TFIBIntegerField
+      FieldName = 'RS_NUM_OUTSD'
     end
   end
 end
