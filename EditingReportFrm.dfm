@@ -1,8 +1,8 @@
 object frmEditingReport: TfrmEditingReport
-  Left = 149
-  Top = 161
-  Width = 1147
-  Height = 586
+  Left = 383
+  Top = 226
+  Width = 1428
+  Height = 584
   Caption = 'frmEditingReport'
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -19,8 +19,8 @@ object frmEditingReport: TfrmEditingReport
   TextHeight = 13
   object stat1: TStatusBar
     Left = 0
-    Top = 513
-    Width = 1139
+    Top = 519
+    Width = 1420
     Height = 19
     Panels = <
       item
@@ -34,10 +34,10 @@ object frmEditingReport: TfrmEditingReport
       end>
   end
   object pnl1: TPanel
-    Left = 896
+    Left = 1177
     Top = 0
     Width = 243
-    Height = 513
+    Height = 519
     Align = alRight
     TabOrder = 1
     object lbl1: TLabel
@@ -77,7 +77,7 @@ object frmEditingReport: TfrmEditingReport
     object dbctrlgrd1: TDBCtrlGrid
       Left = 0
       Top = 56
-      Width = 234
+      Width = 233
       Height = 216
       DataSource = ds2
       PanelWidth = 217
@@ -159,8 +159,8 @@ object frmEditingReport: TfrmEditingReport
   object dbgrdhRepSIM: TDBGridEh
     Left = 0
     Top = 0
-    Width = 896
-    Height = 513
+    Width = 1177
+    Height = 519
     Align = alClient
     DataGrouping.GroupLevels = <>
     DataSource = ds1
@@ -184,20 +184,9 @@ object frmEditingReport: TfrmEditingReport
     Columns = <
       item
         EditButtons = <>
-        FieldName = 'In'
+        FieldName = 'PrsnlAcnt'
         Footers = <>
-        Width = 24
-      end
-      item
-        EditButtons = <>
-        FieldName = 'cRS_SMS'
-        Footers = <>
-      end
-      item
-        EditButtons = <>
-        FieldName = 'Owner'
-        Footers = <>
-        Width = 59
+        Width = 62
       end
       item
         EditButtons = <>
@@ -209,13 +198,18 @@ object frmEditingReport: TfrmEditingReport
         EditButtons = <>
         FieldName = 'TarifPlan'
         Footers = <>
-        Width = 63
+        Width = 90
       end
       item
         EditButtons = <>
-        FieldName = 'cRS_Status'
+        FieldName = 'cRS_SMS'
         Footers = <>
-        Width = 71
+      end
+      item
+        EditButtons = <>
+        FieldName = 'In'
+        Footers = <>
+        Width = 24
       end
       item
         EditButtons = <>
@@ -225,14 +219,20 @@ object frmEditingReport: TfrmEditingReport
       end
       item
         EditButtons = <>
-        FieldName = 'PrsnlAcnt'
+        FieldName = 'cRB_Sum'
         Footers = <>
-        Width = 62
       end
       item
         EditButtons = <>
-        FieldName = 'cRB_Sum'
+        FieldName = 'cRS_Status'
         Footers = <>
+        Width = 71
+      end
+      item
+        EditButtons = <>
+        FieldName = 'Owner'
+        Footers = <>
+        Width = 59
       end
       item
         EditButtons = <>
@@ -244,7 +244,7 @@ object frmEditingReport: TfrmEditingReport
         EditButtons = <>
         FieldName = 'cRS_IfInstall'
         Footers = <>
-        Width = 70
+        Width = 20
       end
       item
         EditButtons = <>
@@ -511,6 +511,24 @@ object frmEditingReport: TfrmEditingReport
       item
         Name = 'cRS_NUM_OUTSD'
         DataType = ftInteger
+      end
+      item
+        Name = 'cRS_CLIR'
+        DataType = ftString
+        Size = 1
+      end
+      item
+        Name = 'cC_RS_CLIR'
+        DataType = ftString
+        Size = 1
+      end
+      item
+        Name = 'cRS_CLIR_PRICE'
+        DataType = ftCurrency
+      end
+      item
+        Name = 'cC_RS_CLIR_PRICE'
+        DataType = ftCurrency
       end>
     IndexDefs = <>
     FetchOnDemand = False
@@ -532,7 +550,7 @@ object frmEditingReport: TfrmEditingReport
       ReadOnly = True
     end
     object intgrfldTmpERcRS_SMS: TIntegerField
-      DisplayLabel = #1054#1089#1090'. '#1057#1052#1057
+      DisplayLabel = #1057#1052#1057
       FieldName = 'cRS_SMS'
     end
     object intgrfldTmpERcC_RS_SMS: TIntegerField
@@ -616,7 +634,7 @@ object frmEditingReport: TfrmEditingReport
       Size = 1
     end
     object strngfldTmpERcRS_ICC_SIM: TStringField
-      DisplayLabel = 'ICC_SIM'
+      DisplayLabel = 'ICCID'
       FieldName = 'cRS_ICC_SIM'
       Size = 25
     end
@@ -688,7 +706,7 @@ object frmEditingReport: TfrmEditingReport
       Lookup = True
     end
     object strngfldTmpERSimka: TStringField
-      DisplayLabel = #1057#1080#1084'-'#1082#1072
+      DisplayLabel = 'SIM - '#1082#1072#1088#1090#1072
       FieldKind = fkLookup
       FieldName = 'Simka'
       LookupDataSet = frmSimka.pfbdtst1

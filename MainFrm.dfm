@@ -1,6 +1,6 @@
 object frmMain: TfrmMain
-  Left = 441
-  Top = 343
+  Left = 426
+  Top = 474
   Width = 1280
   Height = 486
   Caption = 'SIM'
@@ -19,7 +19,7 @@ object frmMain: TfrmMain
     Left = 0
     Top = 0
     Width = 1272
-    Height = 361
+    Height = 369
     Align = alClient
     DataGrouping.GroupLevels = <>
     DataSource = DM.ds1
@@ -46,19 +46,20 @@ object frmMain: TfrmMain
       end
       item
         EditButtons = <>
+        FieldName = 'PA_RSNL_CNT'
+        Footers = <>
+        Width = 95
+      end
+      item
+        EditButtons = <>
+        FieldName = 'S_NUMBER'
+        Footers = <>
+      end
+      item
+        EditButtons = <>
         FieldName = 'TP_NAME'
         Footers = <>
         Width = 85
-      end
-      item
-        EditButtons = <>
-        FieldName = 'TP_ABON_BOARD'
-        Footers = <>
-      end
-      item
-        EditButtons = <>
-        FieldName = 'TP_SMS_MONTH'
-        Footers = <>
       end
       item
         EditButtons = <>
@@ -72,62 +73,31 @@ object frmMain: TfrmMain
       end
       item
         EditButtons = <>
-        FieldName = 'D_TITLE'
+        FieldName = 'UB_SER_RUNCH'
         Footers = <>
-        Width = 73
+        Width = 61
       end
       item
         EditButtons = <>
-        FieldName = 'S_NUMBER'
+        FieldName = 'RB_SUM'
+        Footers = <>
+      end
+      item
+        EditButtons = <>
+        FieldName = 'P_SURNAME'
+        Footers = <>
+        Width = 97
+      end
+      item
+        EditButtons = <>
+        FieldName = 'RS_STATUS'
         Footers = <>
       end
       item
         EditButtons = <>
         FieldName = 'O_NAME'
         Footers = <>
-        Width = 78
-      end
-      item
-        EditButtons = <>
-        FieldName = 'RS_SIMKA'
-        Footers = <>
-      end
-      item
-        EditButtons = <>
-        FieldName = 'RS_OWNER'
-        Footers = <>
-      end
-      item
-        EditButtons = <>
-        FieldName = 'RS_IN'
-        Footers = <>
-      end
-      item
-        EditButtons = <>
-        FieldName = 'RSID'
-        Footers = <>
-      end
-      item
-        EditButtons = <>
-        FieldName = 'TP_CLIR'
-        Footers = <>
-        Width = 14
-      end
-      item
-        EditButtons = <>
-        FieldName = 'TP_CLIR_PRICE'
-        Footers = <>
-      end
-      item
-        EditButtons = <>
-        FieldName = 'LR_INK_ADIO'
-        Footers = <>
-        Width = 84
-      end
-      item
-        EditButtons = <>
-        FieldName = 'RS_STATUS'
-        Footers = <>
+        Width = 68
       end
       item
         EditButtons = <>
@@ -137,37 +107,9 @@ object frmMain: TfrmMain
       end
       item
         EditButtons = <>
-        FieldName = 'OL_PERATOR_INK'
-        Footers = <>
-        Width = 81
-      end
-      item
-        EditButtons = <>
-        FieldName = 'RB_SUM'
-        Footers = <>
-      end
-      item
-        EditButtons = <>
-        FieldName = 'UB_SER_RUNCH'
-        Footers = <>
-        Width = 94
-      end
-      item
-        EditButtons = <>
-        FieldName = 'U_SER'
-        Footers = <>
-        Width = 60
-      end
-      item
-        EditButtons = <>
-        FieldName = 'U_LOCATION'
-        Footers = <>
-        Width = 78
-      end
-      item
-        EditButtons = <>
         FieldName = 'RS_IFINSTALL'
         Footers = <>
+        Width = 14
       end
       item
         EditButtons = <>
@@ -187,27 +129,9 @@ object frmMain: TfrmMain
       end
       item
         EditButtons = <>
-        FieldName = 'PA_RSNL_CNT'
+        FieldName = 'U_SER'
         Footers = <>
-        Width = 95
-      end
-      item
-        EditButtons = <>
-        FieldName = 'P_SURNAME'
-        Footers = <>
-        Width = 97
-      end
-      item
-        EditButtons = <>
-        FieldName = 'P_NAME'
-        Footers = <>
-        Width = 55
-      end
-      item
-        EditButtons = <>
-        FieldName = 'P_PATRONYMIC'
-        Footers = <>
-        Width = 83
+        Width = 60
       end
       item
         EditButtons = <>
@@ -254,7 +178,7 @@ object frmMain: TfrmMain
   end
   object pnl1: TPanel
     Left = 0
-    Top = 361
+    Top = 369
     Width = 1272
     Height = 52
     Align = alBottom
@@ -348,7 +272,7 @@ object frmMain: TfrmMain
   end
   object stat1: TStatusBar
     Left = 0
-    Top = 413
+    Top = 421
     Width = 1272
     Height = 19
     Panels = <
