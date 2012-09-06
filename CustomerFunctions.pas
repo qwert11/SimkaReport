@@ -14,7 +14,9 @@ type
   ECustomerError = class (Exception);
   ECusConvertError = class (EAbort);
 
-function GridResize(Grid: TDBGridEh): Boolean;
+function MergeResult(const arr: array of string): string;
+
+//function GridResize(Grid: TDBGridEh): Boolean;
 
 function ToStrNull(S: string): string; overload;
 function ToStrNull(V: Variant): string; overload;
@@ -35,7 +37,7 @@ function ToStrPoint(Value: Real): string; overload;
 function ToStrPoint(Value: string): string; overload;
 
 function BoolToChar(B: Boolean; UseBoolChr: Boolean = False): Char;
-function CharToBool(ch: string): Boolean;
+function CharToBool(IsCheck: Variant): Boolean;
 
 function ReadIni(ASection, AString : String; ReadIni: TReadIni) : Variant;
 
@@ -51,39 +53,56 @@ implementation
 
 uses CustomerGlobals;
 
-function GridResize(Grid: TDBGridEh): Boolean;
-  function SumSizeColumns: Integer;
-  var
-    I: Integer;
-  begin
-    Result := 0;
-    for I := 0 to Grid.Columns.Count - 1 do
-      Inc(Result, Grid.Columns[I].Width)
-  end;
+
+function MergeResult(const arr: array of string): string;
 var
-  aspect: Real;
   I: Integer;
 begin
-  Result := False;
-  if SumSizeColumns = 0 then
-    Exit;
-  aspect := Grid.Width / SumSizeColumns;
-  for I := 0 to Grid.Columns.Count - 1 do
-    Grid.Columns[I].Width := Trunc(Grid.Columns[I].Width * aspect);
-  Result := True;
+  Result := '';
+  for I := Low(arr) to High(arr) do
+    Result := Result + arr[I] + ' '
 end;
 
-function CharToBool(ch: string): Boolean;
+//function GridResize(Grid: TDBGridEh): Boolean;
+//  function SumSizeColumns: Integer;
+//  var
+//    I: Integer;
+//  begin
+//    Result := 0;
+//    for I := 0 to Grid.Columns.Count - 1 do
+//      Inc(Result, Grid.Columns[I].Width)
+//  end;
+//var
+//  aspect: Real;
+//  I: Integer;
+//begin
+//  Result := False;
+//  if SumSizeColumns = 0 then
+//    Exit;
+//  aspect := Grid.Width / SumSizeColumns;
+//  for I := 0 to Grid.Columns.Count - 1 do
+//    Grid.Columns[I].Width := Trunc(Grid.Columns[I].Width * aspect);
+//  Result := True;
+//end;
+
+function CharToBool(IsCheck: Variant): Boolean;
+var
+  Check: string;
 begin
   Result := False;
 
-  if Length(ch) <> 1 then begin
-    if ch <> NullAsStringValue then
-      Result := StrToBool(ch);
+  if VarIsNull(IsCheck) then
+    Exit;
+
+  Check := VarToStr(IsCheck);
+
+  if Length(Check) <> 1 then begin
+    if Check <> NullAsStringValue then
+      Result := StrToBool(Check);
     Exit;
   end;
 
-  if (ch = 't') or (ch = 'T') or (ch = '1') then
+  if (Check = 't') or (Check = 'T') or (Check = '1') then
     Result := True
   else
     Result := False

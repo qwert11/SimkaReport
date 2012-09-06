@@ -111,6 +111,11 @@ type
     intgrfldTmpERcRS_NUM_OUTSD: TIntegerField;
     mniExtendedReport: TMenuItem;
     dbgrdhRepSIM: TDBGridEh;
+    actCancelEdit: TAction;
+    mniN4: TMenuItem;
+    mniCancelEdit: TMenuItem;
+    mniN5: TMenuItem;
+    mniCancelEdit1: TMenuItem;
     procedure tmr1Timer(Sender: TObject);
     procedure FormActivate(Sender: TObject);
     procedure dbgrdhRepSIMKeyPress(Sender: TObject; var Key: Char);
@@ -135,6 +140,9 @@ type
     procedure actExtendedReportExecute(Sender: TObject);
     procedure actExtendedReportUpdate(Sender: TObject);
     procedure cdsTmpERAfterPost(DataSet: TDataSet);
+    procedure actCancelEditExecute(Sender: TObject);
+    procedure actCancelEditUpdate(Sender: TObject);
+    procedure dbgrdhRepSIMCellClick(Column: TColumnEh);
   private
     { Private declarations }
     FEditingReport: TEditingReport;
@@ -171,7 +179,15 @@ const
   FN_ER_LOOKUP_USER = 'User';
   FN_ER_LOOKUP_USER_BRUNCH = 'UserBrunch';
   FN_ER_LOOKUP_PART_CALL = 'PartCall';
-  
+  BoolFieldArr: array[0..6] of string = (
+    'cRS_Status',
+    'cRS_IfInstall',
+    'SRADRSNG_ALL',
+    'cRS_RADRSNG_ALL',
+    'cRS_RADRSNG_BUSY',
+    'cRS_RADRSNG_NOANSWR',
+    'cRS_RADRSNG_OUTSD'
+  );
 
 var
   TimerStop: TTime;
@@ -356,9 +372,17 @@ end;
 procedure TfrmEditingReport.actEditFieldUpdate(Sender: TObject);
 begin
   with dbgrdhRepSIM.Columns[dbgrdhRepSIM.SelectedIndex] do
-      (Sender as TAction).Enabled := (FieldName = FN_ER_LOOKUP_SIMKA) or
-      (FieldName = FN_ER_LOOKUP_DEVICE) or (FieldName = FN_ER_LOOKUP_OWNER);
+      (Sender as TAction).Enabled :=
+          (FieldName = FN_ER_LOOKUP_DEVICE) or
+          (FieldName = FN_ER_LOOKUP_OWNER) or
+          (FieldName = FN_ER_LOOKUP_SIMKA) or
+          (FieldName = FN_ER_LOOKUP_TARIF_PLAN) or
+          (FieldName = FN_ER_LOOKUP_PRSNL_ACNT) or
+          (FieldName = FN_ER_LOOKUP_USER) or
+          (FieldName = FN_ER_LOOKUP_USER_BRUNCH) or
+          (FieldName = FN_ER_LOOKUP_PART_CALL)
 end;
+
 
 procedure TfrmEditingReport.actEditFieldExecute(Sender: TObject);
 begin
@@ -707,7 +731,7 @@ procedure TfrmEditingReport.dbgrdhRepSIMDrawColumnCell(Sender: TObject;
       else
         Brush.Color := AColor;
       FillRect(Rect);
-      Font.Color := clWhite;
+      Font.Color := clBlack;
       if Column.Field.DataType = ftString then
       //В строковых полях текст прижимается влево
         TextOut(Rect.Left + 2, Rect.Top + 2, Column.Field.Text)
@@ -729,14 +753,7 @@ procedure TfrmEditingReport.dbgrdhRepSIMDrawColumnCell(Sender: TObject;
       DrawFlags := DrawFlags or DFCS_CHECKED;
     DrawFrameControl(Canvas.Handle, Rect, DFC_BUTTON, DrawFlags);
   end;
-    
-  { TODO  -oDrawCellColum -cCheck : Закончить ф-цию FindDiff для erEdit - решение создать  для сравнения поля CONST}
-//  function FindDiff: Boolean;
-//  begin
-//
-//  end;
 begin
-  { TODO -cCheck : cC_RB_PrsnlAcnt не совместимо с cRB_Prsnl_Acnt }
 
   if cdsTmpER.State = dsBrowse then begin
     if VarIsNull(cdsTmpER.FieldByName(Column.FieldName).Value) then
@@ -745,9 +762,7 @@ begin
     SetFormatingCell(clGray);
 
   with Column do
-  if (FieldName = 'cRS_Status') or (FieldName = 'cRS_IfInstall') or (FieldName = 'SRADRSNG_ALL')
-      or (FieldName = 'cRS_RADRSNG_ALL') or (FieldName = 'cRS_RADRSNG_BUSY') or
-        (FieldName = 'cRS_RADRSNG_NOANSWR') or (FieldName = 'cRS_RADRSNG_OUTSD')
+  if Pos(FieldName + ' ', MergeResult(BoolFieldArr)) > 0
           then // Модифицируйте под себя
     if CharToBool(Column.Field.AsString) then
       DrawGridCheckBox(dbgrdhRepSIM.Canvas, Rect, true)
@@ -801,6 +816,7 @@ begin
   end;
 end;
 
+{ TODO : cdsTmpERAfterPost и cdsTmpErBcAfterPost слабое звено }
 procedure TfrmEditingReport.cdsTmpErBcAfterPost(DataSet: TDataSet);
 begin
   if (cdsTmpER.State <> dsBrowse) or
@@ -826,8 +842,42 @@ begin
 end;
 
 procedure TfrmEditingReport.cdsTmpERAfterPost(DataSet: TDataSet);
+var
+  tmpIdAccoun,
+  tmpBalance: Variant;
 begin
-  //
+  tmpIdAccoun := intgrfldTmpERcRB_Prsnl_Acnt.Value;
+  tmpBalance := crncyfldTmpERcRB_Sum.Value;
+
+  if VarIsNull(tmpIdAccoun) then
+    Exit; 
+
+  with cdsTmpER do
+  try
+    AfterPost := nil;
+    cdsTmpErBc.AfterPost := nil;
+    // корректируем баланс в табл. ID аккаунта
+    with cdsTmpErBc do
+    if Locate('cPrsnlAcnt', tmpIdAccoun, []) then begin
+      Edit;
+      crncyfldTmpErBccSUM.Value := tmpBalance;
+      Post;
+    end;              
+
+    // корректируем баланс в главной табице
+    First;
+    while not Eof do begin
+      if intgrfldTmpERcRB_Prsnl_Acnt.Value = tmpIdAccoun then begin
+        Edit;
+        crncyfldTmpERcRB_Sum.Value := tmpBalance;
+        Post;
+      end;
+      Next;
+    end;
+  finally
+    AfterPost := cdsTmpERAfterPost;
+    cdsTmpErBc.AfterPost := cdsTmpErBcAfterPost;
+  end;
 end;
 
 procedure TfrmEditingReport.actInsertExecute(Sender: TObject);
@@ -844,6 +894,8 @@ begin
       ((cdsTmpER.State <> dsEdit) and (cdsTmpER.State <> dsInsert))
       and
       ((cdsTmpErBc.State <> dsEdit) and (cdsTmpErBc.State <> dsInsert))
+      and
+      not cdsTmpER.IsEmpty
 end;
 
 procedure TfrmEditingReport.actPrsnlAcntExecute(Sender: TObject);
@@ -862,7 +914,7 @@ end;
 
 procedure TfrmEditingReport.SetExtendedReports(IsExtended: Boolean);
 const
-  BEGIN_EXRENDED_COLUMN = 11;
+  BEGIN_EXRENDED_COLUMN = 7;
 var
   I: Integer;
 begin
@@ -879,10 +931,32 @@ end;
 procedure TfrmEditingReport.actExtendedReportUpdate(Sender: TObject);
 begin
   if extended_reports then
-    actExtendedReport.Caption := 'Включить компактный отчет'
+    actExtendedReport.Caption := 'Компактный отчет'
   else
-    actExtendedReport.Caption := 'Включить расширеный отчет'
+    actExtendedReport.Caption := 'Расширеный отчет'
 end;
 
+
+procedure TfrmEditingReport.actCancelEditExecute(Sender: TObject);
+begin
+  cdsTmpER.Cancel
+end;
+
+procedure TfrmEditingReport.actCancelEditUpdate(Sender: TObject);
+begin
+  actCancelEdit.Enabled := (cdsTmpER.State = dsEdit) or (cdsTmpER.State = dsInsert)
+end;
+
+procedure TfrmEditingReport.dbgrdhRepSIMCellClick(Column: TColumnEh);
+begin
+  with cdsTmpER, dbgrdhRepSIM.Columns[dbgrdhRepSIM.SelectedIndex] do
+  if Pos(FieldName + ' ', MergeResult(BoolFieldArr)) > 0 then begin
+    Edit;
+    if not ((State = dsEdit) or (State = dsInsert)) then
+      Edit;
+    cdsTmpER.FieldByName(Column.FieldName).Value :=
+        BoolToChar(not CharToBool(cdsTmpER.FieldByName(Column.FieldName).Value));
+  end;
+end;
 
 end.

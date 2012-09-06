@@ -1,8 +1,8 @@
 object frmEditingReport: TfrmEditingReport
-  Left = 383
-  Top = 226
-  Width = 1428
-  Height = 584
+  Left = 256
+  Top = 241
+  Width = 1558
+  Height = 594
   Caption = 'frmEditingReport'
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -19,8 +19,8 @@ object frmEditingReport: TfrmEditingReport
   TextHeight = 13
   object stat1: TStatusBar
     Left = 0
-    Top = 519
-    Width = 1420
+    Top = 529
+    Width = 1550
     Height = 19
     Panels = <
       item
@@ -34,10 +34,10 @@ object frmEditingReport: TfrmEditingReport
       end>
   end
   object pnl1: TPanel
-    Left = 1177
+    Left = 1307
     Top = 0
     Width = 243
-    Height = 519
+    Height = 529
     Align = alRight
     TabOrder = 1
     object lbl1: TLabel
@@ -71,8 +71,27 @@ object frmEditingReport: TfrmEditingReport
       Top = 480
       Width = 75
       Height = 25
+      Caption = 'Cancel'
+      ModalResult = 2
       TabOrder = 2
-      Kind = bkCancel
+      Glyph.Data = {
+        DE010000424DDE01000000000000760000002800000024000000120000000100
+        0400000000006801000000000000000000001000000000000000000000000000
+        80000080000000808000800000008000800080800000C0C0C000808080000000
+        FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF00333333333333
+        333333333333333333333333000033338833333333333333333F333333333333
+        0000333911833333983333333388F333333F3333000033391118333911833333
+        38F38F333F88F33300003339111183911118333338F338F3F8338F3300003333
+        911118111118333338F3338F833338F3000033333911111111833333338F3338
+        3333F8330000333333911111183333333338F333333F83330000333333311111
+        8333333333338F3333383333000033333339111183333333333338F333833333
+        00003333339111118333333333333833338F3333000033333911181118333333
+        33338333338F333300003333911183911183333333383338F338F33300003333
+        9118333911183333338F33838F338F33000033333913333391113333338FF833
+        38F338F300003333333333333919333333388333338FFF830000333333333333
+        3333333333333333333888330000333333333333333333333333333333333333
+        0000}
+      NumGlyphs = 2
     end
     object dbctrlgrd1: TDBCtrlGrid
       Left = 0
@@ -159,8 +178,8 @@ object frmEditingReport: TfrmEditingReport
   object dbgrdhRepSIM: TDBGridEh
     Left = 0
     Top = 0
-    Width = 1177
-    Height = 519
+    Width = 1307
+    Height = 529
     Align = alClient
     AutoFitColWidths = True
     DataGrouping.GroupLevels = <>
@@ -180,6 +199,7 @@ object frmEditingReport: TfrmEditingReport
     TitleFont.Height = -11
     TitleFont.Name = 'MS Sans Serif'
     TitleFont.Style = []
+    OnCellClick = dbgrdhRepSIMCellClick
     OnDrawColumnCell = dbgrdhRepSIMDrawColumnCell
     OnKeyPress = dbgrdhRepSIMKeyPress
     Columns = <
@@ -205,12 +225,13 @@ object frmEditingReport: TfrmEditingReport
         EditButtons = <>
         FieldName = 'cRS_SMS'
         Footers = <>
+        Width = 28
       end
       item
         EditButtons = <>
         FieldName = 'In'
         Footers = <>
-        Width = 24
+        Width = 63
       end
       item
         EditButtons = <>
@@ -222,12 +243,13 @@ object frmEditingReport: TfrmEditingReport
         EditButtons = <>
         FieldName = 'cRB_Sum'
         Footers = <>
+        Width = 37
       end
       item
         EditButtons = <>
         FieldName = 'cRS_Status'
         Footers = <>
-        Width = 71
+        Width = 20
       end
       item
         EditButtons = <>
@@ -275,6 +297,7 @@ object frmEditingReport: TfrmEditingReport
         EditButtons = <>
         FieldName = 'cRS_RADRSNG_ALL'
         Footers = <>
+        Width = 20
       end
       item
         EditButtons = <>
@@ -285,6 +308,7 @@ object frmEditingReport: TfrmEditingReport
         EditButtons = <>
         FieldName = 'cRS_RADRSNG_BUSY'
         Footers = <>
+        Width = 20
       end
       item
         EditButtons = <>
@@ -295,6 +319,7 @@ object frmEditingReport: TfrmEditingReport
         EditButtons = <>
         FieldName = 'cRS_RADRSNG_NOANSWR'
         Footers = <>
+        Width = 20
       end
       item
         EditButtons = <>
@@ -305,6 +330,7 @@ object frmEditingReport: TfrmEditingReport
         EditButtons = <>
         FieldName = 'cRS_RADRSNG_OUTSD'
         Footers = <>
+        Width = 20
       end
       item
         EditButtons = <>
@@ -819,7 +845,7 @@ object frmEditingReport: TfrmEditingReport
       OnUpdate = actInsertUpdate
     end
     object actEditField: TAction
-      Caption = #1056#1077#1076#1072#1082#1090#1080#1088#1086#1074#1072#1090#1100' '#1079#1072#1087#1080#1089#1100
+      Caption = #1056#1077#1076#1072#1082#1090#1080#1088#1086#1074#1072#1090#1100' '#1087#1086#1083#1077
       Hint = #1056#1077#1076#1072#1082#1090#1080#1088#1086#1074#1072#1085#1080#1077' '#1090#1077#1082#1091#1097#1077#1081' '#1079#1072#1087#1080#1089#1080
       OnExecute = actEditFieldExecute
       OnUpdate = actEditFieldUpdate
@@ -848,6 +874,12 @@ object frmEditingReport: TfrmEditingReport
       OnExecute = actExtendedReportExecute
       OnUpdate = actExtendedReportUpdate
     end
+    object actCancelEdit: TAction
+      Caption = #1054#1090#1084#1077#1085#1072
+      Hint = #1054#1090#1084#1077#1085#1080#1090#1100' '#1088#1077#1076#1072#1082#1090#1080#1088#1086#1074#1072#1085#1080#1077
+      OnExecute = actCancelEditExecute
+      OnUpdate = actCancelEditUpdate
+    end
   end
   object pm1: TPopupMenu
     Left = 48
@@ -865,6 +897,12 @@ object frmEditingReport: TfrmEditingReport
       Action = actApply
     end
     object mniN3: TMenuItem
+      Caption = '-'
+    end
+    object mniCancelEdit1: TMenuItem
+      Action = actCancelEdit
+    end
+    object mniN5: TMenuItem
       Caption = '-'
     end
     object mniDelete: TMenuItem
@@ -886,6 +924,12 @@ object frmEditingReport: TfrmEditingReport
         Action = actEditField
       end
       object mniN2: TMenuItem
+        Caption = '-'
+      end
+      object mniCancelEdit: TMenuItem
+        Action = actCancelEdit
+      end
+      object mniN4: TMenuItem
         Caption = '-'
       end
       object mniDelete1: TMenuItem
@@ -912,6 +956,7 @@ object frmEditingReport: TfrmEditingReport
       end
       item
         Name = 'cPrsnlAcnt'
+        Attributes = [faRequired]
         DataType = ftInteger
       end>
     IndexDefs = <
