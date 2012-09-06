@@ -147,13 +147,6 @@ inherited frmSimka: TfrmSimka
   inherited stat1: TStatusBar
     Width = 509
   end
-  inherited dbgrdh1: TDBGridEh
-    Columns = <
-      item
-        EditButtons = <>
-        Footers = <>
-      end>
-  end
   inherited pfbdtst1: TpFIBDataSet
     UpdateSQL.Strings = (
       'UPDATE SIMKA'

@@ -13,7 +13,6 @@ object frmMain: TfrmMain
   Menu = mm1
   OldCreateOrder = False
   OnCreate = FormCreate
-  OnResize = FormResize
   PixelsPerInch = 96
   TextHeight = 13
   object dbgrdh1: TDBGridEh
@@ -22,6 +21,7 @@ object frmMain: TfrmMain
     Width = 1272
     Height = 369
     Align = alClient
+    AutoFitColWidths = True
     DataGrouping.GroupLevels = <>
     DataSource = DM.ds1
     Flat = False

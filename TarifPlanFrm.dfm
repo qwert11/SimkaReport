@@ -104,13 +104,6 @@ inherited frmTarifPlan: TfrmTarifPlan
     Top = 357
     Width = 717
   end
-  inherited dbgrdh1: TDBGridEh
-    Columns = <
-      item
-        EditButtons = <>
-        Footers = <>
-      end>
-  end
   inherited pfbdtst1: TpFIBDataSet
     UpdateSQL.Strings = (
       'UPDATE TARIF_PLAN'

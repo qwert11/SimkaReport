@@ -20,13 +20,6 @@ inherited frmPersonalAccount: TfrmPersonalAccount
       Text = 'edtPersonalAccount'
     end
   end
-  inherited dbgrdh1: TDBGridEh
-    Columns = <
-      item
-        EditButtons = <>
-        Footers = <>
-      end>
-  end
   inherited pfbdtst1: TpFIBDataSet
     UpdateSQL.Strings = (
       'UPDATE PRCNL_ACNT'

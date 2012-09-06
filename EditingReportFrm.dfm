@@ -15,7 +15,6 @@ object frmEditingReport: TfrmEditingReport
   OnActivate = FormActivate
   OnCloseQuery = FormCloseQuery
   OnDestroy = FormDestroy
-  OnResize = FormResize
   PixelsPerInch = 96
   TextHeight = 13
   object stat1: TStatusBar
@@ -163,6 +162,7 @@ object frmEditingReport: TfrmEditingReport
     Width = 1177
     Height = 519
     Align = alClient
+    AutoFitColWidths = True
     DataGrouping.GroupLevels = <>
     DataSource = ds1
     Flat = False
