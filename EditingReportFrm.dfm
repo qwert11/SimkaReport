@@ -1,7 +1,7 @@
 object frmEditingReport: TfrmEditingReport
-  Left = 321
-  Top = 229
-  Width = 1558
+  Left = 0
+  Top = 176
+  Width = 1280
   Height = 594
   Caption = 'frmEditingReport'
   Color = clBtnFace
@@ -19,8 +19,8 @@ object frmEditingReport: TfrmEditingReport
   TextHeight = 13
   object stat1: TStatusBar
     Left = 0
-    Top = 529
-    Width = 1550
+    Top = 521
+    Width = 1272
     Height = 19
     Panels = <
       item
@@ -34,10 +34,10 @@ object frmEditingReport: TfrmEditingReport
       end>
   end
   object pnl1: TPanel
-    Left = 1307
+    Left = 1029
     Top = 0
     Width = 243
-    Height = 529
+    Height = 521
     Align = alRight
     TabOrder = 1
     object lbl1: TLabel
@@ -96,7 +96,7 @@ object frmEditingReport: TfrmEditingReport
     object dbctrlgrd1: TDBCtrlGrid
       Left = 0
       Top = 56
-      Width = 233
+      Width = 234
       Height = 216
       DataSource = ds2
       PanelWidth = 217
@@ -178,8 +178,8 @@ object frmEditingReport: TfrmEditingReport
   object dbgrdhRepSIM: TDBGridEh
     Left = 0
     Top = 0
-    Width = 1307
-    Height = 529
+    Width = 1029
+    Height = 521
     Align = alClient
     AutoFitColWidths = True
     DataGrouping.GroupLevels = <>

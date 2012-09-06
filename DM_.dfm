@@ -6,7 +6,7 @@ object DM: TDM
   Width = 174
   object DB: TpFIBDatabase
     Connected = True
-    DBName = 'D:\Prog\SimkaReport\SimkaReport.FDB'
+    DBName = 'SimkaReport.FDB'
     DBParams.Strings = (
       'password=masterkey'
       'user_name=SYSDBA'

@@ -517,6 +517,8 @@ begin
         ExecQuery;
       end;
 
+      SQL.Text := 'execute procedure '; conec
+
       pfbqryUpdate.Close;
       SQL.Text := 'INSERT INTO REPORT_SIMKA (' +
           'RS_IN, ' +
@@ -524,7 +526,7 @@ begin
           'RS_OWNER, ' +
           'RS_SIMKA, ' +
           'RS_TARIFPLAN, ' +
-          'RS_STARUS, ' +
+          'RS_STATUS, ' +
           'RS_BALANCE, ' +
           'RS_USER, ' +
           'RS_USER_BRUNCH, ' +
