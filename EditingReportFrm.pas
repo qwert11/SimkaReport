@@ -143,6 +143,7 @@ type
     procedure actCancelEditExecute(Sender: TObject);
     procedure actCancelEditUpdate(Sender: TObject);
     procedure dbgrdhRepSIMCellClick(Column: TColumnEh);
+    procedure cdsTmpErBcBeforeDelete(DataSet: TDataSet);
   private
     { Private declarations }
     FEditingReport: TEditingReport;
@@ -479,10 +480,6 @@ begin
       end;
     end;
 
-//        SQL.Text := 'ALTER INDEX REPORT_DAY_DATE INACTIVE';
-//        ExecQuery;
-//        Close;
-
     case FEditingReport of
       erEdit:
         SQL.Text := 'UPDATE REPORT_DAY SET RD_DATE = ''' + DateToStr(dtpDate.Date) + ''', ' +
@@ -493,12 +490,7 @@ begin
             '(''' + DateToStr(dtpDate.Date) + ''',' + IntToStr(user.ID) + ')';
     end;
     ExecQuery;
-    Close;
-
-//        SQL.Text := 'ALTER INDEX REPORT_DAY_DATE ACTIVE';
-//        ExecQuery;
-//        Close;
-
+    Close;   
 
     // удаляем старые значения
     SQL.Text := 'DELETE FROM REPORT_SIMKA ' +
@@ -512,83 +504,73 @@ begin
     ExecQuery;
     Close;
 
-    with cdsTmpErBc do begin
-      First;
-      while not Eof do begin
+    cdsTmpER.First;
+    with cdsTmpER do
+    while not Eof do begin
+      if VarIsNull(intgrfldTmpERcRB_Prsnl_Acnt.AsVariant) then begin
         pfbqryUpdate.Close;
         SQL.Text := 'INSERT INTO REPORT_BALANCE SET (' +
             'RB_SUM, RB_PRSNL_ACNT, RB_REPORTDAY) VALUES(' +
             crncyfldTmpErBccSUM.AsString + ',' +
             intgrfldTmpErBccPrsnlAcnt.AsString + ', ''' +
             DateToStr(dtpDate.Date) + ''')';
-
         ExecQuery;
-
-        cdsTmpER.Filtered := False;
-        cdsTmpER.Filter := 'cRB_Prsnl_Acnt = ' + intgrfldTmpErBccPrsnlAcnt.AsString;
-        try
-          cdsTmpER.Filtered := True;
-          with cdsTmpER do begin
-            First;
-            while not Eof do begin
-              if VarIsNull(intgrfldTmpERcRB_Prsnl_Acnt.AsVariant) then begin
-                pfbqryUpdate.Close;
-                SQL.Text := 'INSERT INTO REPORT_BALANCE SET (' +
-                    'RB_SUM, RB_PRSNL_ACNT, RB_REPORTDAY) VALUES(' +
-                    crncyfldTmpErBccSUM.AsString + ',' +
-                    intgrfldTmpErBccPrsnlAcnt.AsString + ', ''' +
-                    DateToStr(dtpDate.Date) + ''')';
-                ExecQuery;
-              end;
-
-              pfbqryUpdate.Close;
-              SQL.Text := 'INSERT INTO REPORT_SIMKA (' +
-                  'RS_IN, ' +
-                  'RS_SMS, ' +
-                  'RS_OWNER, ' +
-                  'RS_SIMKA, ' +
-                  'RS_TARIFPLAN, ' +
-                  'RS_STARUS, ' +
-
-                  'RS_BALANCE, ' +
-
-                  'RS_USER, ' +
-                  'RS_USER_BRUNCH, ' +
-                  'RS_PART_CALL, ' +
-                  'RS_IFINSTALL, ' +
-                  'RS_ICC_SIM, ' +
-                  'RS_PUK1, ' +
-                  'RS_PUK2, ' +
-
-                  'RS_REPORTDAY ) VALUES (' +
-
-                    intgrfldTmpERcRS_In.AsString + ', ' +
-                    intgrfldTmpERcRS_SMS.AsString + ', ' +
-                    intgrfldTmpERcRS_Owner.AsString + ', ' +
-                    intgrfldTmpERcRS_Simka.AsString + ', ' +
-                    intgrfldTmpERcRS_TarifPlan.AsString + ', ' +
-                    strngfldTmpERcRS_Status.AsString + ', ' +
-                    Fields[0].AsString + ', ' + // (new_rb_id) новая запись из Report_Balance
-                    intgrfldTmpERcRS_User.AsString + ', ' +
-                    intgrfldTmpERcRS_UserBrunch.AsString + ', ' +
-                    intgrfldTmpERcRS_PartCall.AsString + ', ' +
-                    strngfldTmpERcRS_IfInstall.AsString + ', ' +
-                    strngfldTmpERcRS_ICC_SIM.AsString + ', ' +
-                    strngfldTmpERcRS_PUK1.AsString + ', ' +
-                    strngfldTmpERcRS_PUK2.AsString + ', ' +
-                    DateToStr(dtpDate.Date) +
-              ')';
-
-              ExecQuery;
-              Next;
-            end;
-          end;
-        finally
-          cdsTmpER.Filtered := False;
-        end;
-
-        Next;
       end;
+
+      pfbqryUpdate.Close;
+      SQL.Text := 'INSERT INTO REPORT_SIMKA (' +
+          'RS_IN, ' +
+          'RS_SMS, ' +
+          'RS_OWNER, ' +
+          'RS_SIMKA, ' +
+          'RS_TARIFPLAN, ' +
+          'RS_STARUS, ' +
+          'RS_BALANCE, ' +
+          'RS_USER, ' +
+          'RS_USER_BRUNCH, ' +
+          'RS_PART_CALL, ' +
+          'RS_IFINSTALL, ' +
+          'RS_ICC_SIM, ' +
+          'RS_PUK1, ' +
+          'RS_PUK2, ' +
+          'RS_REPORTDAY, ' +
+          'RS_RADRSNG_ALL, ' +
+          'RS_RADRSNG_BUSY, ' +
+          'RS_RADRSNG_NOANSWR, ' +
+          'RS_RADRSNG_OUTSD, ' +
+          'RS_NUM_ALL, ' +
+          'RS_NUM_BUSY, ' +
+          'RS_NUM_NOANSWR, ' +
+          'RS_NUM_OUTSD, ' +
+
+          ' ) VALUES (' +
+            intgrfldTmpERcRS_In.AsString + ', ' +
+            intgrfldTmpERcRS_SMS.AsString + ', ' +
+            intgrfldTmpERcRS_Owner.AsString + ', ' +
+            intgrfldTmpERcRS_Simka.AsString + ', ' +
+            intgrfldTmpERcRS_TarifPlan.AsString + ', ' +
+            strngfldTmpERcRS_Status.AsString + ', ' +
+            Fields[0].AsString + ', ' + // (new_rb_id) новая запись из Report_Balance
+            intgrfldTmpERcRS_User.AsString + ', ' +
+            intgrfldTmpERcRS_UserBrunch.AsString + ', ' +
+            intgrfldTmpERcRS_PartCall.AsString + ', ' +
+            strngfldTmpERcRS_IfInstall.AsString + ', ' +
+            strngfldTmpERcRS_ICC_SIM.AsString + ', ' +
+            strngfldTmpERcRS_PUK1.AsString + ', ' +
+            strngfldTmpERcRS_PUK2.AsString + ', ''' +
+            DateToStr(dtpDate.Date) + ''', ' +
+            strngfldTmpERcRS_RADRSNG_ALL.Value + ', ' +
+            strngfldTmpERcRS_RADRSNG_BUSY.Value + ', ' +
+            strngfldTmpERcRS_RADRSNG_NOANSWR.Value + ', ' +
+            strngfldTmpERcRS_RADRSNG_OUTSD.Value + ', ' +
+            intgrfldTmpERcRS_NUM_ALL.AsString + ', ' +
+            intgrfldTmpERcRS_NUM_BUSY.AsString + ', ' +
+            intgrfldTmpERcRS_NUM_NOANSWR.AsString + ', ' +
+            intgrfldTmpERcRS_NUM_OUTSD.AsString +
+      ')';
+
+      ExecQuery;
+      Next;
     end;
 
     Close;
@@ -816,6 +798,26 @@ begin
   end;
 end;
 
+
+procedure TfrmEditingReport.cdsTmpErBcBeforeDelete(DataSet: TDataSet);
+begin
+  with cdsTmpER do
+    try
+      AfterPost := nil;
+      cdsTmpErBc.AfterPost := nil;
+      First;
+      while not Eof do begin
+        if intgrfldTmpERcRB_Prsnl_Acnt.Value = intgrfldTmpErBccPrsnlAcnt.Value then
+          intgrfldTmpERcRB_Prsnl_Acnt.AsVariant := Null;
+        Next;
+      end;
+
+    finally
+      AfterPost := cdsTmpERAfterPost;
+      cdsTmpErBc.AfterPost := cdsTmpErBcAfterPost;
+    end;
+end;
+
 { TODO : cdsTmpERAfterPost и cdsTmpErBcAfterPost слабое звено }
 procedure TfrmEditingReport.cdsTmpErBcAfterPost(DataSet: TDataSet);
 begin
@@ -829,7 +831,7 @@ begin
 
     First;
     while not Eof do begin
-        if intgrfldTmpERcRB_Prsnl_Acnt.Value = intgrfldTmpERcRB_Prsnl_Acnt.Value then begin
+        if intgrfldTmpERcRB_Prsnl_Acnt.Value = intgrfldTmpErBccPrsnlAcnt.Value then begin
           Edit;
           crncyfldTmpERcRB_Sum.Value := crncyfldTmpErBccSUM.Value;
           Post
@@ -861,8 +863,13 @@ begin
     if Locate('cPrsnlAcnt', tmpIdAccoun, []) then begin
       Edit;
       crncyfldTmpErBccSUM.Value := tmpBalance;
+      Post end
+    else begin
+      Append;
+      crncyfldTmpErBccSUM.Value := tmpBalance;
+      intgrfldTmpErBccPrsnlAcnt.Value := tmpIdAccoun;
       Post;
-    end;              
+    end;
 
     // корректируем баланс в главной табице
     First;
@@ -958,5 +965,6 @@ begin
         BoolToChar(not CharToBool(cdsTmpER.FieldByName(Column.FieldName).Value));
   end;
 end;
+
 
 end.

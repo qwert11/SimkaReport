@@ -1,6 +1,6 @@
 object frmEditingReport: TfrmEditingReport
-  Left = 256
-  Top = 241
+  Left = 321
+  Top = 229
   Width = 1558
   Height = 594
   Caption = 'frmEditingReport'
@@ -557,7 +557,12 @@ object frmEditingReport: TfrmEditingReport
         Name = 'cC_RS_CLIR_PRICE'
         DataType = ftCurrency
       end>
-    IndexDefs = <>
+    IndexDefs = <
+      item
+        Name = 'cdsTmpERIndex1'
+        Fields = 'cRS_Simka'
+        Options = [ixUnique]
+      end>
     FetchOnDemand = False
     Params = <>
     StoreDefs = True
@@ -969,6 +974,7 @@ object frmEditingReport: TfrmEditingReport
     StoreDefs = True
     BeforePost = cdsTmpErBcBeforePost
     AfterPost = cdsTmpErBcAfterPost
+    BeforeDelete = cdsTmpErBcBeforeDelete
     Left = 184
     Top = 224
     object intgrfldTmpErBccRB_ID: TIntegerField
