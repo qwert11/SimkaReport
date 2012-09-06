@@ -6,7 +6,7 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, ChaildFrm, ActnList, Menus, StdCtrls, Buttons, ExtCtrls, Grids,
   DBGrids, DB, FIBDataSet, pFIBDataSet, DBCtrls, fib, ComCtrls, DBGridEh,
-  Mask, DBCtrlsEh, DBLookupEh;
+  Mask, DBCtrlsEh, DBLookupEh, DBGridEhGrouping, GridsEh;
 
 type
   TfrmSimka = class(TChaildForm)

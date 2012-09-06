@@ -15,6 +15,7 @@ object frmEditingReport: TfrmEditingReport
   OnActivate = FormActivate
   OnCloseQuery = FormCloseQuery
   OnDestroy = FormDestroy
+  OnResize = FormResize
   PixelsPerInch = 96
   TextHeight = 13
   object stat1: TStatusBar

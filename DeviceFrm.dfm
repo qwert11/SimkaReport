@@ -5,24 +5,6 @@ inherited frmDevice: TfrmDevice
   OldCreateOrder = True
   PixelsPerInch = 96
   TextHeight = 13
-  inherited dbgrd1: TDBGrid
-    Columns = <
-      item
-        Expanded = False
-        FieldName = 'DID'
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'D_NUM'
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'D_TITLE'
-        Visible = True
-      end>
-  end
   inherited pnl1: TPanel
     object lbl1: TLabel [0]
       Left = 16
@@ -56,6 +38,13 @@ inherited frmDevice: TfrmDevice
       TabOrder = 5
       Text = 'edtTitle'
     end
+  end
+  inherited dbgrdh1: TDBGridEh
+    Columns = <
+      item
+        EditButtons = <>
+        Footers = <>
+      end>
   end
   inherited pfbdtst1: TpFIBDataSet
     UpdateSQL.Strings = (
@@ -101,6 +90,7 @@ inherited frmDevice: TfrmDevice
       '    D_TITLE'
       'FROM'
       '    DEVICE ')
+    Active = True
     object pfbdtst1DID: TFIBIntegerField
       FieldName = 'DID'
       Origin = 'DEVICE.DID'

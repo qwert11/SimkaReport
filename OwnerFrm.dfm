@@ -5,19 +5,6 @@ inherited frmOwner: TfrmOwner
   OldCreateOrder = True
   PixelsPerInch = 96
   TextHeight = 13
-  inherited dbgrd1: TDBGrid
-    Columns = <
-      item
-        Expanded = False
-        FieldName = 'OID'
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'O_NAME'
-        Visible = True
-      end>
-  end
   inherited pnl1: TPanel
     object lbl1: TLabel [0]
       Left = 16
@@ -35,6 +22,13 @@ inherited frmOwner: TfrmOwner
       TabOrder = 4
       Text = 'edtOwner'
     end
+  end
+  inherited dbgrdh1: TDBGridEh
+    Columns = <
+      item
+        EditButtons = <>
+        Footers = <>
+      end>
   end
   inherited pfbdtst1: TpFIBDataSet
     UpdateSQL.Strings = (
@@ -67,6 +61,7 @@ inherited frmOwner: TfrmOwner
       '    O_NAME'
       'FROM'
       '    OWNER ')
+    Active = True
     object pfbdtst1OID: TFIBIntegerField
       FieldName = 'OID'
       Origin = 'OWNER.OID'

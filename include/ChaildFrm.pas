@@ -10,7 +10,7 @@ uses
   TypInfo,
 {$ENDIF}
   pFIBDatabase, FIBDataSet, pFIBDataSet, FIBQuery, fib, ComCtrls, 
-  DBLookupEh;
+  DBLookupEh, DBGridEhGrouping, GridsEh;
 
 type
   TEditorSetState = (esEdit, esInsert, esDelete, esNone);
@@ -64,6 +64,7 @@ type
     procedure actClearAllUpdate(Sender: TObject);
     procedure FormActivate(Sender: TObject);
     procedure dbgrd1KeyPress(Sender: TObject; var Key: Char);
+    procedure FormResize(Sender: TObject);
   private
     { Private declarations }
     procedure NullAllField;
@@ -367,6 +368,11 @@ procedure TChaildForm.dbgrd1KeyPress(Sender: TObject; var Key: Char);
 begin
   if Key = #13 then
     dbgrd1DblClick(nil)
+end;
+
+procedure TChaildForm.FormResize(Sender: TObject);
+begin
+  //GridResize(dbgrdh1)
 end;
 
 end.

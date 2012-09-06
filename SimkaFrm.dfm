@@ -6,30 +6,6 @@ inherited frmSimka: TfrmSimka
   OldCreateOrder = True
   PixelsPerInch = 96
   TextHeight = 13
-  inherited dbgrd1: TDBGrid
-    Width = 509
-    Columns = <
-      item
-        Expanded = False
-        FieldName = 'SID'
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'S_NUMBER'
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'S_LINK_RADIO'
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'S_OPERATOR'
-        Visible = True
-      end>
-  end
   inherited pnl1: TPanel
     Width = 509
     object lbl1: TLabel [0]
@@ -171,6 +147,13 @@ inherited frmSimka: TfrmSimka
   inherited stat1: TStatusBar
     Width = 509
   end
+  inherited dbgrdh1: TDBGridEh
+    Columns = <
+      item
+        EditButtons = <>
+        Footers = <>
+      end>
+  end
   inherited pfbdtst1: TpFIBDataSet
     UpdateSQL.Strings = (
       'UPDATE SIMKA'
@@ -218,6 +201,7 @@ inherited frmSimka: TfrmSimka
       '    S_OPERATOR'
       'FROM'
       '    SIMKA ')
+    Active = True
     object pfbdtst1SID: TFIBIntegerField
       FieldName = 'SID'
     end

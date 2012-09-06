@@ -20,6 +20,13 @@ inherited frmPartCall: TfrmPartCall
       Text = 'edtPartCall'
     end
   end
+  inherited dbgrdh1: TDBGridEh
+    Columns = <
+      item
+        EditButtons = <>
+        Footers = <>
+      end>
+  end
   inherited pfbdtst1: TpFIBDataSet
     UpdateSQL.Strings = (
       'UPDATE PART_CALL'
@@ -57,6 +64,7 @@ inherited frmPartCall: TfrmPartCall
       '    PC_ART_ALL'
       'FROM'
       '    PART_CALL ')
+    Active = True
     object fbntgrfldpfbdtst1PC_ID: TFIBIntegerField
       FieldName = 'PC_ID'
     end

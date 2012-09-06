@@ -61,6 +61,7 @@ type
       DataCol: Integer; Column: TColumnEh; State: TGridDrawState);
     procedure actExtendedReportExecute(Sender: TObject);
     procedure actExtendedReportUpdate(Sender: TObject);
+    procedure FormResize(Sender: TObject);
   private
     { Private declarations }
     property EditReport: TEditingReport write SetEditReport;
@@ -342,7 +343,7 @@ end;
 
 procedure TfrmMain.SetExtendedReports(IsExtended: Boolean);
 const
-  BEGIN_EXRENDED_COLUMN = 20;
+  BEGIN_EXRENDED_COLUMN = 8;
 var
   I: Integer;
 begin
@@ -362,6 +363,11 @@ begin
     actExtendedReport.Caption := '¬ключить компактный отчет'
   else
     actExtendedReport.Caption := '¬ключить расширеный отчет'
+end;
+
+procedure TfrmMain.FormResize(Sender: TObject);
+begin
+  GridResize(dbgrdh1)
 end;
 
 end.

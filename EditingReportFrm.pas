@@ -135,6 +135,7 @@ type
     procedure actExtendedReportExecute(Sender: TObject);
     procedure actExtendedReportUpdate(Sender: TObject);
     procedure cdsTmpERAfterPost(DataSet: TDataSet);
+    procedure FormResize(Sender: TObject);
   private
     { Private declarations }
     FEditingReport: TEditingReport;
@@ -884,5 +885,10 @@ begin
     actExtendedReport.Caption := '¬ключить расширеный отчет'
 end;
 
+
+procedure TfrmEditingReport.FormResize(Sender: TObject);
+begin
+  GridResize(dbgrdhRepSIM)
+end;
 
 end.

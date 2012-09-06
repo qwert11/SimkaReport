@@ -13,6 +13,7 @@ object frmMain: TfrmMain
   Menu = mm1
   OldCreateOrder = False
   OnCreate = FormCreate
+  OnResize = FormResize
   PixelsPerInch = 96
   TextHeight = 13
   object dbgrdh1: TDBGridEh

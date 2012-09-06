@@ -20,6 +20,13 @@ inherited frmUserBrunch: TfrmUserBrunch
       Text = 'edtUserBrunch'
     end
   end
+  inherited dbgrdh1: TDBGridEh
+    Columns = <
+      item
+        EditButtons = <>
+        Footers = <>
+      end>
+  end
   inherited pfbdtst1: TpFIBDataSet
     UpdateSQL.Strings = (
       'UPDATE USER_BRUNCH'
@@ -57,6 +64,7 @@ inherited frmUserBrunch: TfrmUserBrunch
       '    UB_SER_RUNCH'
       'FROM'
       '    USER_BRUNCH ')
+    Active = True
     object fbntgrfldpfbdtst1UB_ID: TFIBIntegerField
       FieldName = 'UB_ID'
     end

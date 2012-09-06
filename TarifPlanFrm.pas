@@ -6,7 +6,7 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, ChaildFrm, ActnList, Menus, StdCtrls, Buttons, ExtCtrls, Grids,
   DBGrids, DB, FIBDataSet, pFIBDataSet, IBCustomDataSet, IBQuery, fib,
-  ComCtrls;
+  ComCtrls, DBGridEhGrouping, GridsEh, DBGridEh;
 
 type
   TfrmTarifPlan = class(TChaildForm)

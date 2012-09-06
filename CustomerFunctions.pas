@@ -5,7 +5,7 @@ interface
 uses
   IniFiles, SysUtils, StdCtrls, Windows, DBCtrlsEh,
   DBLookupEh, Forms, pFIBDataSet, Classes, Controls, Variants,
-  FIBQuery, DBCtrls;
+  FIBQuery, DBCtrls, DBGridEh;
 
 type
   TReadIni = (riString, riInteger, riBool, riDate, riFloat);
@@ -14,6 +14,7 @@ type
   ECustomerError = class (Exception);
   ECusConvertError = class (EAbort);
 
+function GridResize(Grid: TDBGridEh): Boolean;
 
 function ToStrNull(S: string): string; overload;
 function ToStrNull(V: Variant): string; overload;
@@ -49,6 +50,28 @@ procedure Delay(MiliSeconds: Integer);
 implementation
 
 uses CustomerGlobals;
+
+function GridResize(Grid: TDBGridEh): Boolean;
+  function SumSizeColumns: Integer;
+  var
+    I: Integer;
+  begin
+    Result := 0;
+    for I := 0 to Grid.Columns.Count - 1 do
+      Inc(Result, Grid.Columns[I].Width)
+  end;
+var
+  aspect: Real;
+  I: Integer;
+begin
+  Result := False;
+  if SumSizeColumns = 0 then
+    Exit;
+  aspect := Grid.Width / SumSizeColumns;
+  for I := 0 to Grid.Columns.Count - 1 do
+    Grid.Columns[I].Width := Trunc(Grid.Columns[I].Width * aspect);
+  Result := True;
+end;
 
 function CharToBool(ch: string): Boolean;
 begin

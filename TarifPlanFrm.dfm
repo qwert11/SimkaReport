@@ -7,10 +7,6 @@ inherited frmTarifPlan: TfrmTarifPlan
   OldCreateOrder = True
   PixelsPerInch = 96
   TextHeight = 13
-  inherited dbgrd1: TDBGrid
-    Width = 717
-    Height = 267
-  end
   inherited pnl1: TPanel
     Top = 267
     Width = 717
@@ -108,6 +104,13 @@ inherited frmTarifPlan: TfrmTarifPlan
     Top = 357
     Width = 717
   end
+  inherited dbgrdh1: TDBGridEh
+    Columns = <
+      item
+        EditButtons = <>
+        Footers = <>
+      end>
+  end
   inherited pfbdtst1: TpFIBDataSet
     UpdateSQL.Strings = (
       'UPDATE TARIF_PLAN'
@@ -165,6 +168,7 @@ inherited frmTarifPlan: TfrmTarifPlan
       '    TP_CLIR_PRICE'
       'FROM'
       '    TARIF_PLAN ')
+    Active = True
     AutoCommit = True
     object pfbdtst1TPID: TFIBIntegerField
       FieldName = 'TPID'
@@ -199,6 +203,8 @@ inherited frmTarifPlan: TfrmTarifPlan
     object fbcdfldpfbdtst1TP_CLIR_PRICE: TFIBBCDField
       FieldName = 'TP_CLIR_PRICE'
       Origin = 'TARIF_PLAN.TP_CLIR_PRICE'
+      DisplayFormat = '#,##0.00'
+      EditFormat = '0.00'
       Size = 2
       RoundByScale = True
     end

@@ -16,35 +16,18 @@ object ChaildForm: TChaildForm
   OnCloseQuery = FormCloseQuery
   OnCreate = FormCreate
   OnDestroy = FormDestroy
+  OnResize = FormResize
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
-  object dbgrd1: TDBGrid
-    Left = 0
-    Top = 0
-    Width = 472
-    Height = 245
-    Align = alClient
-    DataSource = ds1
-    PopupMenu = pm1
-    ReadOnly = True
-    TabOrder = 0
-    TitleFont.Charset = DEFAULT_CHARSET
-    TitleFont.Color = clWindowText
-    TitleFont.Height = -11
-    TitleFont.Name = 'MS Sans Serif'
-    TitleFont.Style = []
-    OnDblClick = dbgrd1DblClick
-    OnKeyPress = dbgrd1KeyPress
-  end
   object pnl1: TPanel
     Left = 0
-    Top = 245
+    Top = 253
     Width = 472
     Height = 90
     Align = alBottom
     BevelInner = bvLowered
-    TabOrder = 1
+    TabOrder = 0
     DesignSize = (
       472
       90)
@@ -88,7 +71,7 @@ object ChaildForm: TChaildForm
   end
   object stat1: TStatusBar
     Left = 0
-    Top = 335
+    Top = 343
     Width = 472
     Height = 19
     Panels = <
@@ -98,6 +81,24 @@ object ChaildForm: TChaildForm
       item
         Width = 50
       end>
+  end
+  object dbgrd1: TDBGrid
+    Left = 0
+    Top = 0
+    Width = 472
+    Height = 253
+    Align = alClient
+    DataSource = ds1
+    PopupMenu = pm1
+    ReadOnly = True
+    TabOrder = 2
+    TitleFont.Charset = DEFAULT_CHARSET
+    TitleFont.Color = clWindowText
+    TitleFont.Height = -11
+    TitleFont.Name = 'MS Sans Serif'
+    TitleFont.Style = []
+    OnDblClick = dbgrd1DblClick
+    OnKeyPress = dbgrd1KeyPress
   end
   object mm1: TMainMenu
     Left = 240
