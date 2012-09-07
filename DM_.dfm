@@ -88,11 +88,22 @@ object DM: TDM
       '    report_simka.rs_radrsng_busy,'
       '    report_simka.rs_radrsng_noanswr,'
       '    report_simka.rs_radrsng_outsd,'
+      '    simka4.s_number,'
+      '    simka2.s_number,'
+      '    simka3.s_number,'
+      '    simka1.s_number,'
       '    report_simka.rs_num_all,'
       '    report_simka.rs_num_busy,'
       '    report_simka.rs_num_noanswr,'
       '    report_simka.rs_num_outsd'
       'from report_simka'
+      '   left outer join owner on (report_simka.rs_owner = owner.oid)'
+      
+        '   left outer join simka simka4 on (report_simka.rs_num_outsd = ' +
+        'simka4.sid)'
+      
+        '   left outer join simka simka3 on (report_simka.rs_num_noanswr ' +
+        '= simka3.sid)'
       
         '   left outer join user_brunch on (report_simka.rs_user_brunch =' +
         ' user_brunch.ub_id)'
@@ -102,7 +113,6 @@ object DM: TDM
       
         '   left outer join people on (report_day.rd_respons = people.p_i' +
         'd)'
-      '   left outer join owner on (report_simka.rs_owner = owner.oid)'
       '   left outer join simka on (report_simka.rs_simka = simka.sid)'
       
         '   left outer join link_radio on (simka.s_link_radio = link_radi' +
@@ -126,6 +136,12 @@ object DM: TDM
         '   left outer join "USER" on (report_simka.rs_user = "USER".u_id' +
         ')'
       '   left outer join device on (report_simka.rs_in = device.did)'
+      
+        '   left outer join simka simka1 on (report_simka.rs_num_all = si' +
+        'mka1.sid)'
+      
+        '   left outer join simka simka2 on (report_simka.rs_num_busy = s' +
+        'imka2.sid)'
       
         'order by report_day.rd_date, report_simka.rs_owner, report_simka' +
         '.rsid')
@@ -420,6 +436,30 @@ object DM: TDM
       DisplayLabel = #8470#1090#1077#1083'. '#1074#1085#1077' '#1079#1086#1085#1099
       FieldName = 'RS_NUM_OUTSD'
       Origin = 'REPORT_SIMKA.RS_NUM_OUTSD'
+    end
+    object fbstrngfldViewS_NUMBER1: TFIBStringField
+      DisplayLabel = #8470' '#1090#1077#1083'. '#1074#1089#1077
+      FieldName = 'S_NUMBER1'
+      Size = 12
+      EmptyStrToNull = True
+    end
+    object fbstrngfldViewS_NUMBER2: TFIBStringField
+      DisplayLabel = #8470' '#1090#1077#1083'. '#1079#1072#1085#1103#1090
+      FieldName = 'S_NUMBER2'
+      Size = 12
+      EmptyStrToNull = True
+    end
+    object fbstrngfldViewS_NUMBER3: TFIBStringField
+      DisplayLabel = #8470' '#1090#1077#1083'. '#1085#1077#1090' '#1086#1090#1074'.'
+      FieldName = 'S_NUMBER3'
+      Size = 12
+      EmptyStrToNull = True
+    end
+    object fbstrngfldViewS_NUMBER4: TFIBStringField
+      DisplayLabel = #8470' '#1090#1077#1083'. '#1074#1085#1077' '#1079#1086#1085#1099
+      FieldName = 'S_NUMBER4'
+      Size = 12
+      EmptyStrToNull = True
     end
   end
 end

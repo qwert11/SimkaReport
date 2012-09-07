@@ -1,6 +1,6 @@
 object frmMain: TfrmMain
-  Left = 266
-  Top = 344
+  Left = 355
+  Top = 345
   Width = 1280
   Height = 486
   Caption = 'SIM'
@@ -143,7 +143,7 @@ object frmMain: TfrmMain
       end
       item
         EditButtons = <>
-        FieldName = 'RS_NUM_ALL'
+        FieldName = 'S_NUMBER1'
         Footers = <>
       end
       item
@@ -154,7 +154,7 @@ object frmMain: TfrmMain
       end
       item
         EditButtons = <>
-        FieldName = 'RS_NUM_BUSY'
+        FieldName = 'S_NUMBER2'
         Footers = <>
       end
       item
@@ -165,7 +165,7 @@ object frmMain: TfrmMain
       end
       item
         EditButtons = <>
-        FieldName = 'RS_NUM_NOANSWR'
+        FieldName = 'S_NUMBER3'
         Footers = <>
       end
       item
@@ -176,7 +176,7 @@ object frmMain: TfrmMain
       end
       item
         EditButtons = <>
-        FieldName = 'RS_NUM_OUTSD'
+        FieldName = 'S_NUMBER4'
         Footers = <>
       end>
     object RowDetailData: TRowDetailPanelControlEh

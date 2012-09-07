@@ -60,6 +60,10 @@ type
     fbntgrfldViewRS_NUM_BUSY: TFIBIntegerField;
     fbntgrfldViewRS_NUM_NOANSWR: TFIBIntegerField;
     fbntgrfldViewRS_NUM_OUTSD: TFIBIntegerField;
+    fbstrngfldViewS_NUMBER1: TFIBStringField;
+    fbstrngfldViewS_NUMBER2: TFIBStringField;
+    fbstrngfldViewS_NUMBER3: TFIBStringField;
+    fbstrngfldViewS_NUMBER4: TFIBStringField;
     procedure fbstrngfldViewRE_SURNAMEGetText(Sender: TField;
       var Text: String; DisplayText: Boolean);
   private
