@@ -1,6 +1,6 @@
 object frmEditingReport: TfrmEditingReport
-  Left = 0
-  Top = 176
+  Left = 277
+  Top = 266
   Width = 1280
   Height = 594
   Caption = 'frmEditingReport'
@@ -19,7 +19,7 @@ object frmEditingReport: TfrmEditingReport
   TextHeight = 13
   object stat1: TStatusBar
     Left = 0
-    Top = 521
+    Top = 529
     Width = 1272
     Height = 19
     Panels = <
@@ -37,7 +37,7 @@ object frmEditingReport: TfrmEditingReport
     Left = 1029
     Top = 0
     Width = 243
-    Height = 521
+    Height = 529
     Align = alRight
     TabOrder = 1
     object lbl1: TLabel
@@ -46,6 +46,21 @@ object frmEditingReport: TfrmEditingReport
       Width = 29
       Height = 13
       Caption = #1044#1072#1090#1072':'
+    end
+    object lblBalanceAccount: TLabel
+      Left = 48
+      Top = 72
+      Width = 133
+      Height = 20
+      Caption = #1041#1072#1083#1072#1085#1089' '#1085#1072' '#1089#1095#1077#1090#1072#1093
+      Color = clBtnFace
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -16
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      ParentColor = False
+      ParentFont = False
     end
     object dtpDate: TDateTimePicker
       Left = 40
@@ -95,8 +110,8 @@ object frmEditingReport: TfrmEditingReport
     end
     object dbctrlgrd1: TDBCtrlGrid
       Left = 0
-      Top = 56
-      Width = 234
+      Top = 96
+      Width = 233
       Height = 216
       DataSource = ds2
       PanelWidth = 217
@@ -168,7 +183,7 @@ object frmEditingReport: TfrmEditingReport
     end
     object dbnvgrBalance: TDBNavigator
       Left = 0
-      Top = 272
+      Top = 312
       Width = 240
       Height = 25
       DataSource = ds2
@@ -179,7 +194,7 @@ object frmEditingReport: TfrmEditingReport
     Left = 0
     Top = 0
     Width = 1029
-    Height = 521
+    Height = 529
     Align = alClient
     AutoFitColWidths = True
     DataGrouping.GroupLevels = <>
@@ -301,8 +316,9 @@ object frmEditingReport: TfrmEditingReport
       end
       item
         EditButtons = <>
-        FieldName = 'cRS_NUM_ALL'
+        FieldName = 'NumAll'
         Footers = <>
+        Width = 100
       end
       item
         EditButtons = <>
@@ -312,8 +328,9 @@ object frmEditingReport: TfrmEditingReport
       end
       item
         EditButtons = <>
-        FieldName = 'cRS_NUM_BUSY'
+        FieldName = 'NumBusy'
         Footers = <>
+        Width = 100
       end
       item
         EditButtons = <>
@@ -323,8 +340,9 @@ object frmEditingReport: TfrmEditingReport
       end
       item
         EditButtons = <>
-        FieldName = 'cRS_NUM_NOANSWR'
+        FieldName = 'NumNoAnswr'
         Footers = <>
+        Width = 100
       end
       item
         EditButtons = <>
@@ -334,8 +352,9 @@ object frmEditingReport: TfrmEditingReport
       end
       item
         EditButtons = <>
-        FieldName = 'cRS_NUM_OUTSD'
+        FieldName = 'NumOutSd'
         Footers = <>
+        Width = 100
       end>
     object RowDetailData: TRowDetailPanelControlEh
     end
@@ -579,7 +598,6 @@ object frmEditingReport: TfrmEditingReport
     end
     object intgrfldTmpERcC_RS_In: TIntegerField
       FieldName = 'cC_RS_In'
-      ReadOnly = True
     end
     object intgrfldTmpERcRS_SMS: TIntegerField
       DisplayLabel = #1057#1052#1057
@@ -587,7 +605,6 @@ object frmEditingReport: TfrmEditingReport
     end
     object intgrfldTmpERcC_RS_SMS: TIntegerField
       FieldName = 'cC_RS_SMS'
-      ReadOnly = True
     end
     object intgrfldTmpERcRS_Owner: TIntegerField
       DisplayLabel = #1042#1083#1072#1076#1077#1083#1077#1094
@@ -595,7 +612,6 @@ object frmEditingReport: TfrmEditingReport
     end
     object intgrfldTmpERcC_RS_Owner: TIntegerField
       FieldName = 'cC_RS_Owner'
-      ReadOnly = True
     end
     object intgrfldTmpERcRS_Simka: TIntegerField
       DisplayLabel = #1057#1080#1084'-'#1082#1072#1088#1090#1072
@@ -603,7 +619,6 @@ object frmEditingReport: TfrmEditingReport
     end
     object intgrfldTmpERcC_RS_Simka: TIntegerField
       FieldName = 'cC_RS_Simka'
-      ReadOnly = True
     end
     object intgrfldTmpERcRS_TarifPlan: TIntegerField
       DisplayLabel = #1058#1072#1088#1080#1092#1085#1099#1081' '#1087#1083#1072#1085
@@ -611,7 +626,6 @@ object frmEditingReport: TfrmEditingReport
     end
     object intgrfldTmpERcC_RS_TarifPlan: TIntegerField
       FieldName = 'cC_RS_TarifPlan'
-      ReadOnly = True
     end
     object strngfldTmpERcRS_Status: TStringField
       DisplayLabel = #1057#1090#1072#1090#1091#1089
@@ -620,7 +634,6 @@ object frmEditingReport: TfrmEditingReport
     end
     object strngfldTmpERcC_RS_Status: TStringField
       FieldName = 'cC_RS_Status'
-      ReadOnly = True
       Size = 1
     end
     object intgrfldTmpERcRS_Balance: TIntegerField
@@ -629,7 +642,6 @@ object frmEditingReport: TfrmEditingReport
     end
     object intgrfldTmpERcC_RS_Balance: TIntegerField
       FieldName = 'cC_RS_Balance'
-      ReadOnly = True
     end
     object intgrfldTmpERcRS_User: TIntegerField
       DisplayLabel = #1055#1086#1083#1100#1079#1086#1074#1072#1090#1077#1083#1100
@@ -637,7 +649,6 @@ object frmEditingReport: TfrmEditingReport
     end
     object intgrfldTmpERcC_RS_User: TIntegerField
       FieldName = 'cC_RS_User'
-      ReadOnly = True
     end
     object intgrfldTmpERcRS_UserBrunch: TIntegerField
       DisplayLabel = #1054#1090#1076#1077#1083
@@ -645,7 +656,6 @@ object frmEditingReport: TfrmEditingReport
     end
     object intgrfldTmpERcC_RS_UserBrunch: TIntegerField
       FieldName = 'cC_RS_UserBrunch'
-      ReadOnly = True
     end
     object intgrfldTmpERcRS_PartCall: TIntegerField
       DisplayLabel = #1056#1086#1083#1100
@@ -653,7 +663,6 @@ object frmEditingReport: TfrmEditingReport
     end
     object intgrfldTmpERcC_RS_PartCall: TIntegerField
       FieldName = 'cC_RS_PartCall'
-      ReadOnly = True
     end
     object strngfldTmpERcRS_IfInstall: TStringField
       DisplayLabel = #1059#1089#1090#1072#1085#1086#1074#1083#1077#1085#1072
@@ -662,7 +671,6 @@ object frmEditingReport: TfrmEditingReport
     end
     object strngfldTmpERcC_RS_IfInctall: TStringField
       FieldName = 'cC_RS_IfInctall'
-      ReadOnly = True
       Size = 1
     end
     object strngfldTmpERcRS_ICC_SIM: TStringField
@@ -672,7 +680,6 @@ object frmEditingReport: TfrmEditingReport
     end
     object strngfldTmpERcC_RS_ICC_SIM: TStringField
       FieldName = 'cC_RS_ICC_SIM'
-      ReadOnly = True
       Size = 25
     end
     object strngfldTmpERcRS_PUK1: TStringField
@@ -681,7 +688,6 @@ object frmEditingReport: TfrmEditingReport
     end
     object strngfldTmpERcC_RS_PUK1: TStringField
       FieldName = 'cC_RS_PUK1'
-      ReadOnly = True
     end
     object strngfldTmpERcRS_PUK2: TStringField
       DisplayLabel = 'PUK2'
@@ -689,7 +695,6 @@ object frmEditingReport: TfrmEditingReport
     end
     object strngfldTmpERcC_RS_PUK2: TStringField
       FieldName = 'cC_RS_PUK2'
-      ReadOnly = True
     end
     object dtfldTmpERcRS_ReportDay: TDateField
       DisplayLabel = #1044#1072#1090#1072
@@ -697,7 +702,6 @@ object frmEditingReport: TfrmEditingReport
     end
     object dtfldTmpERcC_RS_ReportDay: TDateField
       FieldName = 'cC_RS_ReportDay'
-      ReadOnly = True
     end
     object crncyfldTmpERcRB_Sum: TCurrencyField
       DisplayLabel = #1041#1072#1083#1072#1085#1089
@@ -705,7 +709,6 @@ object frmEditingReport: TfrmEditingReport
     end
     object crncyfldTmpERcC_RB_SUM: TCurrencyField
       FieldName = 'cC_RB_SUM'
-      ReadOnly = True
     end
     object intgrfldTmpERcRB_Prsnl_Acnt: TIntegerField
       DisplayLabel = #1048#1076' '#1083#1080#1094#1077#1074#1086#1075#1086' '#1089#1095#1077#1090#1072
@@ -713,7 +716,6 @@ object frmEditingReport: TfrmEditingReport
     end
     object intgrfldTmpERcC_RB_PrsnlAcnt: TIntegerField
       FieldName = 'cC_RB_PrsnlAcnt'
-      ReadOnly = True
     end
     object strngfldTmpERIn: TStringField
       DisplayLabel = #1059#1089#1090#1088'-'#1074#1086' '#8470
@@ -838,6 +840,46 @@ object frmEditingReport: TfrmEditingReport
     object intgrfldTmpERcRS_NUM_OUTSD: TIntegerField
       DisplayLabel = #8470#1090#1077#1083'.'#1074#1085#1077' '#1079#1086#1085#1099
       FieldName = 'cRS_NUM_OUTSD'
+    end
+    object strngfldTmpERNumAll: TStringField
+      FieldKind = fkLookup
+      FieldName = 'NumAll'
+      LookupDataSet = frmSimka.pfbdtst1
+      LookupKeyFields = 'SID'
+      LookupResultField = 'S_NUMBER'
+      KeyFields = 'cRS_NUM_ALL'
+      Size = 100
+      Lookup = True
+    end
+    object strngfldTmpERNumBusy: TStringField
+      FieldKind = fkLookup
+      FieldName = 'NumBusy'
+      LookupDataSet = frmSimka.pfbdtst1
+      LookupKeyFields = 'SID'
+      LookupResultField = 'S_NUMBER'
+      KeyFields = 'cRS_NUM_BUSY'
+      Size = 100
+      Lookup = True
+    end
+    object strngfldTmpERNumNoAnswr: TStringField
+      FieldKind = fkLookup
+      FieldName = 'NumNoAnswr'
+      LookupDataSet = frmSimka.pfbdtst1
+      LookupKeyFields = 'SID'
+      LookupResultField = 'S_NUMBER'
+      KeyFields = 'cRS_NUM_NOANSWR'
+      Size = 100
+      Lookup = True
+    end
+    object strngfldTmpERNumOutSd: TStringField
+      FieldKind = fkLookup
+      FieldName = 'NumOutSd'
+      LookupDataSet = frmSimka.pfbdtst1
+      LookupKeyFields = 'SID'
+      LookupResultField = 'S_NUMBER'
+      KeyFields = 'cRS_NUM_OUTSD'
+      Size = 100
+      Lookup = True
     end
   end
   object actlst1: TActionList
@@ -1001,5 +1043,20 @@ object frmEditingReport: TfrmEditingReport
     DataSet = cdsTmpErBc
     Left = 184
     Top = 264
+  end
+  object pfbstrdprc1: TpFIBStoredProc
+    Transaction = frmMain.trnUpdate
+    Database = DM.DB
+    SQL.Strings = (
+      
+        'EXECUTE PROCEDURE INS_IN_RPT_SIM (?RS_IN, ?RS_SMS, ?RS_OWNER, ?R' +
+        'S_SIMKA, ?RS_TARIFPLAN, ?RS_STATUS, ?RB_SUM, ?RB_IDACCOUNT, ?RS_' +
+        'USER, ?RS_USER_BRUNCH, ?RS_PART_CALL, ?RS_IFINSTALL, ?RS_ICC_SIM' +
+        ', ?RS_PUK1, ?RS_PUK2, ?RS_REPORTDAY, ?RS_RADRSNG_ALL, ?RS_RADRSN' +
+        'G_BUSY, ?RS_RADRSNG_NOANSWR, ?RS_RADRSNG_OUTSD, ?RS_NUM_ALL, ?RS' +
+        '_NUM_BUSY, ?RS_NUM_NOANSWR, ?RS_NUM_OUTSD, ?RD_RESPONS)')
+    StoredProcName = 'INS_IN_RPT_SIM'
+    Left = 312
+    Top = 224
   end
 end

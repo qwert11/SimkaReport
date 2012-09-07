@@ -92,36 +92,40 @@ object DM: TDM
       '    report_simka.rs_num_busy,'
       '    report_simka.rs_num_noanswr,'
       '    report_simka.rs_num_outsd'
-      'from user_brunch'
+      'from report_simka'
       
-        '   inner join report_simka on (user_brunch.ub_id = report_simka.' +
-        'rs_user_brunch)'
+        '   left outer join user_brunch on (report_simka.rs_user_brunch =' +
+        ' user_brunch.ub_id)'
       
-        '   inner join report_day on (report_simka.rs_reportday = report_' +
-        'day.rd_date)'
-      '   inner join people on (report_day.rd_respons = people.p_id)'
-      '   inner join device on (report_simka.rs_in = device.did)'
-      '   inner join owner on (report_simka.rs_owner = owner.oid)'
-      '   inner join simka on (report_simka.rs_simka = simka.sid)'
+        '   left outer join report_day on (report_simka.rs_reportday = re' +
+        'port_day.rd_date)'
       
-        '   inner join link_radio on (simka.s_link_radio = link_radio.lr_' +
-        'id)'
+        '   left outer join people on (report_day.rd_respons = people.p_i' +
+        'd)'
+      '   left outer join owner on (report_simka.rs_owner = owner.oid)'
+      '   left outer join simka on (report_simka.rs_simka = simka.sid)'
       
-        '   inner join operator_link on (simka.s_operator = operator_link' +
-        '.ol_id)'
+        '   left outer join link_radio on (simka.s_link_radio = link_radi' +
+        'o.lr_id)'
       
-        '   inner join tarif_plan on (report_simka.rs_tarifplan = tarif_p' +
-        'lan.tpid)'
+        '   left outer join operator_link on (simka.s_operator = operator' +
+        '_link.ol_id)'
       
-        '   inner join part_call on (report_simka.rs_part_call = part_cal' +
-        'l.pc_id)'
+        '   left outer join tarif_plan on (report_simka.rs_tarifplan = ta' +
+        'rif_plan.tpid)'
       
-        '   inner join report_balance on (report_simka.rs_balance = repor' +
-        't_balance.rb_id)'
+        '   left outer join part_call on (report_simka.rs_part_call = par' +
+        't_call.pc_id)'
       
-        '   inner join prcnl_acnt on (report_balance.rb_prsnl_acnt = prcn' +
-        'l_acnt.pa_id)'
-      '   inner join "USER" on (report_simka.rs_user = "USER".u_id)'
+        '   left outer join report_balance on (report_simka.rs_balance = ' +
+        'report_balance.rb_id)'
+      
+        '   left outer join prcnl_acnt on (report_balance.rb_prsnl_acnt =' +
+        ' prcnl_acnt.pa_id)'
+      
+        '   left outer join "USER" on (report_simka.rs_user = "USER".u_id' +
+        ')'
+      '   left outer join device on (report_simka.rs_in = device.did)'
       
         'order by report_day.rd_date, report_simka.rs_owner, report_simka' +
         '.rsid')
@@ -372,42 +376,50 @@ object DM: TDM
     object fbstrngfldViewRS_RADRSNG_ALL: TFIBStringField
       DisplayLabel = #1055#1077#1088#1077#1072#1076#1088'.'#1074#1089#1077
       FieldName = 'RS_RADRSNG_ALL'
+      Origin = 'REPORT_SIMKA.RS_RADRSNG_ALL'
       Size = 1
       EmptyStrToNull = True
     end
     object fbstrngfldViewRS_RADRSNG_BUSY: TFIBStringField
       DisplayLabel = #1055#1077#1088#1077#1072#1076#1088'.'#1079#1072#1085#1103#1090
       FieldName = 'RS_RADRSNG_BUSY'
+      Origin = 'REPORT_SIMKA.RS_RADRSNG_BUSY'
       Size = 1
       EmptyStrToNull = True
     end
     object fbstrngfldViewRS_RADRSNG_NOANSWR: TFIBStringField
       DisplayLabel = #1055#1077#1088#1077#1072#1076#1088'.'#1085#1077' '#1086#1090#1074'.'
       FieldName = 'RS_RADRSNG_NOANSWR'
+      Origin = 'REPORT_SIMKA.RS_RADRSNG_NOANSWR'
       Size = 1
       EmptyStrToNull = True
     end
     object fbstrngfldViewRS_RADRSNG_OUTSD: TFIBStringField
       DisplayLabel = #1055#1077#1088#1077#1072#1076#1088'.'#1074#1085#1077' '#1079#1086#1085#1099
       FieldName = 'RS_RADRSNG_OUTSD'
+      Origin = 'REPORT_SIMKA.RS_RADRSNG_OUTSD'
       Size = 1
       EmptyStrToNull = True
     end
     object fbntgrfldViewRS_NUM_ALL: TFIBIntegerField
       DisplayLabel = #8470#1090#1077#1083'. '#1074#1089#1077
       FieldName = 'RS_NUM_ALL'
+      Origin = 'REPORT_SIMKA.RS_NUM_ALL'
     end
     object fbntgrfldViewRS_NUM_BUSY: TFIBIntegerField
       DisplayLabel = #8470#1090#1077#1083'. '#1079#1072#1085#1103#1090
       FieldName = 'RS_NUM_BUSY'
+      Origin = 'REPORT_SIMKA.RS_NUM_BUSY'
     end
     object fbntgrfldViewRS_NUM_NOANSWR: TFIBIntegerField
       DisplayLabel = #8470#1090#1077#1083'. '#1085#1077' '#1086#1090#1074'.'
       FieldName = 'RS_NUM_NOANSWR'
+      Origin = 'REPORT_SIMKA.RS_NUM_NOANSWR'
     end
     object fbntgrfldViewRS_NUM_OUTSD: TFIBIntegerField
       DisplayLabel = #8470#1090#1077#1083'. '#1074#1085#1077' '#1079#1086#1085#1099
       FieldName = 'RS_NUM_OUTSD'
+      Origin = 'REPORT_SIMKA.RS_NUM_OUTSD'
     end
   end
 end

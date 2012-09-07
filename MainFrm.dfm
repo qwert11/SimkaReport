@@ -1,6 +1,6 @@
 object frmMain: TfrmMain
-  Left = 0
-  Top = 284
+  Left = 266
+  Top = 344
   Width = 1280
   Height = 486
   Caption = 'SIM'
@@ -19,7 +19,7 @@ object frmMain: TfrmMain
     Left = 0
     Top = 0
     Width = 1272
-    Height = 361
+    Height = 369
     Align = alClient
     AutoFitColWidths = True
     DataGrouping.GroupLevels = <>
@@ -93,6 +93,7 @@ object frmMain: TfrmMain
         EditButtons = <>
         FieldName = 'RS_STATUS'
         Footers = <>
+        Width = 20
       end
       item
         EditButtons = <>
@@ -110,7 +111,7 @@ object frmMain: TfrmMain
         EditButtons = <>
         FieldName = 'RS_IFINSTALL'
         Footers = <>
-        Width = 14
+        Width = 20
       end
       item
         EditButtons = <>
@@ -138,6 +139,7 @@ object frmMain: TfrmMain
         EditButtons = <>
         FieldName = 'RS_RADRSNG_ALL'
         Footers = <>
+        Width = 20
       end
       item
         EditButtons = <>
@@ -148,6 +150,7 @@ object frmMain: TfrmMain
         EditButtons = <>
         FieldName = 'RS_RADRSNG_BUSY'
         Footers = <>
+        Width = 20
       end
       item
         EditButtons = <>
@@ -158,6 +161,7 @@ object frmMain: TfrmMain
         EditButtons = <>
         FieldName = 'RS_RADRSNG_NOANSWR'
         Footers = <>
+        Width = 20
       end
       item
         EditButtons = <>
@@ -168,6 +172,7 @@ object frmMain: TfrmMain
         EditButtons = <>
         FieldName = 'RS_RADRSNG_OUTSD'
         Footers = <>
+        Width = 20
       end
       item
         EditButtons = <>
@@ -179,7 +184,7 @@ object frmMain: TfrmMain
   end
   object pnl1: TPanel
     Left = 0
-    Top = 361
+    Top = 369
     Width = 1272
     Height = 52
     Align = alBottom
@@ -273,7 +278,7 @@ object frmMain: TfrmMain
   end
   object stat1: TStatusBar
     Left = 0
-    Top = 413
+    Top = 421
     Width = 1272
     Height = 19
     Panels = <

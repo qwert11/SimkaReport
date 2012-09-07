@@ -8,10 +8,11 @@ uses
   DBLookupEh, pFIBDataSet, DBGridEhGrouping, GridsEh, Grids,
   MemTableDataEh, Db, DataDriverEh, DBClient, DBGrids, MConnect, ActnList,
   Menus, Buttons, FIBQuery, pFIBQuery, FIBDatabase, pFIBDatabase, dbcgrids,
-  DBCtrls;
+  DBCtrls, pFIBStoredProc;
 
 type
   TEditingReport = (erEdit, erInsert, erDelete);
+  TBlink = procedure(AControl: TControl);
 
   TfrmEditingReport = class(TForm)
     tmr1: TTimer;
@@ -116,6 +117,12 @@ type
     mniCancelEdit: TMenuItem;
     mniN5: TMenuItem;
     mniCancelEdit1: TMenuItem;
+    pfbstrdprc1: TpFIBStoredProc;
+    strngfldTmpERNumAll: TStringField;
+    strngfldTmpERNumBusy: TStringField;
+    strngfldTmpERNumNoAnswr: TStringField;
+    strngfldTmpERNumOutSd: TStringField;
+    lblBalanceAccount: TLabel;
     procedure tmr1Timer(Sender: TObject);
     procedure FormActivate(Sender: TObject);
     procedure dbgrdhRepSIMKeyPress(Sender: TObject; var Key: Char);
@@ -150,13 +157,17 @@ type
     function CheckField(F: TField; ShowWarning: Boolean = True): Boolean;
     function CheckRepSimRecord(ShowWarning: Boolean = True): Boolean;
     function CheckRepBalanceRecord(ShowWarning: Boolean = True): Boolean;
-    procedure ShowsWarningStat1(AMsg: string);
+    procedure ShowsWarningStat1(AMsg: string; CustomFunc:
+      TBlink = nil; ASendCstmFnc: TControl = nil);
     procedure SetExtendedReports(IsExtended: Boolean = True);
   public
     { Public declarations }
     constructor Create(AOwner: TComponent;
         AEditingReport: TEditingReport); reintroduce;
   end;
+
+
+  procedure blink(AControl: TControl);
 
 var
   frmEditingReport: TfrmEditingReport;
@@ -180,6 +191,10 @@ const
   FN_ER_LOOKUP_USER = 'User';
   FN_ER_LOOKUP_USER_BRUNCH = 'UserBrunch';
   FN_ER_LOOKUP_PART_CALL = 'PartCall';
+  FN_ER_LOOKUP_NUM_ALL = 'NumAll';
+  FN_ER_LOOKUP_NUM_BUSY = 'NumBusy';
+  FN_ER_LOOKUP_NUM_NO_ANSWR = 'NumNoAnswr';
+  FN_ER_LOOKUP_NUM_OUT_SIDE = 'NumOutSd';
   BoolFieldArr: array[0..6] of string = (
     'cRS_Status',
     'cRS_IfInstall',
@@ -241,8 +256,6 @@ begin
     try
       // внимание опасный промежуток после выключения - включить
       cdsTmpER.BeforePost := nil;   {*}
-      //cdsTmpER.BeforeInsert := nil; {*}
-      { TODO -oFormActive -cCheck  : подумать о том нужен ли обработчик OnBefoInsert и как с ним работать }
 
       case FEditingReport of
         erEdit, erInsert:
@@ -254,22 +267,24 @@ begin
                   Exit;
 
                 // запоминаем редактируемую запись ReportDay
-                old_rd_date := FieldByName('RD_ID').Value;
-                
-                stat1.Panels[PNL_INF_STAT_EDIT].Text := 'Редактирование записи: ' +
-                  FieldByName('RD_ID').AsString;
-                stat1.Panels[PNL_INF_RESPONS].Text := 'Отчет составил: ' +
-                  FieldByName('RE_SURNAME').AsString;
+                old_rd_date := FieldByName('RD_DATE').Value;
+                stat1.Panels[PNL_INF_STAT_EDIT].Text := 'Редактирование отчета';
+                Caption := 'Редактирование отчета за: ' +
+                  FieldByName('RD_DATE').AsString + '. Отчет составлял: ' +
+                  FieldByName('P_SURNAME').AsString +
+                  FieldByName('P_NAME').AsString +
+                  FieldByName('P_PATRONYMIC').AsString + Caption;
               end;
 
               erInsert: begin
                 dtpDate.Date := Date;
                 stat1.Panels[PNL_INF_STAT_EDIT].Text := 'Новая запись';
-                stat1.Panels[PNL_INF_RESPONS].Text := 'Отчет составил: ' +
-                  user.Surname + ' ' + user.Name[1] + '.' + user.Patronymic[1] + '.';
                 actSave.Enabled := False;
               end;
             end;
+            
+            stat1.Panels[PNL_INF_RESPONS].Text := 'Отчет составил: ' +
+              user.Surname + ' ' + user.Name[1] + '.' + user.Patronymic[1] + '.';
 
             // CDS TmpErBC инициируем поля с последнего заполнения если оно есть
             First;
@@ -313,8 +328,12 @@ begin
                 intgrfldTmpERcC_RS_TarifPlan.Value := FieldByName('RS_TarifPlan').AsInteger;
                 strngfldTmpERcRS_Status.Value := FieldByName('RS_STATUS').AsString;
                 strngfldTmpERcC_RS_Status.Value := FieldByName('RS_STATUS').AsString;
-                intgrfldTmpERcRS_Balance.Value := FieldByName('RS_BALANCE').AsInteger;
-                intgrfldTmpERcC_RS_Balance.Value := FieldByName('RS_BALANCE').AsInteger;
+                intgrfldTmpERcRS_Balance.Value := FieldByName('RS_BALANCE').AsInteger;    // ??
+                intgrfldTmpERcC_RS_Balance.Value := FieldByName('RS_BALANCE').AsInteger;  // ??
+                crncyfldTmpERcRB_Sum.Value := FieldByName('RB_SUM').Value;
+                crncyfldTmpERcC_RB_SUM.Value := FieldByName('RB_SUM').Value;
+                intgrfldTmpERcRB_Prsnl_Acnt.Value := FieldByName('RB_PRSNL_ACNT').Value;
+                intgrfldTmpERcC_RB_PrsnlAcnt.Value := FieldByName('RB_PRSNL_ACNT').Value;
                 intgrfldTmpERcRS_User.Value := FieldByName('RS_USER').AsInteger;
                 intgrfldTmpERcC_RS_User.Value := FieldByName('RS_USER').AsInteger;
                 intgrfldTmpERcRS_UserBrunch.Value := FieldByName('RS_USER_BRUNCH').AsInteger;
@@ -329,29 +348,32 @@ begin
                 strngfldTmpERcC_RS_PUK1.Value := FieldByName('RS_PUK1').AsString;
                 strngfldTmpERcRS_PUK2.Value := FieldByName('RS_PUK2').AsString;
                 strngfldTmpERcC_RS_PUK2.Value := FieldByName('RS_PUK2').AsString;
-                crncyfldTmpERcRB_Sum.Value := FieldByName('RB_SUM').Value;
-                crncyfldTmpERcC_RB_SUM.Value := FieldByName('RB_SUM').Value;
-                intgrfldTmpERcRB_Prsnl_Acnt.Value := FieldByName('RB_PRCNL_ACNT').Value;
-                intgrfldTmpERcC_RB_PrsnlAcnt.Value := FieldByName('RB_PRCNL_ACNT').Value;
+                strngfldTmpERcRS_RADRSNG_ALL.Value := FieldByName('RS_RADRSNG_ALL').AsString;
+                strngfldTmpERcRS_RADRSNG_BUSY.Value := FieldByName('RS_RADRSNG_BUSY').AsString;
+                strngfldTmpERcRS_RADRSNG_NOANSWR.Value := FieldByName('RS_RADRSNG_NOANSWR').AsString;
+                strngfldTmpERcRS_RADRSNG_OUTSD.Value := FieldByName('RS_RADRSNG_OUTSD').AsString;
+                intgrfldTmpERcRS_NUM_ALL.Value := FieldByName('RS_NUM_ALL').Value;
+                intgrfldTmpERcRS_NUM_BUSY.Value := FieldByName('RS_NUM_BUSY').Value;
+                intgrfldTmpERcRS_NUM_NOANSWR.Value := FieldByName('RS_NUM_NOANSWR').Value;
+                intgrfldTmpERcRS_NUM_OUTSD.Value := FieldByName('RS_NUM_OUTSD').Value; 
 
                 cdsTmpER.Post;
                 Next;
               except
                 on E: Exception do begin
                   cdsTmpER.Cancel;
-                  Application.MessageBox(PChar(E.Message), 'Ошибка добавления данных', MB_ICONERROR);
+                  raise Exception.Create('Ошибка добавления данных');
                   Break;
                 end;
               end;
             end;
           end;
       else
-        raise EAbort.Create('Неверный тип открытия Editing Report');
+        raise Exception.Create('Неверный тип открытия Editing Report');
       end;
     finally
       // опасный промежуток включаем после - выключить
       cdsTmpER.BeforePost := cdsTmpERBeforePost;    {*}
-      //cdsTmpER.BeforeInsert := cdsTmpERBeforePost;  {*}
     end;
 end;
 
@@ -381,7 +403,11 @@ begin
           (FieldName = FN_ER_LOOKUP_PRSNL_ACNT) or
           (FieldName = FN_ER_LOOKUP_USER) or
           (FieldName = FN_ER_LOOKUP_USER_BRUNCH) or
-          (FieldName = FN_ER_LOOKUP_PART_CALL)
+          (FieldName = FN_ER_LOOKUP_PART_CALL) or
+          (FieldName = FN_ER_LOOKUP_NUM_ALL) or
+          (FieldName = FN_ER_LOOKUP_NUM_BUSY) or
+          (FieldName = FN_ER_LOOKUP_NUM_NO_ANSWR) or
+          (FieldName = FN_ER_LOOKUP_NUM_OUT_SIDE)    
 end;
 
 
@@ -430,10 +456,29 @@ begin
         ShowModal;
         if ModalResult = mrOK then
           intgrfldTmpERcRS_PartCall.Value := fbntgrfldpfbdtst1PC_ID.Value;
-      end;
+      end else
+      if FieldName = FN_ER_LOOKUP_NUM_ALL then with frmSimka do begin
+        ShowModal;
+        if ModalResult = mrOK then
+          intgrfldTmpERcRS_NUM_ALL.Value := pfbdtst1SID.Value;
+      end else
+      if FieldName = FN_ER_LOOKUP_NUM_BUSY then with frmSimka do begin
+        ShowModal;
+        if ModalResult = mrOK then
+          intgrfldTmpERcRS_NUM_BUSY.Value := pfbdtst1SID.Value;
+      end else
+      if FieldName = FN_ER_LOOKUP_NUM_NO_ANSWR then with frmSimka do begin
+        ShowModal;
+        if ModalResult = mrOK then
+          intgrfldTmpERcRS_NUM_NOANSWR.Value := pfbdtst1SID.Value;
+      end else
+      if FieldName = FN_ER_LOOKUP_NUM_OUT_SIDE then with frmSimka do begin
+        ShowModal;
+        if ModalResult = mrOK then
+          intgrfldTmpERcRS_NUM_OUTSD.Value := pfbdtst1SID.Value;
+      end
     end;
 end;
-
 
 { TODO -ocdsTmpER -cSort : сортировка по клику на head }
 procedure TfrmEditingReport.actSaveExecute(Sender: TObject);
@@ -450,9 +495,10 @@ begin
       if Locate('cRB_Prsnl_Acnt', intgrfldTmpErBccPrsnlAcnt.Value, []) then
         Next
       else begin
+        ShowsWarningStat1('В таблице 1 нет ', blink);
         Exit;
       end;
-      
+
     cdsTmpErBc.Next;
   end;
 
@@ -467,10 +513,11 @@ begin
 
   with frmMain, pfbqryUpdate do
   try
-    Close;
 
-    if old_rd_date <> dtpDate.Date then begin
-      SQL.Text := 'SELECT COUNT(RD_DATE) FROM REPORT_DAY';
+    if (FEditingReport <> erEdit) or ((FEditingReport = erEdit) and
+        (old_rd_date <> dtpDate.Date)) then begin
+      Close;
+      SQL.Text := 'SELECT COUNT(RD_DATE) FROM REPORT_DAY WHERE RD_DATE = ''' + DateToStr(dtpDate.Date) + '''';
       ExecQuery;
       if Fields[0].Value > 0 then begin
         MessageDlg('Отчет с датой ' + DateToStr(dtpDate.Date) + ' уже существует,' + #13#10 +
@@ -480,98 +527,57 @@ begin
       end;
     end;
 
-    case FEditingReport of
-      erEdit:
-        SQL.Text := 'UPDATE REPORT_DAY SET RD_DATE = ''' + DateToStr(dtpDate.Date) + ''', ' +
-            'RD_RESPONS = ' + IntToStr(user.ID) + ' ' +
-            'WHERE RD_DATE = ' + DateToStr(old_rd_date);
-      erInsert:
-        SQL.Text := 'INSERT INTO REPORT_DAY (RD_DATE, RD_RESPONS) VALUES ' +
-            '(''' + DateToStr(dtpDate.Date) + ''',' + IntToStr(user.ID) + ')';
-    end;
-    ExecQuery;
-    Close;   
 
     // удаляем старые значения
-    SQL.Text := 'DELETE FROM REPORT_SIMKA ' +
-        'WHERE RS_REPORTDAY = ' + DateToStr(dtpDate.Date); // old_rd_date ???????????
-    ExecQuery;
     Close;
+    SQL.Text := 'DELETE FROM REPORT_SIMKA ' +
+        'WHERE RS_REPORTDAY = ''' + DateToStr(dtpDate.Date) + ''''; // old_rd_date ???????????
+    ExecQuery;
+    
 
     // удаляем старые значения
+    Close;
     SQL.Text := 'DELETE FROM REPORT_BALANCE ' +
-        'WHERE RB_REPORTDAY = ' + DateToStr(dtpDate.Date); // old_rd_date ???????????
+        'WHERE RB_REPORTDAY = ''' + DateToStr(dtpDate.Date) + ''''; // old_rd_date ???????????
     ExecQuery;
     Close;
 
     cdsTmpER.First;
-    with cdsTmpER do
+    with pfbstrdprc1, cdsTmpER do
     while not Eof do begin
-      if VarIsNull(intgrfldTmpERcRB_Prsnl_Acnt.AsVariant) then begin
-        pfbqryUpdate.Close;
-        SQL.Text := 'INSERT INTO REPORT_BALANCE SET (' +
-            'RB_SUM, RB_PRSNL_ACNT, RB_REPORTDAY) VALUES(' +
-            crncyfldTmpErBccSUM.AsString + ',' +
-            intgrfldTmpErBccPrsnlAcnt.AsString + ', ''' +
-            DateToStr(dtpDate.Date) + ''')';
-        ExecQuery;
-      end;
 
-      SQL.Text := 'execute procedure '; conec
+      pfbstrdprc1.Close;
 
-      pfbqryUpdate.Close;
-      SQL.Text := 'INSERT INTO REPORT_SIMKA (' +
-          'RS_IN, ' +
-          'RS_SMS, ' +
-          'RS_OWNER, ' +
-          'RS_SIMKA, ' +
-          'RS_TARIFPLAN, ' +
-          'RS_STATUS, ' +
-          'RS_BALANCE, ' +
-          'RS_USER, ' +
-          'RS_USER_BRUNCH, ' +
-          'RS_PART_CALL, ' +
-          'RS_IFINSTALL, ' +
-          'RS_ICC_SIM, ' +
-          'RS_PUK1, ' +
-          'RS_PUK2, ' +
-          'RS_REPORTDAY, ' +
-          'RS_RADRSNG_ALL, ' +
-          'RS_RADRSNG_BUSY, ' +
-          'RS_RADRSNG_NOANSWR, ' +
-          'RS_RADRSNG_OUTSD, ' +
-          'RS_NUM_ALL, ' +
-          'RS_NUM_BUSY, ' +
-          'RS_NUM_NOANSWR, ' +
-          'RS_NUM_OUTSD, ' +
+      if not Prepared then Prepare;
 
-          ' ) VALUES (' +
-            intgrfldTmpERcRS_In.AsString + ', ' +
-            intgrfldTmpERcRS_SMS.AsString + ', ' +
-            intgrfldTmpERcRS_Owner.AsString + ', ' +
-            intgrfldTmpERcRS_Simka.AsString + ', ' +
-            intgrfldTmpERcRS_TarifPlan.AsString + ', ' +
-            strngfldTmpERcRS_Status.AsString + ', ' +
-            Fields[0].AsString + ', ' + // (new_rb_id) новая запись из Report_Balance
-            intgrfldTmpERcRS_User.AsString + ', ' +
-            intgrfldTmpERcRS_UserBrunch.AsString + ', ' +
-            intgrfldTmpERcRS_PartCall.AsString + ', ' +
-            strngfldTmpERcRS_IfInstall.AsString + ', ' +
-            strngfldTmpERcRS_ICC_SIM.AsString + ', ' +
-            strngfldTmpERcRS_PUK1.AsString + ', ' +
-            strngfldTmpERcRS_PUK2.AsString + ', ''' +
-            DateToStr(dtpDate.Date) + ''', ' +
-            strngfldTmpERcRS_RADRSNG_ALL.Value + ', ' +
-            strngfldTmpERcRS_RADRSNG_BUSY.Value + ', ' +
-            strngfldTmpERcRS_RADRSNG_NOANSWR.Value + ', ' +
-            strngfldTmpERcRS_RADRSNG_OUTSD.Value + ', ' +
-            intgrfldTmpERcRS_NUM_ALL.AsString + ', ' +
-            intgrfldTmpERcRS_NUM_BUSY.AsString + ', ' +
-            intgrfldTmpERcRS_NUM_NOANSWR.AsString + ', ' +
-            intgrfldTmpERcRS_NUM_OUTSD.AsString +
-      ')';
+      ParamByName('RS_IN').Value := intgrfldTmpERcRS_In.Value;
+      ParamByName('RS_SMS').Value := intgrfldTmpERcRS_SMS.Value;
+      ParamByName('RS_OWNER').Value := intgrfldTmpERcRS_Owner.Value;
+      ParamByName('RS_SIMKA').Value := intgrfldTmpERcRS_Simka.Value;
+      ParamByName('RS_TARIFPLAN').Value := intgrfldTmpERcRS_TarifPlan.Value;
+      ParamByName('RS_STATUS').Value := strngfldTmpERcRS_Status.Value;
+      ParamByName('RB_SUM').Value := crncyfldTmpERcRB_Sum.Value;
+      ParamByName('RB_IDACCOUNT').Value := intgrfldTmpERcRB_Prsnl_Acnt.Value;
+      ParamByName('RS_USER').Value := intgrfldTmpERcRS_User.Value;
+      ParamByName('RS_USER_BRUNCH').Value := intgrfldTmpERcRS_UserBrunch.Value;
+      ParamByName('RS_PART_CALL').Value := intgrfldTmpERcRS_PartCall.Value;
+      ParamByName('RS_IFINSTALL').Value := strngfldTmpERcRS_IfInstall.Value;
+      ParamByName('RS_ICC_SIM').Value := strngfldTmpERcRS_ICC_SIM.Value;
+      ParamByName('RS_PUK1').Value := strngfldTmpERcRS_PUK1.Value;
+      ParamByName('RS_PUK2').Value := strngfldTmpERcRS_PUK2.Value;
+      ParamByName('RS_REPORTDAY').Value := DateToStr(dtpDate.Date);
+      ParamByName('RS_RADRSNG_ALL').Value := strngfldTmpERcRS_RADRSNG_ALL.Value;
+      ParamByName('RS_RADRSNG_BUSY').Value := strngfldTmpERcRS_RADRSNG_BUSY.Value;
+      ParamByName('RS_RADRSNG_NOANSWR').Value := strngfldTmpERcRS_RADRSNG_NOANSWR.Value;
+      ParamByName('RS_RADRSNG_OUTSD').Value := strngfldTmpERcRS_RADRSNG_OUTSD.Value;
+      ParamByName('RS_NUM_ALL').Value := intgrfldTmpERcRS_NUM_ALL.Value;
+      ParamByName('RS_NUM_BUSY').Value := intgrfldTmpERcRS_NUM_BUSY.Value;
+      ParamByName('RS_NUM_NOANSWR').Value := intgrfldTmpERcRS_NUM_NOANSWR.Value;
+      ParamByName('RS_NUM_OUTSD').Value := intgrfldTmpERcRS_NUM_OUTSD.Value;
+      ParamByName('RD_RESPONS').Value := user.ID;
 
-      ExecQuery;
+      pfbstrdprc1.ExecProc;
+
       Next;
     end;
 
@@ -615,7 +621,7 @@ var
 begin
   // дата (красная), ID лицевого счета 1,2 и сумма 1,2
   // состояние набора данных
-  // набор данных
+  // набор данных  
   bEnabled := True;
 
   if Trunc(dtpDate.Date) <> Trunc(Date) then
@@ -738,9 +744,10 @@ procedure TfrmEditingReport.dbgrdhRepSIMDrawColumnCell(Sender: TObject;
     DrawFrameControl(Canvas.Handle, Rect, DFC_BUTTON, DrawFlags);
   end;
 begin
-
-  if cdsTmpER.State = dsBrowse then begin
-    if VarIsNull(cdsTmpER.FieldByName(Column.FieldName).Value) then
+  with cdsTmpER do
+  if State = dsBrowse then begin
+    if VarIsNull(FieldByName(Column.FieldName).Value) or
+        (FieldByName(Column.FieldName).AsString = NullAsStringValue) then
       SetFormatingCell(clRed) end
   else
     SetFormatingCell(clGray);
@@ -781,7 +788,8 @@ begin
   )
 end;
 
-procedure TfrmEditingReport.ShowsWarningStat1(AMsg: string);
+procedure TfrmEditingReport.ShowsWarningStat1(AMsg: string;
+  CustomFunc: TBlink = nil; ASendCstmFnc: TControl = nil);
 const
   COUNT_SHOWS = 2;
 var
@@ -791,9 +799,13 @@ begin
   try
     for I := 1 to COUNT_SHOWS do begin
       stat1.Panels[PNL_INF_TIMER].Text := AMsg;
+//      if Assigned(ASendBlink) then
+//        tmpColor := THackColor(ASendBlink).Color;
       Delay(1000);
       stat1.Panels[PNL_INF_TIMER].Text := '';
       Delay(100);
+      if Assigned(ASendCstmFnc) then
+        CustomFunc(ASendCstmFnc);
     end;
   finally
     tmr1.Enabled := True;
@@ -968,5 +980,19 @@ begin
   end;
 end;
 
+type
+  THackColor = class (TControl);
+
+procedure blink(AControl: TControl);
+var
+  TmpColor: TColor;
+begin
+  TmpColor := THackColor(AControl).Color;
+
+  THackColor(AControl).Color := clRed;
+  AControl.Refresh;
+  Delay(300);
+  THackColor(AControl).Color := TmpColor;
+end;
 
 end.
