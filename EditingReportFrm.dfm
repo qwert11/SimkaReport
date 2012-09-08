@@ -12,6 +12,7 @@ object frmEditingReport: TfrmEditingReport
   Font.Style = []
   Menu = mm1
   OldCreateOrder = False
+  ShowHint = True
   OnActivate = FormActivate
   OnCloseQuery = FormCloseQuery
   OnDestroy = FormDestroy
@@ -116,6 +117,7 @@ object frmEditingReport: TfrmEditingReport
       DataSource = ds2
       PanelWidth = 217
       TabOrder = 3
+      SelectedColor = clBtnHighlight
       object lbl4: TLabel
         Left = 8
         Top = 16
@@ -166,6 +168,7 @@ object frmEditingReport: TfrmEditingReport
           F600A7DBFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF7ED2EC16B2E036
           BEE657CCEB6ED5EE6ED5EE57CCEB36BEE616B2E03FBDE4FF00FF}
         EditButtons = <>
+        ShowHint = True
         TabOrder = 0
         Visible = True
       end
@@ -177,6 +180,7 @@ object frmEditingReport: TfrmEditingReport
         DataField = 'cSUM'
         DataSource = ds2
         EditButtons = <>
+        ShowHint = True
         TabOrder = 1
         Visible = True
       end
@@ -249,6 +253,7 @@ object frmEditingReport: TfrmEditingReport
         Width = 63
       end
       item
+        Checkboxes = False
         EditButtons = <>
         FieldName = 'UserBrunch'
         Footers = <>
@@ -261,6 +266,7 @@ object frmEditingReport: TfrmEditingReport
         Width = 37
       end
       item
+        Checkboxes = True
         EditButtons = <>
         FieldName = 'cRS_Status'
         Footers = <>

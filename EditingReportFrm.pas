@@ -8,7 +8,7 @@ uses
   DBLookupEh, pFIBDataSet, DBGridEhGrouping, GridsEh, Grids,
   MemTableDataEh, Db, DataDriverEh, DBClient, DBGrids, MConnect, ActnList,
   Menus, Buttons, FIBQuery, pFIBQuery, FIBDatabase, pFIBDatabase, dbcgrids,
-  DBCtrls, pFIBStoredProc;
+  DBCtrls, pFIBStoredProc, MidasLib;
 
 type
   TEditingReport = (erEdit, erInsert, erDelete);
