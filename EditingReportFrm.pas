@@ -282,7 +282,7 @@ begin
                 actSave.Enabled := False;
               end;
             end;
-            
+
             stat1.Panels[PNL_INF_RESPONS].Text := 'Отчет составил: ' +
               user.Surname + ' ' + user.Name[1] + '.' + user.Patronymic[1] + '.';
 
@@ -291,81 +291,93 @@ begin
             if not Eof then begin
               dtpDate.Date := FieldByName('RD_DATE').AsDateTime;
               with DM do
-              while not Eof do begin
-                if not cdsTmpErBc.Locate('cPrsnlAcnt', fbntgrfldViewRB_PRSNL_ACNT.Value, []) then 
-                  try
-                    cdsTmpErBc.Append;
-                    intgrfldTmpErBccRB_ID.Value := fbntgrfldViewRS_BALANCE.Value;
-                    crncyfldTmpErBccSUM.Value := fbcdfldViewRB_SUM.Value;
-                    intgrfldTmpErBccPrsnlAcnt.Value := fbntgrfldViewRB_PRSNL_ACNT.Value;
-                    cdsTmpErBc.Post;
-                  except
-                    on E: Exception do begin
-                      cdsTmpErBc.Cancel;
-                      Application.MessageBox(PChar(E.Message), 'Ошибка добавления данных', MB_ICONERROR);
-                      Break;
+              try
+                cdsTmpErBc.AfterPost := nil;
+                while not Eof do begin
+                  if not VarIsNull(fbcdfldViewRB_SUM.Value) and (fbntgrfldViewRB_PRSNL_ACNT.Value <> 0) and
+                      not cdsTmpErBc.Locate('cPrsnlAcnt', fbntgrfldViewRB_PRSNL_ACNT.Value, []) then
+                    try
+                      cdsTmpErBc.Append;
+                      intgrfldTmpErBccRB_ID.Value := fbntgrfldViewRS_BALANCE.Value;
+                      crncyfldTmpErBccSUM.Value := fbcdfldViewRB_SUM.Value;
+                      intgrfldTmpErBccPrsnlAcnt.Value := fbntgrfldViewRB_PRSNL_ACNT.Value;
+                      cdsTmpErBc.Post;
+                    except
+                      on E: Exception do begin
+                        cdsTmpErBc.Cancel;
+                        Application.MessageBox(PChar(E.Message), 'Ошибка добавления данных', MB_ICONERROR);
+                        Break;
+                      end;
                     end;
-                  end;
-                Next;
+                  Next;
+                end;
+              finally
+                cdsTmpErBc.AfterPost := cdsTmpErBcAfterPost;
               end;
+
             end;
 
             // CDS TmpER
             First;
-            while not Eof do begin
-              cdsTmpER.Append;
-              try
-                intgrfldTmpERcRS_ID.Value := FieldByName('RSID').AsInteger;
-                intgrfldTmpERcRS_In.Value := FieldByName('RS_IN').AsInteger;
-                intgrfldTmpERcC_RS_In.Value := FieldByName('RS_IN').AsInteger;
-                intgrfldTmpERcRS_SMS.Value := FieldByName('RS_SMS').AsInteger;
-                intgrfldTmpERcC_RS_SMS.Value := FieldByName('RS_SMS').AsInteger;
-                intgrfldTmpERcRS_Owner.Value := FieldByName('RS_OWNER').AsInteger;
-                intgrfldTmpERcC_RS_Owner.Value := FieldByName('RS_OWNER').AsInteger;
-                intgrfldTmpERcRS_Simka.Value := FieldByName('RS_SIMKA').AsInteger;
-                intgrfldTmpERcC_RS_Simka.Value := FieldByName('RS_SIMKA').AsInteger;
-                intgrfldTmpERcRS_TarifPlan.Value := FieldByName('RS_TarifPlan').AsInteger;
-                intgrfldTmpERcC_RS_TarifPlan.Value := FieldByName('RS_TarifPlan').AsInteger;
-                strngfldTmpERcRS_Status.Value := FieldByName('RS_STATUS').AsString;
-                strngfldTmpERcC_RS_Status.Value := FieldByName('RS_STATUS').AsString;
-                intgrfldTmpERcRS_Balance.Value := FieldByName('RS_BALANCE').AsInteger;    // ??
-                intgrfldTmpERcC_RS_Balance.Value := FieldByName('RS_BALANCE').AsInteger;  // ??
-                crncyfldTmpERcRB_Sum.Value := FieldByName('RB_SUM').Value;
-                crncyfldTmpERcC_RB_SUM.Value := FieldByName('RB_SUM').Value;
-                intgrfldTmpERcRB_Prsnl_Acnt.Value := FieldByName('RB_PRSNL_ACNT').Value;
-                intgrfldTmpERcC_RB_PrsnlAcnt.Value := FieldByName('RB_PRSNL_ACNT').Value;
-                intgrfldTmpERcRS_User.Value := FieldByName('RS_USER').AsInteger;
-                intgrfldTmpERcC_RS_User.Value := FieldByName('RS_USER').AsInteger;
-                intgrfldTmpERcRS_UserBrunch.Value := FieldByName('RS_USER_BRUNCH').AsInteger;
-                intgrfldTmpERcC_RS_UserBrunch.Value := FieldByName('RS_USER_BRUNCH').AsInteger;
-                intgrfldTmpERcRS_PartCall.Value := FieldByName('RS_PART_CALL').AsInteger;
-                intgrfldTmpERcC_RS_PartCall.Value := FieldByName('RS_PART_CALL').AsInteger;
-                strngfldTmpERcRS_IfInstall.Value := FieldByName('RS_IFINSTALL').AsString;
-                strngfldTmpERcC_RS_IfInctall.Value := FieldByName('RS_IFINSTALL').AsString;
-                strngfldTmpERcRS_ICC_SIM.Value := FieldByName('RS_ICC_SIM').AsString;
-                strngfldTmpERcC_RS_ICC_SIM.Value := FieldByName('RS_ICC_SIM').AsString;
-                strngfldTmpERcRS_PUK1.Value := FieldByName('RS_PUK1').AsString;
-                strngfldTmpERcC_RS_PUK1.Value := FieldByName('RS_PUK1').AsString;
-                strngfldTmpERcRS_PUK2.Value := FieldByName('RS_PUK2').AsString;
-                strngfldTmpERcC_RS_PUK2.Value := FieldByName('RS_PUK2').AsString;
-                strngfldTmpERcRS_RADRSNG_ALL.Value := FieldByName('RS_RADRSNG_ALL').AsString;
-                strngfldTmpERcRS_RADRSNG_BUSY.Value := FieldByName('RS_RADRSNG_BUSY').AsString;
-                strngfldTmpERcRS_RADRSNG_NOANSWR.Value := FieldByName('RS_RADRSNG_NOANSWR').AsString;
-                strngfldTmpERcRS_RADRSNG_OUTSD.Value := FieldByName('RS_RADRSNG_OUTSD').AsString;
-                intgrfldTmpERcRS_NUM_ALL.Value := FieldByName('RS_NUM_ALL').Value;
-                intgrfldTmpERcRS_NUM_BUSY.Value := FieldByName('RS_NUM_BUSY').Value;
-                intgrfldTmpERcRS_NUM_NOANSWR.Value := FieldByName('RS_NUM_NOANSWR').Value;
-                intgrfldTmpERcRS_NUM_OUTSD.Value := FieldByName('RS_NUM_OUTSD').Value; 
+            try
+              cdsTmpER.AfterPost := nil;
+              while not Eof do begin
+                cdsTmpER.Append;
+                try
+                  intgrfldTmpERcRS_ID.Value := FieldByName('RSID').AsInteger;
+                  intgrfldTmpERcRS_In.Value := FieldByName('RS_IN').AsInteger;
+                  intgrfldTmpERcC_RS_In.Value := FieldByName('RS_IN').AsInteger;
+                  intgrfldTmpERcRS_SMS.Value := FieldByName('RS_SMS').AsInteger;
+                  intgrfldTmpERcC_RS_SMS.Value := FieldByName('RS_SMS').AsInteger;
+                  intgrfldTmpERcRS_Owner.Value := FieldByName('RS_OWNER').AsInteger;
+                  intgrfldTmpERcC_RS_Owner.Value := FieldByName('RS_OWNER').AsInteger;
+                  intgrfldTmpERcRS_Simka.Value := FieldByName('RS_SIMKA').AsInteger;
+                  intgrfldTmpERcC_RS_Simka.Value := FieldByName('RS_SIMKA').AsInteger;
+                  intgrfldTmpERcRS_TarifPlan.Value := FieldByName('RS_TarifPlan').AsInteger;
+                  intgrfldTmpERcC_RS_TarifPlan.Value := FieldByName('RS_TarifPlan').AsInteger;
+                  strngfldTmpERcRS_Status.Value := FieldByName('RS_STATUS').AsString;
+                  strngfldTmpERcC_RS_Status.Value := FieldByName('RS_STATUS').AsString;
+                  intgrfldTmpERcRS_Balance.Value := FieldByName('RS_BALANCE').AsInteger;    // ??
+                  intgrfldTmpERcC_RS_Balance.Value := FieldByName('RS_BALANCE').AsInteger;  // ??
+                  crncyfldTmpERcRB_Sum.Value := FieldByName('RB_SUM').AsCurrency;
+                  crncyfldTmpERcC_RB_SUM.Value := FieldByName('RB_SUM').AsCurrency;
+                  intgrfldTmpERcRB_Prsnl_Acnt.Value := FieldByName('RB_PRSNL_ACNT').AsInteger;
+                  intgrfldTmpERcC_RB_PrsnlAcnt.Value := FieldByName('RB_PRSNL_ACNT').AsInteger;
+                  intgrfldTmpERcRS_User.Value := FieldByName('RS_USER').AsInteger;
+                  intgrfldTmpERcC_RS_User.Value := FieldByName('RS_USER').AsInteger;
+                  intgrfldTmpERcRS_UserBrunch.Value := FieldByName('RS_USER_BRUNCH').AsInteger;
+                  intgrfldTmpERcC_RS_UserBrunch.Value := FieldByName('RS_USER_BRUNCH').AsInteger;
+                  intgrfldTmpERcRS_PartCall.Value := FieldByName('RS_PART_CALL').AsInteger;
+                  intgrfldTmpERcC_RS_PartCall.Value := FieldByName('RS_PART_CALL').AsInteger;
+                  strngfldTmpERcRS_IfInstall.Value := FieldByName('RS_IFINSTALL').AsString;
+                  strngfldTmpERcC_RS_IfInctall.Value := FieldByName('RS_IFINSTALL').AsString;
+                  strngfldTmpERcRS_ICC_SIM.Value := FieldByName('RS_ICC_SIM').AsString;
+                  strngfldTmpERcC_RS_ICC_SIM.Value := FieldByName('RS_ICC_SIM').AsString;
+                  strngfldTmpERcRS_PUK1.Value := FieldByName('RS_PUK1').AsString;
+                  strngfldTmpERcC_RS_PUK1.Value := FieldByName('RS_PUK1').AsString;
+                  strngfldTmpERcRS_PUK2.Value := FieldByName('RS_PUK2').AsString;
+                  strngfldTmpERcC_RS_PUK2.Value := FieldByName('RS_PUK2').AsString;
+                  strngfldTmpERcRS_RADRSNG_ALL.Value := FieldByName('RS_RADRSNG_ALL').AsString;
+                  strngfldTmpERcRS_RADRSNG_BUSY.Value := FieldByName('RS_RADRSNG_BUSY').AsString;
+                  strngfldTmpERcRS_RADRSNG_NOANSWR.Value := FieldByName('RS_RADRSNG_NOANSWR').AsString;
+                  strngfldTmpERcRS_RADRSNG_OUTSD.Value := FieldByName('RS_RADRSNG_OUTSD').AsString;
+                  intgrfldTmpERcRS_NUM_ALL.Value := FieldByName('RS_NUM_ALL').AsInteger;
+                  intgrfldTmpERcRS_NUM_BUSY.Value := FieldByName('RS_NUM_BUSY').AsInteger;
+                  intgrfldTmpERcRS_NUM_NOANSWR.Value := FieldByName('RS_NUM_NOANSWR').AsInteger;
+                  intgrfldTmpERcRS_NUM_OUTSD.Value := FieldByName('RS_NUM_OUTSD').AsInteger;
 
-                cdsTmpER.Post;
-                Next;
-              except
-                on E: Exception do begin
-                  cdsTmpER.Cancel;
-                  raise Exception.Create('Ошибка добавления данных');
-                  Break;
+                  cdsTmpER.Post;
+                  Next;
+                except
+                  on E: Exception do begin
+                    cdsTmpER.Cancel;
+                    raise Exception.Create('Ошибка добавления данных');
+                    Break;
+                  end;
                 end;
               end;
+            finally
+              cdsTmpER.AfterPost := cdsTmpERAfterPost;
             end;
           end;
       else
@@ -488,14 +500,10 @@ begin
   { TODO 5 -oUpdate -cChecked : проверить введенные данные если в cdsTmpER то что cdsTmpErBc}
   cdsTmpErBc.First;
   while not cdsTmpErBc.Eof do begin
-    cdsTmpER.First;
 
     with cdsTmpER do
-    while not Eof do
-      if Locate('cRB_Prsnl_Acnt', intgrfldTmpErBccPrsnlAcnt.Value, []) then
-        Next
-      else begin
-        ShowsWarningStat1('В таблице 1 нет ', blink);
+      if not Locate('cRB_Prsnl_Acnt', intgrfldTmpErBccPrsnlAcnt.Value, []) then begin
+        ShowsWarningStat1('В таблице 1 нет ', blink, lblBalanceAccount);
         Exit;
       end;
 
@@ -527,20 +535,26 @@ begin
       end;
     end;
 
-
     // удаляем старые значения
     Close;
-    SQL.Text := 'DELETE FROM REPORT_SIMKA ' +
-        'WHERE RS_REPORTDAY = ''' + DateToStr(dtpDate.Date) + ''''; // old_rd_date ???????????
+    SQL.Text := 'DELETE FROM REPORT_DAY ' +
+        'WHERE RD_DATE = ''' + DateToStr(dtpDate.Date) + ''''; // old_rd_date ???????????
     ExecQuery;
-    
 
-    // удаляем старые значения
-    Close;
-    SQL.Text := 'DELETE FROM REPORT_BALANCE ' +
-        'WHERE RB_REPORTDAY = ''' + DateToStr(dtpDate.Date) + ''''; // old_rd_date ???????????
-    ExecQuery;
-    Close;
+//
+//    // удаляем старые значения
+//    Close;
+//    SQL.Text := 'DELETE FROM REPORT_SIMKA ' +
+//        'WHERE RS_REPORTDAY = ''' + DateToStr(dtpDate.Date) + ''''; // old_rd_date ???????????
+//    ExecQuery;
+//
+//
+//    // удаляем старые значения
+//    Close;
+//    SQL.Text := 'DELETE FROM REPORT_BALANCE ' +
+//        'WHERE RB_REPORTDAY = ''' + DateToStr(dtpDate.Date) + ''''; // old_rd_date ???????????
+//    ExecQuery;
+//    Close;
 
     cdsTmpER.First;
     with pfbstrdprc1, cdsTmpER do
@@ -659,7 +673,7 @@ begin
     if not TestFloat(F.AsString) then
       Result := False;
   if (not Result) and ShowWarning then
-    ShowsWarningStat1(F.FieldName + ': ' + 'Не верно!!!');
+    ShowsWarningStat1(F.DisplayLabel + ': ' + 'Не верно!!!');
 end;
 
 { DONE 5 -oBeforePost -cCheck :
@@ -669,11 +683,10 @@ function TfrmEditingReport.CheckRepSimRecord(ShowWarning: Boolean = True): Boole
 begin
   Result := False;
   if not CheckField(intgrfldTmpERcRS_Simka) then Exit;
-  if not CheckField(crncyfldTmpERcRB_Sum) then Exit;
+  if not CheckField(intgrfldTmpERcRS_TarifPlan) then Exit;
   if not CheckField(intgrfldTmpERcRS_SMS) then Exit;
   if not CheckField(intgrfldTmpERcRS_In) then Exit;
-  if not CheckField(intgrfldTmpERcRS_UserBrunch) then Exit;
-  if not CheckField(intgrfldTmpERcRS_TarifPlan) then Exit;
+  if not CheckField(crncyfldTmpERcRB_Sum) then Exit;
   Result := True;
 end;
 
@@ -836,7 +849,7 @@ end;
 procedure TfrmEditingReport.cdsTmpErBcAfterPost(DataSet: TDataSet);
 begin
   if (cdsTmpER.State <> dsBrowse) or
-      VarIsNull(intgrfldTmpERcRB_Prsnl_Acnt.AsVariant) then
+      VarIsNull(intgrfldTmpERcRB_Prsnl_Acnt.AsVariant) or (intgrfldTmpERcRB_Prsnl_Acnt.Value = 0) then
     Exit;
 
   with cdsTmpER do
@@ -862,10 +875,10 @@ var
   tmpIdAccoun,
   tmpBalance: Variant;
 begin
-  tmpIdAccoun := intgrfldTmpERcRB_Prsnl_Acnt.Value;
-  tmpBalance := crncyfldTmpERcRB_Sum.Value;
+  tmpIdAccoun := intgrfldTmpERcRB_Prsnl_Acnt.AsVariant;
+  tmpBalance := crncyfldTmpERcRB_Sum.AsVariant;
 
-  if VarIsNull(tmpIdAccoun) then
+  if VarIsNull(tmpIdAccoun) or (tmpIdAccoun = 0) then
     Exit; 
 
   with cdsTmpER do

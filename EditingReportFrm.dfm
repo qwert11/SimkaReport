@@ -263,10 +263,10 @@ object frmEditingReport: TfrmEditingReport
         EditButtons = <>
         FieldName = 'cRB_Sum'
         Footers = <>
-        Width = 37
+        Width = 57
       end
       item
-        Checkboxes = True
+        Checkboxes = False
         EditButtons = <>
         FieldName = 'cRS_Status'
         Footers = <>

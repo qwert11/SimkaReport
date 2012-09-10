@@ -147,6 +147,9 @@ inherited frmSimka: TfrmSimka
   inherited stat1: TStatusBar
     Width = 509
   end
+  inherited dbgrd1: TDBGrid
+    Width = 509
+  end
   inherited pfbdtst1: TpFIBDataSet
     UpdateSQL.Strings = (
       'UPDATE SIMKA'

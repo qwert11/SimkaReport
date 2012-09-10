@@ -52,15 +52,15 @@ begin
     case FEditorState of
       esEdit: with QUpdate do begin
         ParamByName('P_SID').AsInteger := pfbdtst1.FieldByName('SID').AsInteger;
-        ParamByName('P_S_LINK_RADIO').Value := cbbLinkRadio.KeyValue;
         ParamByName('P_S_NUMBER').AsString := edtNumber.Text;
-        ParamByName('P_S_OPERATOR').AsString := edtNumber.Text;
+        ParamByName('P_S_LINK_RADIO').Value := cbbLinkRadio.KeyValue;
+        ParamByName('P_S_OPERATOR').Value := cbbOperator.KeyValue;
       end;
 
       esInsert: with QInsert do begin
-        ParamByName('P_S_LINK_RADIO').Value := cbbLinkRadio.KeyValue;
         ParamByName('P_S_NUMBER').AsString := edtNumber.Text;
-        ParamByName('P_S_OPERATOR').AsString := edtNumber.Text;
+        ParamByName('P_S_LINK_RADIO').Value := cbbLinkRadio.KeyValue;
+        ParamByName('P_S_OPERATOR').Value := cbbOperator.KeyValue;
       end;
 
       esDelete: with QDelete do begin

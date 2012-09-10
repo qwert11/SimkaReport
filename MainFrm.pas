@@ -267,11 +267,14 @@ begin
 
       erInsert: begin
         EditingReport := TfrmEditingReport.Create(Self, erInsert);
+        Filter := 'RD_DATE = ''' + DM.fbdtfldViewRD_DATE.AsString + '''';
+        Filtered := True;
         try
           EditingReport.ShowModal;
           if EditingReport.ModalResult <> mrOk then
             raise EAbort.Create('отмена редактирования');
         finally
+          Filtered := False;
           EditingReport.Free
         end;
       end;
@@ -296,7 +299,8 @@ begin
     trnUpdate.Commit;
     trnUpdate.Active := False;
     Close;
-    Open
+    Open;
+    SetExtendedReports;
   except
     trnUpdate.Rollback;
   end;
