@@ -12,6 +12,7 @@ object ChaildForm: TChaildForm
   Font.Style = []
   Menu = mm1
   OldCreateOrder = False
+  ShowHint = True
   OnActivate = FormActivate
   OnCloseQuery = FormCloseQuery
   OnCreate = FormCreate

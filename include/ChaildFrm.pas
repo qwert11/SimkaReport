@@ -92,8 +92,6 @@ const
 {$R *.dfm}
 
 
-{ TODO 2 -oAcrion -cUpdate : UPDATE для Edit, Insert, Delete }
-
 procedure TChaildForm.FormCreate(Sender: TObject);
 begin
   FEditorState := esNone;
@@ -179,15 +177,11 @@ begin
       DM.pfbtrnsctn1.CommitRetaining;
     except
       on EFIBError do
-        raise EAbort.Create('Ошибка базы данных' + #13#10 + 'Обратитесь к разработчику');
+        raise Exception.Create('Ошибка базы данных' + #13#10 + 'Обратитесь к разработчику');
     end;
   except
-    { DONE -oexception -cошибки  : проверить hook на ошибки }
-    on E: Exception do begin
-      DM.pfbtrnsctn1.Rollback;
-      Application.MessageBox(PChar(E.Message), 'Ошибка', MB_ICONERROR);
-      raise Exception.Create(E.Message);
-    end;
+    DM.pfbtrnsctn1.Rollback;
+    raise
   end;
 
   btnCancelClick(nil);
@@ -338,8 +332,11 @@ begin
     SQL.Text := 'DELETE FROM ' + FSelectTable;
     ExecQuery;
     Commit;
+    pfbdtst1.Close;
+    pfbdtst1.Open;
   except
     Rollback;
+    raise
   end;
 end;
 

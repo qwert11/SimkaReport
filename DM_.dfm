@@ -34,6 +34,12 @@ object DM: TDM
     Active = True
     DefaultDatabase = DB
     TimeoutAction = TARollback
+    TRParams.Strings = (
+      'read'
+      'isc_tpb_nowait'
+      'read_committed'
+      'rec_version')
+    TPBMode = tpbDefault
     Left = 56
     Top = 112
   end

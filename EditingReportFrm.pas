@@ -151,6 +151,7 @@ type
     procedure actCancelEditUpdate(Sender: TObject);
     procedure dbgrdhRepSIMCellClick(Column: TColumnEh);
     procedure cdsTmpErBcBeforeDelete(DataSet: TDataSet);
+    procedure intgrfldTmpERcRB_Prsnl_AcntValidate(Sender: TField);
   private
     { Private declarations }
     FEditingReport: TEditingReport;
@@ -305,7 +306,7 @@ begin
                     except
                       on E: Exception do begin
                         cdsTmpErBc.Cancel;
-                        Application.MessageBox(PChar(E.Message), 'Ошибка добавления данных', MB_ICONERROR);
+                        raise Exception.Create('Ошибка добавления данных');
                         Break;
                       end;
                     end;
@@ -321,6 +322,7 @@ begin
             First;
             try
               cdsTmpER.AfterPost := nil;
+              intgrfldTmpERcRB_Prsnl_Acnt.OnValidate := nil;
               while not Eof do begin
                 cdsTmpER.Append;
                 try
@@ -377,6 +379,7 @@ begin
                 end;
               end;
             finally
+              intgrfldTmpERcRB_Prsnl_Acnt.OnValidate := intgrfldTmpERcRB_Prsnl_AcntValidate;
               cdsTmpER.AfterPost := cdsTmpERAfterPost;
             end;
           end;
@@ -497,7 +500,7 @@ procedure TfrmEditingReport.actSaveExecute(Sender: TObject);
 begin
   
   ModalResult := mrNone;
-  { TODO 5 -oUpdate -cChecked : проверить введенные данные если в cdsTmpER то что cdsTmpErBc}
+  
   cdsTmpErBc.First;
   while not cdsTmpErBc.Eof do begin
 
@@ -541,21 +544,6 @@ begin
         'WHERE RD_DATE = ''' + DateToStr(dtpDate.Date) + ''''; // old_rd_date ???????????
     ExecQuery;
 
-//
-//    // удаляем старые значения
-//    Close;
-//    SQL.Text := 'DELETE FROM REPORT_SIMKA ' +
-//        'WHERE RS_REPORTDAY = ''' + DateToStr(dtpDate.Date) + ''''; // old_rd_date ???????????
-//    ExecQuery;
-//
-//
-//    // удаляем старые значения
-//    Close;
-//    SQL.Text := 'DELETE FROM REPORT_BALANCE ' +
-//        'WHERE RB_REPORTDAY = ''' + DateToStr(dtpDate.Date) + ''''; // old_rd_date ???????????
-//    ExecQuery;
-//    Close;
-
     cdsTmpER.First;
     with pfbstrdprc1, cdsTmpER do
     while not Eof do begin
@@ -597,39 +585,14 @@ begin
 
     Close;
   except
-    on E: Exception do begin
-      trnUpdate.Rollback;
-      Application.MessageBox(PChar(E.Message), 'ошибка', MB_ICONERROR);
-      raise Exception.Create(E.Message);
-      Halt;
-    end;
+    trnUpdate.Rollback;
+    raise;
+    Halt;
   end;  
   ModalResult := mrOk;
 end;
 
 procedure TfrmEditingReport.actSaveUpdate(Sender: TObject);
-  function Check(cbb: TDBLookupComboboxEh): Boolean;
-  begin
-    Result := True;
-    if (cbb.KeyValue = Null) then begin
-      cbb.Color := clRed;
-      Result := False end
-    else
-      cbb.Color := clWindow;
-  end;
-  function CheckFloat(edt: TEdit): Boolean;
-  begin
-    try
-      Result := TestFloat(edt.Text);
-      if Result then
-        edt.Color := clWindow
-      else
-        edt.Color := clRed
-    except
-      Result := False;
-      edt.Color := clRed;
-    end;
-  end;
 var
   bEnabled: Boolean;
 begin
@@ -676,8 +639,7 @@ begin
     ShowsWarningStat1(F.DisplayLabel + ': ' + 'Не верно!!!');
 end;
 
-{ DONE 5 -oBeforePost -cCheck :
-post в Insert(первом) и Insert(копированя посл.данных) и Edit из ReportSim и добавление пользователем  данных }
+
 // проверка записи
 function TfrmEditingReport.CheckRepSimRecord(ShowWarning: Boolean = True): Boolean;
 begin
@@ -720,7 +682,7 @@ begin
     Abort;
   end;
 end;
-{ TODO 1 : apply }
+
 { TODO 5 -cCheck : различия выделить цветом (разные для edit и insert)}
 
 procedure TfrmEditingReport.dbgrdhRepSIMDrawColumnCell(Sender: TObject;
@@ -845,7 +807,7 @@ begin
     end;
 end;
 
-{ TODO : cdsTmpERAfterPost и cdsTmpErBcAfterPost слабое звено }
+{ TODO : cdsTmpERAfterPost и cdsTmpErBcAfterPost и intgrfldTmpERcRB_Prsnl_AcntValidate слабое звено }
 procedure TfrmEditingReport.cdsTmpErBcAfterPost(DataSet: TDataSet);
 begin
   if (cdsTmpER.State <> dsBrowse) or
@@ -912,6 +874,14 @@ begin
     AfterPost := cdsTmpERAfterPost;
     cdsTmpErBc.AfterPost := cdsTmpErBcAfterPost;
   end;
+end;
+
+procedure TfrmEditingReport.intgrfldTmpERcRB_Prsnl_AcntValidate(
+  Sender: TField);
+begin
+  if (cdsTmpER.State = dsEdit) or (cdsTmpER.State = dsInsert) then
+    if cdsTmpErBc.Locate('cPrsnlAcnt', intgrfldTmpERcRB_Prsnl_Acnt.Value, []) then
+      crncyfldTmpERcRB_Sum.Value := crncyfldTmpErBccSUM.Value
 end;
 
 procedure TfrmEditingReport.actInsertExecute(Sender: TObject);

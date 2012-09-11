@@ -1,7 +1,7 @@
 object frmMain: TfrmMain
-  Left = 355
-  Top = 345
-  Width = 1280
+  Left = 179
+  Top = 353
+  Width = 1347
   Height = 486
   Caption = 'SIM'
   Color = clBtnFace
@@ -18,7 +18,7 @@ object frmMain: TfrmMain
   object dbgrdh1: TDBGridEh
     Left = 0
     Top = 0
-    Width = 1272
+    Width = 1339
     Height = 369
     Align = alClient
     AutoFitColWidths = True
@@ -32,6 +32,7 @@ object frmMain: TfrmMain
     FooterFont.Name = 'MS Sans Serif'
     FooterFont.Style = []
     IndicatorOptions = [gioShowRowIndicatorEh]
+    PopupMenu = pm1
     TabOrder = 0
     TitleFont.Charset = DEFAULT_CHARSET
     TitleFont.Color = clWindowText
@@ -185,12 +186,12 @@ object frmMain: TfrmMain
   object pnl1: TPanel
     Left = 0
     Top = 369
-    Width = 1272
+    Width = 1339
     Height = 52
     Align = alBottom
     TabOrder = 1
     DesignSize = (
-      1272
+      1339
       52)
     object btnNewRecord: TButton
       Left = 24
@@ -216,15 +217,15 @@ object frmMain: TfrmMain
       Action = actDelete
       TabOrder = 2
     end
-    object btnFinance: TButton
+    object btnPeople: TButton
       Left = 472
       Top = 16
       Width = 55
       Height = 25
-      Caption = 'Finance'
+      Caption = 'People'
       TabOrder = 3
       Visible = False
-      OnClick = btnFinanceClick
+      OnClick = btnPeopleClick
     end
     object btnTarifPlan: TButton
       Left = 536
@@ -267,7 +268,7 @@ object frmMain: TfrmMain
       OnClick = btnOwnerClick
     end
     object btnAutentification: TButton
-      Left = 1555
+      Left = 1622
       Top = 16
       Width = 55
       Height = 25
@@ -275,11 +276,80 @@ object frmMain: TfrmMain
       Anchors = [akTop, akRight]
       TabOrder = 8
     end
+    object btnEnter: TButton
+      Left = 1227
+      Top = 16
+      Width = 75
+      Height = 25
+      Action = actAutentification
+      Anchors = [akTop, akRight]
+      TabOrder = 9
+    end
+    object btnAuthor: TButton
+      Left = 792
+      Top = 16
+      Width = 55
+      Height = 25
+      Caption = 'Author'
+      TabOrder = 10
+      Visible = False
+      OnClick = btnAuthorClick
+    end
+    object btnPartCall: TButton
+      Left = 856
+      Top = 16
+      Width = 55
+      Height = 25
+      Caption = 'PartCall'
+      TabOrder = 11
+      Visible = False
+      OnClick = btnPartCallClick
+    end
+    object btnLinkRadio: TButton
+      Left = 920
+      Top = 16
+      Width = 55
+      Height = 25
+      Caption = 'LinkRadio'
+      TabOrder = 12
+      Visible = False
+      OnClick = btnLinkRadioClick
+    end
+    object btnPrsnlAcnt: TButton
+      Left = 984
+      Top = 16
+      Width = 55
+      Height = 25
+      Caption = 'PrsnlAcnt'
+      TabOrder = 13
+      Visible = False
+      OnClick = btnPrsnlAcntClick
+    end
+    object btnUser: TButton
+      Left = 1048
+      Top = 16
+      Width = 55
+      Height = 25
+      Caption = 'User'
+      TabOrder = 14
+      Visible = False
+      OnClick = btnUserClick
+    end
+    object btnUserBrunch: TButton
+      Left = 1112
+      Top = 16
+      Width = 55
+      Height = 25
+      Caption = 'UserBrunch'
+      TabOrder = 15
+      Visible = False
+      OnClick = btnUserBrunchClick
+    end
   end
   object stat1: TStatusBar
     Left = 0
     Top = 421
-    Width = 1272
+    Width = 1339
     Height = 19
     Panels = <
       item

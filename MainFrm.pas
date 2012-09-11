@@ -43,10 +43,18 @@ type
     pfbqryUpdate: TpFIBQuery;
     actExtendedReport: TAction;
     mniExtendedReport: TMenuItem;
+    btnEnter: TButton;
+    btnAuthor: TButton;
+    btnPeople: TButton;
+    btnPartCall: TButton;
+    btnLinkRadio: TButton;
+    btnPrsnlAcnt: TButton;
+    btnUser: TButton;
+    btnUserBrunch: TButton;
     procedure FormCreate(Sender: TObject);
     procedure actEditUpdate(Sender: TObject);
     procedure actInsertExecute(Sender: TObject);
-    procedure btnFinanceClick(Sender: TObject);
+    procedure btnPeopleClick(Sender: TObject);
     procedure btnTarifPlanClick(Sender: TObject);
     procedure btnSimkaClick(Sender: TObject);
     procedure ApplicationEventException(Sender: TObject; E: Exception);
@@ -61,6 +69,12 @@ type
       DataCol: Integer; Column: TColumnEh; State: TGridDrawState);
     procedure actExtendedReportExecute(Sender: TObject);
     procedure actExtendedReportUpdate(Sender: TObject);
+    procedure btnPartCallClick(Sender: TObject);
+    procedure btnAuthorClick(Sender: TObject);
+    procedure btnLinkRadioClick(Sender: TObject);
+    procedure btnPrsnlAcntClick(Sender: TObject);
+    procedure btnUserClick(Sender: TObject);
+    procedure btnUserBrunchClick(Sender: TObject);
   private
     { Private declarations }
     property EditReport: TEditingReport write SetEditReport;
@@ -75,13 +89,15 @@ var
 implementation
 
 uses DM_, CustomerFunctions, TarifPlanFrm,
-  SimkaFrm, CustomerGlobals, AuthentificationFrm, OwnerFrm, DeviceFrm;
+  SimkaFrm, CustomerGlobals, AuthentificationFrm, OwnerFrm, DeviceFrm,
+  PeopleFrm, PartCallFrm, LinkRadioFrm, AuthorizationFrm,
+  PersonalAccountFrm, UserFrm, UserBrunchFrm;
 
 const
   PNL_INF_STATUS = 2;
 
 {$R *.dfm}
-{ TODO 5 -oDEFINE -cTEST : Убрать в настройках проэкта из DEFINE TESTMODE }
+
 
 procedure TfrmMain.FormCreate(Sender: TObject);
 begin
@@ -92,6 +108,12 @@ begin
     btnSimka.Visible := True;
     btnDevise.Visible := True;
     btnOwner.Visible := True;
+    //btnAuthor.Visible := True;
+    btnPartCall.Visible := True;
+    btnLinkRadio.Visible := True;
+    btnPrsnlAcnt.Visible := True;
+    btnUser.Visible := True;
+    btnUserBrunch.Visible := True;
     stat1.Panels[PNL_INF_STATUS].Text := 'Вы находитесь в режиме тестирования';
   {$ENDIF}
   SetExtendedReports;
@@ -109,10 +131,8 @@ begin
       if not pfbdtstView.Active then
         pfbdtstView.Open;
     except
-      on E: Exception do begin
-        Application.MessageBox(PChar(E.Message), 'Ошибка', MB_ICONERROR);
-        Halt;
-      end;
+      raise;
+      Halt;
     end;
 end;
 
@@ -134,15 +154,18 @@ end;
 
 procedure TfrmMain.actEditUpdate(Sender: TObject);
 begin
-{$IFNDEF TESTMODE}
+{$IFDEF TESTMODE}
+  (Sender as TAction).Enabled :=
+    not dbgrdh1.DataSource.DataSet.Eof
+{$ELSE}
   (Sender as TAction).Enabled :=
     not dbgrdh1.DataSource.DataSet.Eof and CheckAutentification
 {$ENDIF}
 end;
 
-procedure TfrmMain.btnFinanceClick(Sender: TObject);
+procedure TfrmMain.btnPeopleClick(Sender: TObject);
 begin
-  //frmFinance.ShowModal
+  frmPeople.ShowModal
 end;
 
 procedure TfrmMain.btnTarifPlanClick(Sender: TObject);
@@ -178,7 +201,6 @@ begin
 //     else
 //       error_string := 'Другая ошибка DB' end else
   if E is EFIBError then
-  { DONE  -oexception -cошибки  : отлавливать все ошибки}
     error_string := 'Ошибка базы данных FireBird';
   error_string := E.Message + ' ' + error_string;
 
@@ -267,8 +289,11 @@ begin
 
       erInsert: begin
         EditingReport := TfrmEditingReport.Create(Self, erInsert);
-        Filter := 'RD_DATE = ''' + DM.fbdtfldViewRD_DATE.AsString + '''';
-        Filtered := True;
+        if not IsEmpty then begin
+          Filter := 'RD_DATE = ''' + DM.fbdtfldViewRD_DATE.AsString + '''';
+          Filtered := True;
+        end;
+        
         try
           EditingReport.ShowModal;
           if EditingReport.ModalResult <> mrOk then
@@ -303,6 +328,7 @@ begin
     SetExtendedReports;
   except
     trnUpdate.Rollback;
+    raise
   end;
 end;
 
@@ -333,9 +359,9 @@ procedure TfrmMain.dbgrdh1DrawColumnCell(Sender: TObject;
   end;
 begin
   with Column do
-  if (FieldName = 'cRS_Status') or (FieldName = 'cRS_IfInstall') or (FieldName = 'SRADRSNG_ALL')
-      or (FieldName = 'SRADRSNG_BUSY') or (FieldName = 'SRADRSNG_NOANSWR') or
-        (FieldName = 'SRADRSNG_OUTSD') or (FieldName = 'SCLIR')
+  if (FieldName = 'RS_STATUS') or (FieldName = 'RS_IFINSTALL') or (FieldName = 'RS_RADRSNG_ALL')
+      or (FieldName = 'RS_RADRSNG_BUSY') or (FieldName = 'RS_RADRSNG_NOANSWR') or
+        (FieldName = 'RS_RADRSNG_OUTSD')
           then // Модифицируйте под себя
     if CharToBool(Column.Field.AsString) then
       DrawGridCheckBox(dbgrdh1.Canvas, Rect, true)
@@ -366,6 +392,36 @@ begin
     actExtendedReport.Caption := 'Включить компактный отчет'
   else
     actExtendedReport.Caption := 'Включить расширеный отчет'
+end;
+
+procedure TfrmMain.btnPartCallClick(Sender: TObject);
+begin
+  frmPartCall.ShowModal
+end;
+
+procedure TfrmMain.btnAuthorClick(Sender: TObject);
+begin
+  frmAuthorization.ShowModal
+end;
+
+procedure TfrmMain.btnLinkRadioClick(Sender: TObject);
+begin
+  frmLinkRadio.ShowModal
+end;
+
+procedure TfrmMain.btnPrsnlAcntClick(Sender: TObject);
+begin
+  frmPersonalAccount.ShowModal
+end;
+
+procedure TfrmMain.btnUserClick(Sender: TObject);
+begin
+  frmUser.ShowModal
+end;
+
+procedure TfrmMain.btnUserBrunchClick(Sender: TObject);
+begin
+  frmUserBrunch.ShowModal
 end;
 
 end.

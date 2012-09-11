@@ -41,6 +41,9 @@ object frmEditingReport: TfrmEditingReport
     Height = 529
     Align = alRight
     TabOrder = 1
+    DesignSize = (
+      243
+      529)
     object lbl1: TLabel
       Left = 4
       Top = 32
@@ -78,6 +81,7 @@ object frmEditingReport: TfrmEditingReport
       Width = 89
       Height = 25
       Action = actSave
+      Anchors = [akRight, akBottom]
       Caption = #1057#1086#1093#1088#1072#1085#1080#1090#1100
       TabOrder = 1
       Kind = bkOK
@@ -87,6 +91,7 @@ object frmEditingReport: TfrmEditingReport
       Top = 480
       Width = 75
       Height = 25
+      Anchors = [akRight, akBottom]
       Caption = 'Cancel'
       ModalResult = 2
       TabOrder = 2
@@ -719,6 +724,7 @@ object frmEditingReport: TfrmEditingReport
     object intgrfldTmpERcRB_Prsnl_Acnt: TIntegerField
       DisplayLabel = #1048#1076' '#1083#1080#1094#1077#1074#1086#1075#1086' '#1089#1095#1077#1090#1072
       FieldName = 'cRB_Prsnl_Acnt'
+      OnValidate = intgrfldTmpERcRB_Prsnl_AcntValidate
     end
     object intgrfldTmpERcC_RB_PrsnlAcnt: TIntegerField
       FieldName = 'cC_RB_PrsnlAcnt'

@@ -1,5 +1,5 @@
 inherited frmUser: TfrmUser
-  Caption = 'frmUser'
+  Caption = #1057#1083#1091#1078#1073#1072' '#1080#1089#1087#1086#1083#1100#1079#1091#1102#1097#1072#1103' SIM'
   OldCreateOrder = True
   PixelsPerInch = 96
   TextHeight = 13
@@ -23,6 +23,7 @@ inherited frmUser: TfrmUser
       Top = 16
       Width = 121
       Height = 21
+      Hint = #1053#1072#1079#1074#1072#1085#1080#1077' '#1089#1083#1091#1078#1073#1099
       TabOrder = 4
       Text = 'edtUser'
     end

@@ -3,45 +3,6 @@ inherited frmAuthorization: TfrmAuthorization
   OldCreateOrder = True
   PixelsPerInch = 96
   TextHeight = 13
-  inherited dbgrd1: TDBGrid
-    Columns = <
-      item
-        Expanded = False
-        FieldName = 'A_ID'
-        Width = 34
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'P_SURNAME'
-        Width = 72
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'P_NAME'
-        Width = 54
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'P_PATRONYMIC'
-        Width = 52
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'A_LOGIN'
-        Width = 56
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'A_PASSWORD'
-        Width = 89
-        Visible = True
-      end>
-  end
   inherited pnl1: TPanel
     object btnPeople: TSpeedButton [0]
       Left = 240
@@ -107,6 +68,7 @@ inherited frmAuthorization: TfrmAuthorization
       EditButtons = <>
       KeyField = 'P_ID'
       ListField = 'P_SURNAME; P_NAME'
+      ShowHint = True
       TabOrder = 4
       Visible = True
     end
@@ -126,6 +88,45 @@ inherited frmAuthorization: TfrmAuthorization
       TabOrder = 6
       Text = 'edtLogin'
     end
+  end
+  inherited dbgrd1: TDBGrid
+    Columns = <
+      item
+        Expanded = False
+        FieldName = 'A_ID'
+        Width = 34
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'P_SURNAME'
+        Width = 105
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'P_NAME'
+        Width = 64
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'P_PATRONYMIC'
+        Width = 85
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'A_LOGIN'
+        Width = 56
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'A_PASSWORD'
+        Width = 89
+        Visible = True
+      end>
   end
   inherited pfbdtst1: TpFIBDataSet
     SelectSQL.Strings = (

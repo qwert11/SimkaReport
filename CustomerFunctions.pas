@@ -11,9 +11,6 @@ type
   TReadIni = (riString, riInteger, riBool, riDate, riFloat);
   TMask = set of Char;
 
-  ECustomerError = class (Exception);
-  ECusConvertError = class (EAbort);
-
 function MergeResult(const arr: array of string): string;
 
 //function GridResize(Grid: TDBGridEh): Boolean;
@@ -179,7 +176,6 @@ begin
   try
     if A = '' then
       Exit;
-      //raise ECusConvertError.Create('Пустая строка не может быть преобразована в тип Integer');
     StrToInt(A);
     Result := True;
   except
@@ -187,11 +183,6 @@ begin
       if not SilentExcept then
         Application.MessageBox('Ошибка преобразования типа String to Integer',
           'Ошибка', MB_ICONERROR);
-      Abort;
-    end;
-    on ECusConvertError do begin
-      if not SilentExcept then
-        Application.MessageBox('Ошибка преобразования nil to Integer', 'Ошибка', MB_ICONERROR);
       Abort;
     end;
   end;
@@ -203,18 +194,12 @@ begin
   try
     if A = '' then
       Exit;
-      //raise ECusConvertError.Create('Пустая строка не может быть преобразована в тип Real');
     StrToFloat(A);
     Result := True;
   except
     on EConvertError do begin
       if not SilentExcept then
         Application.MessageBox('Ошибка преобразования типа String to Real', 'Ошибка', MB_ICONERROR);
-      Abort;
-    end;
-    on E: ECusConvertError do begin
-      if not SilentExcept then
-        Application.MessageBox('Ошибка преобразования nil to Real', 'Ошибка', MB_ICONERROR);
       Abort;
     end;
   end;
