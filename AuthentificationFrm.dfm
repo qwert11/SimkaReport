@@ -35,6 +35,14 @@ object frmAuthentification: TfrmAuthentification
     Height = 17
     Hint = #1053#1072#1078#1084#1080#1090#1077', '#1095#1090#1086' '#1073#1099' '#1079#1072#1088#1077#1075#1080#1089#1090#1088#1080#1088#1086#1074#1072#1090#1100#1089#1103
     Caption = #1056#1077#1075#1080#1089#1090#1088#1072#1094#1080#1103
+    Color = clBtnFace
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clBlue
+    Font.Height = -11
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
+    ParentColor = False
+    ParentFont = False
     TabOrder = 0
     OnClick = txtRegistrationClick
   end
