@@ -291,6 +291,7 @@ begin
       end;
 
       erInsert: begin
+        Last;
         EditingReport := TfrmEditingReport.Create(Self, erInsert);
         if not IsEmpty then begin
           Filter := 'RD_DATE = ''' + DM.fbdtfldViewRD_DATE.AsString + '''';

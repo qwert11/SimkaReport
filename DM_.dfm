@@ -487,6 +487,7 @@ object DM: TDM
       Origin = 'REPORT_SIMKA.RS_REPORTDAY'
     end
     object fbcdfldViewOLD_SUM: TFIBBCDField
+      DisplayLabel = #1056#1072#1089#1093#1086#1076
       FieldName = 'OLD_SUM'
       OnGetText = fbcdfldViewOLD_SUMGetText
       Size = 2

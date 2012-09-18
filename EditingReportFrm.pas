@@ -152,6 +152,8 @@ type
     procedure dbgrdhRepSIMCellClick(Column: TColumnEh);
     procedure cdsTmpErBcBeforeDelete(DataSet: TDataSet);
     procedure intgrfldTmpERcRB_Prsnl_AcntValidate(Sender: TField);
+    procedure crncyfldTmpERcC_RB_SUMGetText(Sender: TField;
+      var Text: String; DisplayText: Boolean);
   private
     { Private declarations }
     FEditingReport: TEditingReport;
@@ -163,6 +165,7 @@ type
     procedure SetExtendedReports(IsExtended: Boolean = True);
   public
     { Public declarations }
+    property EditingReport: TEditingReport read FEditingReport;
     constructor Create(AOwner: TComponent;
         AEditingReport: TEditingReport); reintroduce;
   end;
@@ -258,15 +261,15 @@ begin
       // внимание опасный промежуток после выключения - включить
       cdsTmpER.BeforePost := nil;   {*}
 
-      case FEditingReport of
+      case EditingReport of
         erEdit, erInsert:
           begin
 
-            case FEditingReport of
+            case EditingReport of
               erEdit: begin
                 if IsEmpty then
                   Exit;
-
+                dtpDate.Enabled := False;
                 // запоминаем редактируемую запись ReportDay
                 old_rd_date := FieldByName('RD_DATE').Value;
                 stat1.Panels[PNL_INF_STAT_EDIT].Text := 'Редактирование отчета';
@@ -525,7 +528,7 @@ begin
   with frmMain, pfbqryUpdate do
   try
 
-    if (FEditingReport <> erEdit) or ((FEditingReport = erEdit) and
+    if (EditingReport <> erEdit) or ((EditingReport = erEdit) and
         (old_rd_date <> dtpDate.Date)) then begin
       Close;
       SQL.Text := 'SELECT COUNT(RD_DATE) FROM REPORT_DAY WHERE RD_DATE = ''' + DateToStr(dtpDate.Date) + '''';
@@ -588,7 +591,7 @@ begin
     trnUpdate.Rollback;
     raise;
     Halt;
-  end;  
+  end;
   ModalResult := mrOk;
 end;
 
@@ -723,7 +726,7 @@ begin
   if State = dsBrowse then begin
     if VarIsNull(FieldByName(Column.FieldName).Value) or
         (FieldByName(Column.FieldName).AsString = NullAsStringValue) then
-      SetFormatingCell(clRed) end
+      SetFormatingCell(clCream) end
   else
     SetFormatingCell(clGray);
 
@@ -733,7 +736,12 @@ begin
     if CharToBool(Column.Field.AsString) then
       DrawGridCheckBox(dbgrdhRepSIM.Canvas, Rect, true)
     else
-      DrawGridCheckBox(dbgrdhRepSIM.Canvas, Rect, false)
+      DrawGridCheckBox(dbgrdhRepSIM.Canvas, Rect, false);
+      
+  with Column do
+  if FieldName = 'cC_RB_SUM' then
+    if DiffSum(crncyfldTmpERcC_RB_SUM.Value, crncyfldTmpERcRB_Sum.Value) >= max_sum_diff then
+      SetFormatingCell(clRed)
 end;
 
 
@@ -833,20 +841,66 @@ begin
 end;
 
 procedure TfrmEditingReport.cdsTmpERAfterPost(DataSet: TDataSet);
+  function LastSum(): Currency;
+  begin
+    Result := 0;
+    with frmMain, pfbqryUpdate do
+    try
+      Close;
+      case EditingReport of
+        erEdit:
+          SQL.Text :=
+            'select ' +
+                'report_balance.rb_sum ' +
+            'from report_balance ' +
+               'inner join report_simka on (report_balance.rb_id = report_simka.rs_balance) ' +
+            'where ' +
+               '(' +
+                  '(report_simka.rs_reportday = (' +
+                    'select max(report_simka.rs_reportday) ' +
+                    'from report_simka ' +
+                    'where report_simka.rs_reportday < ''' + DateToStr(old_rd_date) + '''))' +
+               'and ' +
+                  '(report_simka.rs_simka = ' + intgrfldTmpERcRS_Simka.AsString + ') ' +
+               ')';
+        erInsert:
+          SQL.Text :=
+            'select ' +
+                'report_balance.rb_sum ' +
+            'from report_balance ' +
+               'inner join report_simka on (report_balance.rb_id = report_simka.rs_balance) ' +
+            'where ' +
+               '(' +
+                  '(report_simka.rs_reportday = (select max(report_simka.rs_reportday) from report_simka))' +
+               'and ' +
+                  '(report_simka.rs_simka = ' + intgrfldTmpERcRS_Simka.AsString + ') ' +
+               ')';
+      end;
+      ExecQuery;
+      Result := Fields[0].AsCurrency;
+      Close;
+    except
+      trnUpdate.Rollback;
+    end;
+  end;
 var
   tmpIdAccoun,
   tmpBalance: Variant;
-begin
-  tmpIdAccoun := intgrfldTmpERcRB_Prsnl_Acnt.AsVariant;
-  tmpBalance := crncyfldTmpERcRB_Sum.AsVariant;
-
-  if VarIsNull(tmpIdAccoun) or (tmpIdAccoun = 0) then
-    Exit; 
-
+begin    
   with cdsTmpER do
   try
     AfterPost := nil;
     cdsTmpErBc.AfterPost := nil;
+
+    Edit;
+    crncyfldTmpERcC_RB_SUM.Value := LastSum;
+    Post;
+
+    tmpIdAccoun := intgrfldTmpERcRB_Prsnl_Acnt.AsVariant;
+    tmpBalance := crncyfldTmpERcRB_Sum.AsVariant;
+    if VarIsNull(tmpIdAccoun) or (tmpIdAccoun = 0) then
+      Exit;
+
     // корректируем баланс в табл. ID аккаунта
     with cdsTmpErBc do
     if Locate('cPrsnlAcnt', tmpIdAccoun, []) then begin
@@ -858,7 +912,7 @@ begin
       crncyfldTmpErBccSUM.Value := tmpBalance;
       intgrfldTmpErBccPrsnlAcnt.Value := tmpIdAccoun;
       Post;
-    end;
+    end; 
 
     // корректируем баланс в главной табице
     First;
@@ -918,7 +972,7 @@ end;
 
 procedure TfrmEditingReport.SetExtendedReports(IsExtended: Boolean);
 const
-  BEGIN_EXRENDED_COLUMN = 7;
+  BEGIN_EXRENDED_COLUMN = 8;
 var
   I: Integer;
 begin
@@ -976,6 +1030,12 @@ begin
   AControl.Refresh;
   Delay(300);
   THackColor(AControl).Color := TmpColor;
+end;
+
+procedure TfrmEditingReport.crncyfldTmpERcC_RB_SUMGetText(Sender: TField;
+  var Text: String; DisplayText: Boolean);
+begin
+  Text := FloatToStr(DiffSum(crncyfldTmpERcRB_Sum.Value, crncyfldTmpERcC_RB_SUM.Value))
 end;
 
 end.

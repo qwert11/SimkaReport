@@ -8,10 +8,11 @@ uses
   FIBQuery, DBCtrls, DBGridEh;
 
 type
-  TReadIni = (riString, riInteger, riBool, riDate, riFloat, riCurrency);
   TMask = set of Char;
 
 function MergeResult(const arr: array of string): string;
+
+function DiffSum(sum1, sum2: Variant): Real;
 
 function ReadIni(ASection, AString : String; ADef: Integer) : Variant; overload;
 function ReadIni(ASection, AString : String; ADef: string) : Variant; overload;
@@ -51,6 +52,16 @@ implementation
 
 uses CustomerGlobals;
 
+function DiffSum(sum1, sum2: Variant): Real;
+begin
+  if VarIsNull(sum1) and VarIsNull(sum2) then
+    Result := 0 else
+  if VarIsNull(sum1) then
+    Result := - sum2 else
+  if VarIsNull(sum2) then
+    Result := sum1 else
+    Result := sum1 - sum2
+end;  
 
 function MergeResult(const arr: array of string): string;
 var
@@ -263,6 +274,8 @@ begin
   end;    
 end;  
 
+type
+  TReadIni = (riString, riInteger, riBool, riDate, riFloat, riCurrency);
 // читает настройки из ini файла
 function ReadIniFile(ASection, AString : String; ADef: Variant; ReadIni: TReadIni) : Variant;
 var
