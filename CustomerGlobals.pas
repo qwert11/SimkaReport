@@ -20,6 +20,7 @@ type
 
 var
   user: TUser = (login: DEF_USER; ID: -1; Name: DEF_USER; Patronymic: DEF_USER; Surname: DEF_USER);
+  max_sum_diff: Currency = 100;
 {$IFDEF TESTMODE}
   extended_reports: Boolean = True;
 {$ELSE}

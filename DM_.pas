@@ -4,7 +4,7 @@ interface
 
 uses
   SysUtils, Classes, FIBDatabase, pFIBDatabase, DB, FIBDataSet, pFIBDataSet,
-  FIBQuery, pFIBQuery;
+  FIBQuery, pFIBQuery, Variants;
 
 type
   TDM = class(TDataModule)
@@ -64,8 +64,12 @@ type
     fbstrngfldViewS_NUMBER2: TFIBStringField;
     fbstrngfldViewS_NUMBER3: TFIBStringField;
     fbstrngfldViewS_NUMBER4: TFIBStringField;
+    fbdtfldViewOLD_DAY: TFIBDateField;
+    fbcdfldViewOLD_SUM: TFIBBCDField;
     procedure fbstrngfldViewRE_SURNAMEGetText(Sender: TField;
       var Text: String; DisplayText: Boolean);
+    procedure fbcdfldViewOLD_SUMGetText(Sender: TField; var Text: String;
+      DisplayText: Boolean);
   private
     { Private declarations }
   public
@@ -95,6 +99,18 @@ procedure TDM.fbstrngfldViewRE_SURNAMEGetText(Sender: TField;
 begin
   Text := fbstrngfldViewP_SURNAME.AsString + ' ' +
     Get_N_P(fbstrngfldViewP_NAME.AsString, fbstrngfldViewP_PATRONYMIC.AsString) 
+end;
+
+procedure TDM.fbcdfldViewOLD_SUMGetText(Sender: TField; var Text: String;
+  DisplayText: Boolean);
+var
+  old_sum: Integer;
+begin
+  if VarIsNull(fbcdfldViewOLD_SUM.Value) then
+    old_sum := 0
+  else
+    old_sum := fbcdfldViewOLD_SUM.Value;
+  Text := VarToStr(fbcdfldViewRB_SUM.Value - old_sum) + ' гр'
 end;
 
 end.

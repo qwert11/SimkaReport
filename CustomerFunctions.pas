@@ -8,12 +8,15 @@ uses
   FIBQuery, DBCtrls, DBGridEh;
 
 type
-  TReadIni = (riString, riInteger, riBool, riDate, riFloat);
+  TReadIni = (riString, riInteger, riBool, riDate, riFloat, riCurrency);
   TMask = set of Char;
 
 function MergeResult(const arr: array of string): string;
 
-//function GridResize(Grid: TDBGridEh): Boolean;
+function ReadIni(ASection, AString : String; ADef: Integer) : Variant; overload;
+function ReadIni(ASection, AString : String; ADef: string) : Variant; overload;
+function ReadIni(ASection, AString : String; ADef: Boolean) : Variant; overload;
+function ReadIni(ASection, AString : String; ADef: Double) : Variant; overload;
 
 function ToStrNull(S: string): string; overload;
 function ToStrNull(V: Variant): string; overload;
@@ -36,8 +39,6 @@ function ToStrPoint(Value: string): string; overload;
 function BoolToChar(B: Boolean; UseBoolChr: Boolean = False): Char;
 function CharToBool(IsCheck: Variant): Boolean;
 
-function ReadIni(ASection, AString : String; ReadIni: TReadIni) : Variant;
-
 procedure MaskKeyEdit(Sender: TObject; var Key: Char; AMask: TMask);
 
 procedure ClearEdit(frm: TForm);
@@ -59,28 +60,6 @@ begin
   for I := Low(arr) to High(arr) do
     Result := Result + arr[I] + ' '
 end;
-
-//function GridResize(Grid: TDBGridEh): Boolean;
-//  function SumSizeColumns: Integer;
-//  var
-//    I: Integer;
-//  begin
-//    Result := 0;
-//    for I := 0 to Grid.Columns.Count - 1 do
-//      Inc(Result, Grid.Columns[I].Width)
-//  end;
-//var
-//  aspect: Real;
-//  I: Integer;
-//begin
-//  Result := False;
-//  if SumSizeColumns = 0 then
-//    Exit;
-//  aspect := Grid.Width / SumSizeColumns;
-//  for I := 0 to Grid.Columns.Count - 1 do
-//    Grid.Columns[I].Width := Trunc(Grid.Columns[I].Width * aspect);
-//  Result := True;
-//end;
 
 function CharToBool(IsCheck: Variant): Boolean;
 var
@@ -285,7 +264,7 @@ begin
 end;  
 
 // читает настройки из ini файла
-function ReadIni(ASection, AString : String; ReadIni: TReadIni) : Variant;
+function ReadIniFile(ASection, AString : String; ADef: Variant; ReadIni: TReadIni) : Variant;
 var
   sIniFile: TIniFile;
   sPath: String[60];
@@ -294,15 +273,35 @@ begin
   sIniFile := TIniFile.Create(sPath + '\' + CONFIG_FILE);
   try
     case ReadIni of
-      riString: Result := sIniFile.ReadString(ASection, AString, ' ');
-      riInteger: Result := sIniFile.ReadInteger(ASection, AString, 0);
-      riBool: Result := sIniFile.ReadBool(ASection, AString, True);
-      riDate: Result := sIniFile.ReadDate(ASection, AString, Date);
-      riFloat: Result := sIniFile.ReadFloat(ASection, AString, 0);
+      riString: Result := sIniFile.ReadString(ASection, AString, ADef);
+      riInteger: Result := sIniFile.ReadInteger(ASection, AString, ADef);
+      riBool: Result := sIniFile.ReadBool(ASection, AString, ADef);
+      //riDate: Result := sIniFile.ReadDate(ASection, AString, ADef);
+      riFloat: Result := sIniFile.ReadFloat(ASection, AString, ADef);
     end;
   finally
     sIniFile.Free;
   end;
+end;
+
+function ReadIni(ASection, AString : String; ADef: Integer) : Variant;
+begin
+  Result := ReadIniFile(ASection, AString, ADef, riInteger)
+end;
+
+function ReadIni(ASection, AString : String; ADef: string) : Variant;
+begin
+  Result := ReadIniFile(ASection, AString, ADef, riString)
+end;
+
+function ReadIni(ASection, AString : String; ADef: Boolean) : Variant;
+begin
+  Result := ReadIniFile(ASection, AString, ADef, riBool)
+end;
+
+function ReadIni(ASection, AString : String; ADef: Double) : Variant;
+begin
+  Result := ReadIniFile(ASection, AString, ADef, riFloat)
 end;
 
 // маска для TEdit

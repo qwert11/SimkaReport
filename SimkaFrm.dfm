@@ -128,6 +128,7 @@ inherited frmSimka: TfrmSimka
       KeyField = 'OL_ID'
       ListField = 'OL_PERATOR_INK'
       ListSource = frmOperators.ds1
+      ShowHint = True
       TabOrder = 5
       Visible = True
     end
@@ -140,6 +141,7 @@ inherited frmSimka: TfrmSimka
       KeyField = 'LR_ID'
       ListField = 'LR_INK_ADIO'
       ListSource = frmLinkRadio.ds1
+      ShowHint = True
       TabOrder = 6
       Visible = True
     end
@@ -202,6 +204,7 @@ inherited frmSimka: TfrmSimka
       FieldName = 'SID'
     end
     object pfbdtst1S_NUMBER: TFIBStringField
+      DisplayLabel = 'MSISDN'
       FieldName = 'S_NUMBER'
       Size = 12
       EmptyStrToNull = True

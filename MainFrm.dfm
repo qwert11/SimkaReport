@@ -2,7 +2,7 @@ object frmMain: TfrmMain
   Left = 179
   Top = 353
   Width = 1347
-  Height = 486
+  Height = 539
   Caption = 'SIM'
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -19,7 +19,7 @@ object frmMain: TfrmMain
     Left = 0
     Top = 0
     Width = 1339
-    Height = 369
+    Height = 422
     Align = alClient
     AutoFitColWidths = True
     DataGrouping.GroupLevels = <>
@@ -80,8 +80,14 @@ object frmMain: TfrmMain
         Width = 61
       end
       item
+        DisplayFormat = '# ##0.00'#1075#1088
         EditButtons = <>
         FieldName = 'RB_SUM'
+        Footers = <>
+      end
+      item
+        EditButtons = <>
+        FieldName = 'OLD_SUM'
         Footers = <>
       end
       item
@@ -185,7 +191,7 @@ object frmMain: TfrmMain
   end
   object pnl1: TPanel
     Left = 0
-    Top = 369
+    Top = 422
     Width = 1339
     Height = 52
     Align = alBottom
@@ -348,7 +354,7 @@ object frmMain: TfrmMain
   end
   object stat1: TStatusBar
     Left = 0
-    Top = 421
+    Top = 474
     Width = 1339
     Height = 19
     Panels = <
@@ -389,7 +395,7 @@ object frmMain: TfrmMain
       OnExecute = actAutentificationExecute
     end
     object actExtendedReport: TAction
-      Caption = #1042#1080#1076
+      Caption = #1058#1080#1087' '#1086#1090#1095#1077#1090#1072
       Hint = #1042#1080#1076' '#1086#1090#1095#1077#1090#1072
       OnExecute = actExtendedReportExecute
       OnUpdate = actExtendedReportUpdate
@@ -431,6 +437,9 @@ object frmMain: TfrmMain
       object mniDelete1: TMenuItem
         Action = actDelete
       end
+    end
+    object mniAutentification: TMenuItem
+      Action = actAutentification
     end
     object mniExtendedReport: TMenuItem
       Action = actExtendedReport

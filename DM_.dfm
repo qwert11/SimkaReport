@@ -52,102 +52,113 @@ object DM: TDM
     SelectSQL.Strings = (
       'select '
       '    report_day.rd_date,'
+      '    report_simka.rs_reportday old_day,'
       '    tarif_plan.tp_name,'
       '    tarif_plan.tp_abon_board,'
       '    tarif_plan.tp_sms_month,'
-      '    report_simka.rs_sms,'
+      '    before_date.rs_sms,'
       '    device.d_num,'
       '    device.d_title,'
       '    owner.o_name,'
       '    simka.s_number,'
-      '    report_simka.rs_simka,'
-      '    report_simka.rs_owner,'
-      '    report_simka.rs_in,'
-      '    report_simka.rsid,'
+      '    before_date.rs_simka,'
+      '    before_date.rs_owner,'
+      '    before_date.rs_in,'
+      '    before_date.rsid,'
       '    tarif_plan.tp_clir,'
       '    tarif_plan.tp_clir_price,'
       '    link_radio.lr_ink_adio,'
-      '    report_simka.rs_status,'
+      '    before_date.rs_status,'
       '    part_call.pc_art_all,'
       '    operator_link.ol_perator_ink,'
       '    report_balance.rb_sum,'
+      '    before_balance.rb_sum old_sum,'
       '    "USER".u_ser,'
       '    "USER".u_location,'
       '    user_brunch.ub_ser_runch,'
-      '    report_simka.rs_ifinstall,'
-      '    report_simka.rs_icc_sim,'
-      '    report_simka.rs_puk1,'
-      '    report_simka.rs_puk2,'
+      '    before_date.rs_ifinstall,'
+      '    before_date.rs_icc_sim,'
+      '    before_date.rs_puk1,'
+      '    before_date.rs_puk2,'
       '    prcnl_acnt.pa_rsnl_cnt,'
       '    people.p_surname,'
       '    people.p_name,'
       '    people.p_patronymic,'
-      '    report_simka.rs_tarifplan,'
-      '    report_simka.rs_part_call,'
-      '    report_simka.rs_reportday,'
-      '    report_simka.rs_balance,'
-      '    report_simka.rs_user,'
-      '    report_simka.rs_user_brunch,'
+      '    before_date.rs_tarifplan,'
+      '    before_date.rs_part_call,'
+      '    before_date.rs_reportday,'
+      '    before_date.rs_balance,'
+      '    before_date.rs_user,'
+      '    before_date.rs_user_brunch,'
       '    report_balance.rb_prsnl_acnt,'
       '    report_day.rd_respons,'
-      '    report_simka.rs_radrsng_all,'
-      '    report_simka.rs_radrsng_busy,'
-      '    report_simka.rs_radrsng_noanswr,'
-      '    report_simka.rs_radrsng_outsd,'
+      '    before_date.rs_radrsng_all,'
+      '    before_date.rs_radrsng_busy,'
+      '    before_date.rs_radrsng_noanswr,'
+      '    before_date.rs_radrsng_outsd,'
       '    simka4.s_number,'
       '    simka2.s_number,'
       '    simka3.s_number,'
       '    simka1.s_number,'
-      '    report_simka.rs_num_all,'
-      '    report_simka.rs_num_busy,'
-      '    report_simka.rs_num_noanswr,'
-      '    report_simka.rs_num_outsd'
-      'from report_simka'
-      '   left outer join owner on (report_simka.rs_owner = owner.oid)'
+      '    before_date.rs_num_all,'
+      '    before_date.rs_num_busy,'
+      '    before_date.rs_num_noanswr,'
+      '    before_date.rs_num_outsd'
+      'from report_simka before_date'
+      '    left outer join report_simka on (report_simka.rs_reportday ='
+      '        (select max(report_simka.rs_reportday) from report_simka'
       
-        '   left outer join simka simka4 on (report_simka.rs_num_outsd = ' +
+        '            where (report_simka.rs_reportday < before_date.rs_re' +
+        'portday and report_simka.rs_simka = before_date.rs_simka))) and'
+      '        (report_simka.rs_simka = before_date.rs_simka)'
+      '    left outer join owner on (before_date.rs_owner = owner.oid)'
+      
+        '    left outer join simka simka4 on (before_date.rs_num_outsd = ' +
         'simka4.sid)'
       
-        '   left outer join simka simka3 on (report_simka.rs_num_noanswr ' +
+        '    left outer join simka simka3 on (before_date.rs_num_noanswr ' +
         '= simka3.sid)'
       
-        '   left outer join user_brunch on (report_simka.rs_user_brunch =' +
+        '    left outer join user_brunch on (before_date.rs_user_brunch =' +
         ' user_brunch.ub_id)'
       
-        '   left outer join report_day on (report_simka.rs_reportday = re' +
+        '    left outer join report_day on (before_date.rs_reportday = re' +
         'port_day.rd_date)'
       
-        '   left outer join people on (report_day.rd_respons = people.p_i' +
-        'd)'
-      '   left outer join simka on (report_simka.rs_simka = simka.sid)'
+        '    left outer join people on (report_day.rd_respons = people.p_' +
+        'id)'
+      '    left outer join simka on (before_date.rs_simka = simka.sid)'
       
-        '   left outer join link_radio on (simka.s_link_radio = link_radi' +
-        'o.lr_id)'
+        '    left outer join link_radio on (simka.s_link_radio = link_rad' +
+        'io.lr_id)'
       
-        '   left outer join operator_link on (simka.s_operator = operator' +
-        '_link.ol_id)'
+        '    left outer join operator_link on (simka.s_operator = operato' +
+        'r_link.ol_id)'
       
-        '   left outer join tarif_plan on (report_simka.rs_tarifplan = ta' +
+        '    left outer join tarif_plan on (before_date.rs_tarifplan = ta' +
         'rif_plan.tpid)'
       
-        '   left outer join part_call on (report_simka.rs_part_call = par' +
+        '    left outer join part_call on (before_date.rs_part_call = par' +
         't_call.pc_id)'
       
-        '   left outer join report_balance on (report_simka.rs_balance = ' +
+        '    left outer join report_balance on (before_date.rs_balance = ' +
         'report_balance.rb_id)'
       
-        '   left outer join prcnl_acnt on (report_balance.rb_prsnl_acnt =' +
-        ' prcnl_acnt.pa_id)'
+        '    left outer join prcnl_acnt on (report_balance.rb_prsnl_acnt ' +
+        '= prcnl_acnt.pa_id)'
       
-        '   left outer join "USER" on (report_simka.rs_user = "USER".u_id' +
+        '    left outer join "USER" on (before_date.rs_user = "USER".u_id' +
         ')'
-      '   left outer join device on (report_simka.rs_in = device.did)'
+      '    left outer join device on (before_date.rs_in = device.did)'
       
-        '   left outer join simka simka1 on (report_simka.rs_num_all = si' +
+        '    left outer join simka simka1 on (before_date.rs_num_all = si' +
         'mka1.sid)'
       
-        '   left outer join simka simka2 on (report_simka.rs_num_busy = s' +
+        '    left outer join simka simka2 on (before_date.rs_num_busy = s' +
         'imka2.sid)'
+      
+        '    left outer join report_balance before_balance on (before_bal' +
+        'ance.rb_id = report_simka.rs_balance)'
       
         'order by report_day.rd_date, report_simka.rs_owner, report_simka' +
         '.rsid')
@@ -446,26 +457,40 @@ object DM: TDM
     object fbstrngfldViewS_NUMBER1: TFIBStringField
       DisplayLabel = #8470' '#1090#1077#1083'. '#1074#1089#1077
       FieldName = 'S_NUMBER1'
+      Origin = 'SIMKA.S_NUMBER'
       Size = 12
       EmptyStrToNull = True
     end
     object fbstrngfldViewS_NUMBER2: TFIBStringField
       DisplayLabel = #8470' '#1090#1077#1083'. '#1079#1072#1085#1103#1090
       FieldName = 'S_NUMBER2'
+      Origin = 'SIMKA.S_NUMBER'
       Size = 12
       EmptyStrToNull = True
     end
     object fbstrngfldViewS_NUMBER3: TFIBStringField
       DisplayLabel = #8470' '#1090#1077#1083'. '#1085#1077#1090' '#1086#1090#1074'.'
       FieldName = 'S_NUMBER3'
+      Origin = 'SIMKA.S_NUMBER'
       Size = 12
       EmptyStrToNull = True
     end
     object fbstrngfldViewS_NUMBER4: TFIBStringField
       DisplayLabel = #8470' '#1090#1077#1083'. '#1074#1085#1077' '#1079#1086#1085#1099
       FieldName = 'S_NUMBER4'
+      Origin = 'SIMKA.S_NUMBER'
       Size = 12
       EmptyStrToNull = True
+    end
+    object fbdtfldViewOLD_DAY: TFIBDateField
+      FieldName = 'OLD_DAY'
+      Origin = 'REPORT_SIMKA.RS_REPORTDAY'
+    end
+    object fbcdfldViewOLD_SUM: TFIBBCDField
+      FieldName = 'OLD_SUM'
+      OnGetText = fbcdfldViewOLD_SUMGetText
+      Size = 2
+      RoundByScale = True
     end
   end
 end

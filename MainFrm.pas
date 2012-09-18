@@ -51,6 +51,7 @@ type
     btnPrsnlAcnt: TButton;
     btnUser: TButton;
     btnUserBrunch: TButton;
+    mniAutentification: TMenuItem;
     procedure FormCreate(Sender: TObject);
     procedure actEditUpdate(Sender: TObject);
     procedure actInsertExecute(Sender: TObject);
@@ -100,31 +101,33 @@ const
 
 
 procedure TfrmMain.FormCreate(Sender: TObject);
-begin
-
-  {$IFDEF TESTMODE}
-    //btnFinance.Visible := True;
-    btnTarifPlan.Visible := True;
-    btnSimka.Visible := True;
-    btnDevise.Visible := True;
-    btnOwner.Visible := True;
-    //btnAuthor.Visible := True;
-    btnPartCall.Visible := True;
-    btnLinkRadio.Visible := True;
-    btnPrsnlAcnt.Visible := True;
-    btnUser.Visible := True;
-    btnUserBrunch.Visible := True;
-    stat1.Panels[PNL_INF_STATUS].Text := 'Вы находитесь в режиме тестирования';
-  {$ENDIF}
+begin         
+{$IFDEF TESTMODE}
+  //btnFinance.Visible := True;
+  btnTarifPlan.Visible := True;
+  btnSimka.Visible := True;
+  btnDevise.Visible := True;
+  btnOwner.Visible := True;
+  //btnAuthor.Visible := True;
+  btnPartCall.Visible := True;
+  btnLinkRadio.Visible := True;
+  btnPrsnlAcnt.Visible := True;
+  btnUser.Visible := True;
+  btnUserBrunch.Visible := True;
+  stat1.Panels[PNL_INF_STATUS].Text := 'Вы находитесь в режиме тестирования';
   SetExtendedReports;
+{$ELSE}
+  SetExtendedReports(False);
+{$ENDIF}
+  max_sum_diff := ReadIni('UserOption', 'max_sum_diff', max_sum_diff);
 
   Application.OnException := ApplicationEventException;
 
   with DM do
     try
-      WindowState := ReadIni('Window', 'WindowState', riInteger);
+      WindowState := ReadIni('Window', 'WindowState', 0);
       if not DB.Connected then begin
-        DB.DatabaseName := ReadIni('Base', 'Patch', riString);
+        DB.DatabaseName := ReadIni('Base', 'Patch', '');
         DB.Connected := True;
       end;
 
@@ -357,22 +360,48 @@ procedure TfrmMain.dbgrdh1DrawColumnCell(Sender: TObject;
       DrawFlags := DrawFlags or DFCS_CHECKED;
     DrawFrameControl(Canvas.Handle, Rect, DFC_BUTTON, DrawFlags);
   end;
+  procedure DrawDiff;
+  var
+    old_sum: Currency;
+  begin
+     with dbgrdh1.Canvas, DM do begin
+        if VarIsNull(fbcdfldViewOLD_SUM.Value) then
+          old_sum := 0
+        else
+          old_sum := fbcdfldViewOLD_SUM.Value;
+        if fbcdfldViewRB_SUM.Value - old_sum > max_sum_diff then
+          Brush.Color := clRed
+        else
+          Brush.Color := clWhite;
+        FillRect(Rect);
+        Font.Color := clBlack;
+        if Column.Field.DataType = ftString then
+        //В строковых полях текст прижимается влево
+          TextOut(Rect.Left + 2, Rect.Top + 2, Column.Field.Text)
+        else
+        //В остальных полях – вправо
+          TextOut(Rect.Right - TextWidth(Column.Field.Text) -
+            2, Rect.Top + 2, Column.Field.Text)
+      end;
+  end;
 begin
   with Column do
   if (FieldName = 'RS_STATUS') or (FieldName = 'RS_IFINSTALL') or (FieldName = 'RS_RADRSNG_ALL')
       or (FieldName = 'RS_RADRSNG_BUSY') or (FieldName = 'RS_RADRSNG_NOANSWR') or
         (FieldName = 'RS_RADRSNG_OUTSD')
-          then // Модифицируйте под себя
+          then begin //Модифицируйте под себя
     if CharToBool(Column.Field.AsString) then
       DrawGridCheckBox(dbgrdh1.Canvas, Rect, true)
     else
-      DrawGridCheckBox(dbgrdh1.Canvas, Rect, false)
+      DrawGridCheckBox(dbgrdh1.Canvas, Rect, false) end else
+  if FieldName = 'OLD_SUM' then
+    DrawDiff
 end;
 
 
 procedure TfrmMain.SetExtendedReports(IsExtended: Boolean);
 const
-  BEGIN_EXRENDED_COLUMN = 8;
+  BEGIN_EXRENDED_COLUMN = 9;
 var
   I: Integer;
 begin
