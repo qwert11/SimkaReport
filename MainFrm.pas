@@ -7,7 +7,7 @@ uses
   Dialogs, IniFiles, DBGridEhGrouping, ExtCtrls, GridsEh, DBGridEh,
   ActnList, Menus, StdCtrls, DB, DBTables, BDE, DBXpress,
   fib, ComCtrls, EditingReportFrm, FIBDatabase, pFIBDatabase, FIBQuery,
-  pFIBQuery;
+  pFIBQuery, DBGridEhImpExp, ShellAPI, ActiveX;
 
 type
   TfrmMain = class(TForm)
@@ -52,6 +52,11 @@ type
     btnUser: TButton;
     btnUserBrunch: TButton;
     mniAutentification: TMenuItem;
+    dlgSave1: TSaveDialog;
+    actExport: TAction;
+    mniExport: TMenuItem;
+    mniN3: TMenuItem;
+    mniExport1: TMenuItem;
     procedure FormCreate(Sender: TObject);
     procedure actEditUpdate(Sender: TObject);
     procedure actInsertExecute(Sender: TObject);
@@ -76,6 +81,7 @@ type
     procedure btnPrsnlAcntClick(Sender: TObject);
     procedure btnUserClick(Sender: TObject);
     procedure btnUserBrunchClick(Sender: TObject);
+    procedure actExportExecute(Sender: TObject);
   private
     { Private declarations }
     property EditReport: TEditingReport write SetEditReport;
@@ -452,6 +458,63 @@ end;
 procedure TfrmMain.btnUserBrunchClick(Sender: TObject);
 begin
   frmUserBrunch.ShowModal
+end;
+
+procedure TfrmMain.actExportExecute(Sender: TObject);
+//  function IsOLEObjectInstalled(Name: String): boolean;
+//  var
+//    ClassID: TCLSID;
+//    Rez : HRESULT;
+//  begin
+//    // Ищем CLSID OLE-объекта
+//    Rez := CLSIDFromProgID(PWideChar(WideString(Name)), ClassID);
+//    if Rez = S_OK then
+//      // Объект найден
+//      Result := true
+//    else
+//      Result := false;
+//  end;
+var
+  ExpClass: TDBGridEhExportClass;
+  Ext:String;
+Begin
+  //if ActiveMDIChild <> nil then
+    begin
+      dlgSave1.FileName := 'test';
+      dlgSave1.InitialDir := 'd:\';//MyDir;
+      //if (ActiveMDIChild.ActiveControl is TDBGridEh) then
+//      if not IsOLEObjectInstalled('Word.Application') then
+//        raise Exception.Create('На компьютере не установлен Word !');
+        if dlgSave1.Execute then
+        begin
+          case dlgSave1.FilterIndex of
+            1: begin ExpClass := TDBGridEhExportAsXLS; Ext := 'xls'; end;
+            2: begin ExpClass := TDBGridEhExportAsText; Ext := 'txt'; end;
+            3: begin ExpClass := TDBGridEhExportAsCSV; Ext := 'csv'; end;
+            4: begin ExpClass := TDBGridEhExportAsHTML; Ext := 'htm'; end;
+            5: begin ExpClass := TDBGridEhExportAsRTF; Ext := 'rtf'; end;
+          else
+            ExpClass := nil; Ext := '';
+          end;
+          if ExpClass <> nil then
+          begin
+            if UpperCase(Copy(dlgSave1.FileName,Length(dlgSave1.FileName)-2,3)) <>
+               UpperCase(Ext) then
+            dlgSave1.FileName := dlgSave1.FileName + '.' + Ext;
+            try
+              SaveDBGridEhToExportFile(ExpClass, dbgrdh1,
+                //TDBGridEh(ActiveMDIChild.ActiveControl),
+                dlgSave1.FileName, True);
+
+              //SetPassString('Texotdel','SavePath', ExtractFilePath(dlgSave1.FileName));
+              //if NeedOpen then
+              //ShellExecute(Application.MainForm.Handle, PChar('open'), PChar(dlgSave1.FileName), nil, nil, SW_SHOWNORMAL);
+            except
+              raise
+            end;
+          end;
+        end;
+    end;
 end;
 
 end.

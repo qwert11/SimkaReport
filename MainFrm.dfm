@@ -33,6 +33,7 @@ object frmMain: TfrmMain
     FooterFont.Name = 'MS Sans Serif'
     FooterFont.Style = []
     IndicatorOptions = [gioShowRowIndicatorEh]
+    Options = [dgEditing, dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgConfirmDelete, dgCancelOnExit, dgMultiSelect]
     PopupMenu = pm1
     TabOrder = 0
     TitleFont.Charset = DEFAULT_CHARSET
@@ -408,6 +409,10 @@ object frmMain: TfrmMain
       OnExecute = actExtendedReportExecute
       OnUpdate = actExtendedReportUpdate
     end
+    object actExport: TAction
+      Caption = #1069#1082#1089#1087#1086#1088#1090
+      OnExecute = actExportExecute
+    end
   end
   object pm1: TPopupMenu
     Left = 48
@@ -424,12 +429,21 @@ object frmMain: TfrmMain
     object mniDelete: TMenuItem
       Action = actDelete
     end
+    object mniN3: TMenuItem
+      Caption = '-'
+    end
+    object mniExport1: TMenuItem
+      Action = actExport
+    end
   end
   object mm1: TMainMenu
     Left = 88
     Top = 112
     object mniFile1: TMenuItem
       Caption = 'File'
+      object mniExport: TMenuItem
+        Action = actExport
+      end
     end
     object mniRecord1: TMenuItem
       Caption = 'Record'
@@ -446,11 +460,11 @@ object frmMain: TfrmMain
         Action = actDelete
       end
     end
-    object mniAutentification: TMenuItem
-      Action = actAutentification
-    end
     object mniExtendedReport: TMenuItem
       Action = actExtendedReport
+    end
+    object mniAutentification: TMenuItem
+      Action = actAutentification
     end
   end
   object trnUpdate: TpFIBTransaction
@@ -464,5 +478,12 @@ object frmMain: TfrmMain
     Database = DM.DB
     Left = 80
     Top = 296
+  end
+  object dlgSave1: TSaveDialog
+    Filter = 
+      'Excel files (*.xls)|*.xls|Text files (*.txt)|*.txt|Csv files (*.' +
+      'csv)|*.csv|Htm files (*.htm)|*.htm|RTF files (*.rtf)|*.rtf'
+    Left = 48
+    Top = 160
   end
 end
