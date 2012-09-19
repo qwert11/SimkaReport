@@ -61,7 +61,7 @@ begin
   if VarIsNull(sum2) then
     Result := sum1 else
     Result := sum1 - sum2
-end;  
+end;
 
 function MergeResult(const arr: array of string): string;
 var

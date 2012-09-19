@@ -268,13 +268,15 @@ object frmEditingReport: TfrmEditingReport
         EditButtons = <>
         FieldName = 'cRB_Sum'
         Footers = <>
-        Width = 57
+        Width = 60
       end
       item
+        Alignment = taLeftJustify
         EditButtons = <>
-        FieldName = 'cC_RB_SUM'
+        FieldName = 'cRB_Old_Sum'
         Footers = <>
         ReadOnly = True
+        Width = 99
       end
       item
         Checkboxes = False
@@ -597,6 +599,10 @@ object frmEditingReport: TfrmEditingReport
       item
         Name = 'cRB_Old_Sum'
         DataType = ftCurrency
+      end
+      item
+        Name = 'cRS_Old_Date'
+        DataType = ftDate
       end>
     IndexDefs = <
       item
@@ -612,7 +618,7 @@ object frmEditingReport: TfrmEditingReport
     Left = 48
     Top = 224
     Data = {
-      200500009619E0BD010000001800000030000000000003000000200506635253
+      350500009619E0BD010000001800000031000000000003000000350506635253
       5F49440400010000000000066352535F496E04000100000000000863435F5253
       5F496E0400010000000000076352535F534D5304000100000000000963435F52
       535F534D530400010000000000096352535F4F776E657204000100000000000B
@@ -653,7 +659,7 @@ object frmEditingReport: TfrmEditingReport
       450200490006004D6F6E6579001063435F52535F434C49525F50524943450800
       04000000010007535542545950450200490006004D6F6E6579000B6352425F4F
       6C645F53756D080004000000010007535542545950450200490006004D6F6E65
-      79000000}
+      79000C6352535F4F6C645F4461746504000600000000000000}
     object intgrfldTmpERcRS_ID: TIntegerField
       FieldName = 'cRS_ID'
     end
@@ -775,7 +781,14 @@ object frmEditingReport: TfrmEditingReport
     object crncyfldTmpERcC_RB_SUM: TCurrencyField
       DisplayLabel = #1056#1072#1089#1093#1086#1076
       FieldName = 'cC_RB_SUM'
-      OnGetText = crncyfldTmpERcC_RB_SUMGetText
+    end
+    object crncyfldTmpERcRB_Old_Sum: TCurrencyField
+      DisplayLabel = #1056#1072#1089#1093#1086#1076
+      FieldName = 'cRB_Old_Sum'
+      OnGetText = crncyfldTmpERcRB_Old_SumGetText
+    end
+    object dtfldTmpERcRS_Old_Date: TDateField
+      FieldName = 'cRS_Old_Date'
     end
     object intgrfldTmpERcRB_Prsnl_Acnt: TIntegerField
       DisplayLabel = #1048#1076' '#1083#1080#1094#1077#1074#1086#1075#1086' '#1089#1095#1077#1090#1072

@@ -123,6 +123,8 @@ type
     strngfldTmpERNumNoAnswr: TStringField;
     strngfldTmpERNumOutSd: TStringField;
     lblBalanceAccount: TLabel;
+    dtfldTmpERcRS_Old_Date: TDateField;
+    crncyfldTmpERcRB_Old_Sum: TCurrencyField;
     procedure tmr1Timer(Sender: TObject);
     procedure FormActivate(Sender: TObject);
     procedure dbgrdhRepSIMKeyPress(Sender: TObject; var Key: Char);
@@ -152,7 +154,7 @@ type
     procedure dbgrdhRepSIMCellClick(Column: TColumnEh);
     procedure cdsTmpErBcBeforeDelete(DataSet: TDataSet);
     procedure intgrfldTmpERcRB_Prsnl_AcntValidate(Sender: TField);
-    procedure crncyfldTmpERcC_RB_SUMGetText(Sender: TField;
+    procedure crncyfldTmpERcRB_Old_SumGetText(Sender: TField;
       var Text: String; DisplayText: Boolean);
   private
     { Private declarations }
@@ -211,7 +213,7 @@ const
 
 var
   TimerStop: TTime;
-  old_rd_date: TDate; // редактируемая запись ReportDay
+  old_date: TDate; // редактируемая запись ReportDay
 
 {$R *.dfm}
 
@@ -261,6 +263,11 @@ begin
       // внимание опасный промежуток после выключения - включить
       cdsTmpER.BeforePost := nil;   {*}
 
+      if IsEmpty then
+        old_date := - 1
+      else
+        old_date := FieldByName('RD_DATE').AsDateTime;
+
       case EditingReport of
         erEdit, erInsert:
           begin
@@ -269,19 +276,24 @@ begin
               erEdit: begin
                 if IsEmpty then
                   Exit;
+                dtpDate.Date := FieldByName('RD_DATE').AsDateTime;
                 dtpDate.Enabled := False;
                 // запоминаем редактируемую запись ReportDay
-                old_rd_date := FieldByName('RD_DATE').Value;
+                old_date := FieldByName('RD_DATE').Value;
                 stat1.Panels[PNL_INF_STAT_EDIT].Text := 'Редактирование отчета';
                 Caption := 'Редактирование отчета за: ' +
-                  FieldByName('RD_DATE').AsString + '. Отчет составлял: ' +
-                  FieldByName('P_SURNAME').AsString +
-                  FieldByName('P_NAME').AsString +
-                  FieldByName('P_PATRONYMIC').AsString + Caption;
+                    FieldByName('RD_DATE').AsString + '. Отчет составлял: ' +
+                    FieldByName('P_SURNAME').AsString +
+                    FieldByName('P_NAME').AsString +
+                    FieldByName('P_PATRONYMIC').AsString + Caption;
               end;
 
               erInsert: begin
-                dtpDate.Date := Date;
+                if IsEmpty then
+                  dtpDate.Date := Date
+                else
+                  dtpDate.Date := FieldByName('RD_DATE').AsDateTime + 1;
+
                 stat1.Panels[PNL_INF_STAT_EDIT].Text := 'Новая запись';
                 actSave.Enabled := False;
               end;
@@ -293,7 +305,6 @@ begin
             // CDS TmpErBC инициируем поля с последнего заполнения если оно есть
             First;
             if not Eof then begin
-              dtpDate.Date := FieldByName('RD_DATE').AsDateTime;
               with DM do
               try
                 cdsTmpErBc.AfterPost := nil;
@@ -370,6 +381,8 @@ begin
                   intgrfldTmpERcRS_NUM_BUSY.Value := FieldByName('RS_NUM_BUSY').AsInteger;
                   intgrfldTmpERcRS_NUM_NOANSWR.Value := FieldByName('RS_NUM_NOANSWR').AsInteger;
                   intgrfldTmpERcRS_NUM_OUTSD.Value := FieldByName('RS_NUM_OUTSD').AsInteger;
+                  crncyfldTmpERcRB_Old_Sum.Value := FieldByName('OLD_SUM').AsCurrency;
+                  dtfldTmpERcRS_Old_Date.Value := FieldByName('OLD_DAY').AsDateTime;
 
                   cdsTmpER.Post;
                   Next;
@@ -529,7 +542,7 @@ begin
   try
 
     if (EditingReport <> erEdit) or ((EditingReport = erEdit) and
-        (old_rd_date <> dtpDate.Date)) then begin
+        (old_date <> dtpDate.Date)) then begin
       Close;
       SQL.Text := 'SELECT COUNT(RD_DATE) FROM REPORT_DAY WHERE RD_DATE = ''' + DateToStr(dtpDate.Date) + '''';
       ExecQuery;
@@ -544,7 +557,7 @@ begin
     // удаляем старые значения
     Close;
     SQL.Text := 'DELETE FROM REPORT_DAY ' +
-        'WHERE RD_DATE = ''' + DateToStr(dtpDate.Date) + ''''; // old_rd_date ???????????
+        'WHERE RD_DATE = ''' + DateToStr(dtpDate.Date) + ''''; // old_date ???????????
     ExecQuery;
 
     cdsTmpER.First;
@@ -604,10 +617,20 @@ begin
   // набор данных  
   bEnabled := True;
 
-  if Trunc(dtpDate.Date) <> Trunc(Date) then
-    dtpDate.Color := clRed
-  else
-    dtpDate.Color := clWindow;
+  if EditingReport = erInsert then begin
+    // если это первая запись в таблице или 2я предупреждаем что
+    // редактируемый день отличается от old_date
+    if  ((old_date = - 1) and (Trunc(dtpDate.Date) <> Trunc(Date))) or
+        ((old_date > 0) and (Trunc(dtpDate.Date) <> Trunc(old_date + 1))) then
+      dtpDate.Color := clRed
+    else
+      dtpDate.Color := clWindow end else
+  if EditingReport = erEdit then
+    if Trunc(dtpDate.Date) <> Trunc(old_date) then
+      dtpDate.Color := clRed
+    else
+      dtpDate.Color := clWindow;
+
 
   if cdsTmpER.IsEmpty then
     bEnabled := False;
@@ -798,17 +821,19 @@ end;
 
 procedure TfrmEditingReport.cdsTmpErBcBeforeDelete(DataSet: TDataSet);
 begin
+  cdsTmpER.AfterPost := nil;
+  cdsTmpErBc.AfterPost := nil;
   with cdsTmpER do
     try
-      AfterPost := nil;
-      cdsTmpErBc.AfterPost := nil;
       First;
       while not Eof do begin
-        if intgrfldTmpERcRB_Prsnl_Acnt.Value = intgrfldTmpErBccPrsnlAcnt.Value then
+        if intgrfldTmpERcRB_Prsnl_Acnt.Value = intgrfldTmpErBccPrsnlAcnt.Value then begin
+          Edit;
           intgrfldTmpERcRB_Prsnl_Acnt.AsVariant := Null;
+          Post;
+        end;
         Next;
-      end;
-
+      end;   
     finally
       AfterPost := cdsTmpERAfterPost;
       cdsTmpErBc.AfterPost := cdsTmpErBcAfterPost;
@@ -859,7 +884,7 @@ procedure TfrmEditingReport.cdsTmpERAfterPost(DataSet: TDataSet);
                   '(report_simka.rs_reportday = (' +
                     'select max(report_simka.rs_reportday) ' +
                     'from report_simka ' +
-                    'where report_simka.rs_reportday < ''' + DateToStr(old_rd_date) + '''))' +
+                    'where report_simka.rs_reportday < ''' + DateToStr(old_date) + '''))' +
                'and ' +
                   '(report_simka.rs_simka = ' + intgrfldTmpERcRS_Simka.AsString + ') ' +
                ')';
@@ -1032,10 +1057,21 @@ begin
   THackColor(AControl).Color := TmpColor;
 end;
 
-procedure TfrmEditingReport.crncyfldTmpERcC_RB_SUMGetText(Sender: TField;
+procedure TfrmEditingReport.crncyfldTmpERcRB_Old_SumGetText(Sender: TField;
   var Text: String; DisplayText: Boolean);
+  function WithDate(vD: Variant): string;
+  begin
+    Result := '';
+    if not VarIsNull(vD) then
+      Result := ' от ' + VarToStr(vD)
+  end;
+  function Diff(sum1, sum2: Variant): string;
+  begin
+    Result := Format('%m', [DiffSum(sum1, sum2)])
+  end;
 begin
-  Text := FloatToStr(DiffSum(crncyfldTmpERcRB_Sum.Value, crncyfldTmpERcC_RB_SUM.Value))
+  Text := Diff(crncyfldTmpERcRB_Sum.Value, crncyfldTmpERcRB_Old_Sum.Value) + 
+    WithDate(dtfldTmpERcRS_Old_Date.AsVariant)
 end;
 
 end.
