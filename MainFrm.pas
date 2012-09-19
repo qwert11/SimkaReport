@@ -159,10 +159,10 @@ procedure TfrmMain.actEditUpdate(Sender: TObject);
 begin
 {$IFDEF TESTMODE}
   (Sender as TAction).Enabled :=
-    not dbgrdh1.DataSource.DataSet.Eof
+    not dbgrdh1.DataSource.DataSet.IsEmpty;
 {$ELSE}
   (Sender as TAction).Enabled :=
-    not dbgrdh1.DataSource.DataSet.Eof and CheckAutentification
+    not dbgrdh1.DataSource.DataSet.IsEmpty and CheckAutentification
 {$ENDIF}
 end;
 
@@ -370,7 +370,7 @@ procedure TfrmMain.dbgrdh1DrawColumnCell(Sender: TObject;
           old_sum := 0
         else
           old_sum := fbcdfldViewOLD_SUM.Value;
-        if fbcdfldViewRB_SUM.Value - old_sum > max_sum_diff then
+        if old_sum - fbcdfldViewRB_SUM.Value > max_sum_diff then
           Brush.Color := clRed
         else
           Brush.Color := clWhite;

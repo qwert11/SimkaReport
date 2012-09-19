@@ -1,7 +1,7 @@
 object frmMain: TfrmMain
-  Left = 179
-  Top = 353
-  Width = 1347
+  Left = 211
+  Top = 352
+  Width = 1372
   Height = 539
   Caption = 'SIM'
   Color = clBtnFace
@@ -12,13 +12,14 @@ object frmMain: TfrmMain
   Font.Style = []
   Menu = mm1
   OldCreateOrder = False
+  ShowHint = True
   OnCreate = FormCreate
   PixelsPerInch = 96
   TextHeight = 13
   object dbgrdh1: TDBGridEh
     Left = 0
     Top = 0
-    Width = 1339
+    Width = 1364
     Height = 422
     Align = alClient
     AutoFitColWidths = True
@@ -56,6 +57,7 @@ object frmMain: TfrmMain
         EditButtons = <>
         FieldName = 'S_NUMBER'
         Footers = <>
+        Width = 98
       end
       item
         EditButtons = <>
@@ -100,6 +102,7 @@ object frmMain: TfrmMain
         EditButtons = <>
         FieldName = 'RS_STATUS'
         Footers = <>
+        Title.Hint = #1057#1090#1072#1090#1091#1089' SIM: '#1072#1082#1090#1080#1074#1085#1072'; '#1085#1077' '#1072#1082#1090#1080#1074#1085#1072
         Width = 20
       end
       item
@@ -118,6 +121,7 @@ object frmMain: TfrmMain
         EditButtons = <>
         FieldName = 'RS_IFINSTALL'
         Footers = <>
+        Title.Hint = 'SIM '#1082#1072#1088#1090#1072' '#1085#1072#1093#1086#1076#1080#1090#1089#1103' '#1074' '#1091#1089#1090#1088#1086#1081#1089#1090#1074#1077
         Width = 20
       end
       item
@@ -146,6 +150,7 @@ object frmMain: TfrmMain
         EditButtons = <>
         FieldName = 'RS_RADRSNG_ALL'
         Footers = <>
+        Title.Hint = #1055#1077#1088#1077#1072#1076#1088#1077#1089#1072#1094#1080#1103' '#1076#1083#1103' '#1074#1089#1077#1093
         Width = 20
       end
       item
@@ -157,6 +162,7 @@ object frmMain: TfrmMain
         EditButtons = <>
         FieldName = 'RS_RADRSNG_BUSY'
         Footers = <>
+        Title.Hint = #1087#1077#1088#1077#1072#1076#1088#1077#1089#1072#1094#1080#1103', '#1077#1089#1083#1080' '#1079#1072#1085#1103#1090
         Width = 20
       end
       item
@@ -168,6 +174,7 @@ object frmMain: TfrmMain
         EditButtons = <>
         FieldName = 'RS_RADRSNG_NOANSWR'
         Footers = <>
+        Title.Hint = #1087#1077#1088#1077#1072#1076#1088#1077#1089#1072#1094#1080#1103', '#1077#1089#1083#1080' '#1085#1077' '#1086#1090#1074#1077#1095#1072#1077#1090
         Width = 20
       end
       item
@@ -179,6 +186,7 @@ object frmMain: TfrmMain
         EditButtons = <>
         FieldName = 'RS_RADRSNG_OUTSD'
         Footers = <>
+        Title.Hint = #1087#1077#1088#1077#1072#1076#1088#1077#1089#1072#1094#1080#1103', '#1077#1089#1083#1080' '#1074#1085#1077' '#1079#1086#1085#1099' '#1076#1086#1089#1103#1075#1072#1077#1084#1086#1089#1090#1080
         Width = 20
       end
       item
@@ -192,12 +200,12 @@ object frmMain: TfrmMain
   object pnl1: TPanel
     Left = 0
     Top = 422
-    Width = 1339
+    Width = 1364
     Height = 52
     Align = alBottom
     TabOrder = 1
     DesignSize = (
-      1339
+      1364
       52)
     object btnNewRecord: TButton
       Left = 24
@@ -274,7 +282,7 @@ object frmMain: TfrmMain
       OnClick = btnOwnerClick
     end
     object btnAutentification: TButton
-      Left = 1622
+      Left = 1647
       Top = 16
       Width = 55
       Height = 25
@@ -283,7 +291,7 @@ object frmMain: TfrmMain
       TabOrder = 8
     end
     object btnEnter: TButton
-      Left = 1227
+      Left = 1252
       Top = 16
       Width = 75
       Height = 25
@@ -355,7 +363,7 @@ object frmMain: TfrmMain
   object stat1: TStatusBar
     Left = 0
     Top = 474
-    Width = 1339
+    Width = 1364
     Height = 19
     Panels = <
       item

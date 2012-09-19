@@ -1,7 +1,7 @@
 object DM: TDM
   OldCreateOrder = False
-  Left = 1426
-  Top = 715
+  Left = 1617
+  Top = 591
   Height = 259
   Width = 174
   object DB: TpFIBDatabase
@@ -103,7 +103,8 @@ object DM: TDM
       '    before_date.rs_num_all,'
       '    before_date.rs_num_busy,'
       '    before_date.rs_num_noanswr,'
-      '    before_date.rs_num_outsd'
+      '    before_date.rs_num_outsd,'
+      '    simka.s_short_num'
       'from report_simka before_date'
       '    left outer join report_simka on (report_simka.rs_reportday ='
       '        (select max(report_simka.rs_reportday) from report_simka'
@@ -239,6 +240,7 @@ object DM: TDM
       DisplayLabel = 'SIM - '#1082#1072#1088#1090#1072
       FieldName = 'S_NUMBER'
       Origin = 'SIMKA.S_NUMBER'
+      OnGetText = fbstrngfldViewS_NUMBERGetText
       Size = 12
       EmptyStrToNull = True
     end
@@ -489,9 +491,13 @@ object DM: TDM
     object fbcdfldViewOLD_SUM: TFIBBCDField
       DisplayLabel = #1056#1072#1089#1093#1086#1076
       FieldName = 'OLD_SUM'
+      Origin = 'REPORT_BALANCE.RB_SUM'
       OnGetText = fbcdfldViewOLD_SUMGetText
       Size = 2
       RoundByScale = True
+    end
+    object fbntgrfldViewS_SHORT_NUM: TFIBIntegerField
+      FieldName = 'S_SHORT_NUM'
     end
   end
 end

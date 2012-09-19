@@ -66,10 +66,13 @@ type
     fbstrngfldViewS_NUMBER4: TFIBStringField;
     fbdtfldViewOLD_DAY: TFIBDateField;
     fbcdfldViewOLD_SUM: TFIBBCDField;
+    fbntgrfldViewS_SHORT_NUM: TFIBIntegerField;
     procedure fbstrngfldViewRE_SURNAMEGetText(Sender: TField;
       var Text: String; DisplayText: Boolean);
     procedure fbcdfldViewOLD_SUMGetText(Sender: TField; var Text: String;
       DisplayText: Boolean);
+    procedure fbstrngfldViewS_NUMBERGetText(Sender: TField;
+      var Text: String; DisplayText: Boolean);
   private
     { Private declarations }
   public
@@ -80,6 +83,8 @@ var
   DM: TDM;
 
 implementation
+
+uses CustomerFunctions;
 
 {$R *.dfm}
 
@@ -111,6 +116,12 @@ begin
   else
     old_sum := fbcdfldViewOLD_SUM.Value;
   Text := VarToStr(fbcdfldViewRB_SUM.Value - old_sum) + ' гр'
+end;
+
+procedure TDM.fbstrngfldViewS_NUMBERGetText(Sender: TField;
+  var Text: String; DisplayText: Boolean);
+begin
+  Text := GetShortNumber(fbstrngfldViewS_NUMBER.AsString, fbntgrfldViewS_SHORT_NUM.Value)
 end;
 
 end.

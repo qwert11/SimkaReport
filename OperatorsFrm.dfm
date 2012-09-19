@@ -1,4 +1,6 @@
 inherited frmOperators: TfrmOperators
+  Left = 837
+  Top = 437
   Caption = 'frmOperators'
   OldCreateOrder = True
   PixelsPerInch = 96
@@ -57,6 +59,7 @@ inherited frmOperators: TfrmOperators
       '    OL_PERATOR_INK'
       'FROM'
       '    OPERATOR_LINK ')
+    Active = True
     object fbntgrfldpfbdtst1OL_ID: TFIBIntegerField
       FieldName = 'OL_ID'
     end

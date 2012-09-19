@@ -18,6 +18,7 @@ inherited frmLinkRadio: TfrmLinkRadio
       Top = 24
       Width = 121
       Height = 21
+      Hint = 'GSM, CDMA ...'
       TabOrder = 4
       Text = 'edtLinkRadio'
     end
@@ -59,6 +60,7 @@ inherited frmLinkRadio: TfrmLinkRadio
       '    LR_INK_ADIO'
       'FROM'
       '    LINK_RADIO ')
+    Active = True
     object fbntgrfldpfbdtst1LR_ID: TFIBIntegerField
       FieldName = 'LR_ID'
     end

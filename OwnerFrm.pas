@@ -6,7 +6,7 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, ChaildFrm, ActnList, Menus, StdCtrls, Buttons, ExtCtrls, Grids,
   DBGrids, DB, FIBDataSet, pFIBDataSet, fib, ComCtrls, DBGridEhGrouping,
-  GridsEh, DBGridEh;
+  GridsEh, DBGridEh, AppEvnts;
 
 type
   TfrmOwner = class(TChaildForm)

@@ -10,7 +10,7 @@ uses
   TypInfo,
 {$ENDIF}
   pFIBDatabase, FIBDataSet, pFIBDataSet, FIBQuery, fib, ComCtrls, 
-  DBLookupEh, DBGridEhGrouping, GridsEh;
+  DBLookupEh, DBGridEhGrouping, GridsEh, AppEvnts;
 
 type
   TEditorSetState = (esEdit, esInsert, esDelete, esNone);
@@ -281,8 +281,13 @@ begin
             
       actSave.Enabled := IsSave;
 {$IFDEF TESTMODE}
-      stat1.Panels[INFO_PNL_SBAR].Text := 'TESTMODE: ' + FSelectTable + ', ' + ChekedName;
+      if GetLongHint(Application.Hint) = NullAsStringValue then
+        stat1.Panels[INFO_PNL_SBAR].Text := 'TESTMODE: ' + FSelectTable + ', ' + ChekedName
+      else
+        stat1.Panels[INFO_PNL_SBAR].Text := GetLongHint(Application.Hint);
 {$ELSE}
+      if GetLongHint(Application.Hint) <> NullAsStringValue then
+        stat1.Panels[INFO_PNL_SBAR].Text := GetLongHint(Application.Hint) else
       if actSave.Enabled then
         stat1.Panels[INFO_PNL_SBAR].Text := NullAsStringValue else
       if stat1.Panels[INFO_PNL_SBAR].Text = NullAsStringValue then
@@ -290,7 +295,10 @@ begin
 {$ENDIF}
     end;
   else
-    stat1.Panels[INFO_PNL_SBAR].Text := '';
+    if GetLongHint(Application.Hint) <> NullAsStringValue then
+      stat1.Panels[INFO_PNL_SBAR].Text := GetLongHint(Application.Hint)
+    else
+      stat1.Panels[INFO_PNL_SBAR].Text := '';
     actSave.Enabled := False;
   end;
 end;

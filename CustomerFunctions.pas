@@ -10,6 +10,8 @@ uses
 type
   TMask = set of Char;
 
+function GetShortNumber(S: string; ShortCount: Integer): string;
+
 function MergeResult(const arr: array of string): string;
 
 function DiffSum(sum1, sum2: Variant): Real;
@@ -51,6 +53,15 @@ procedure Delay(MiliSeconds: Integer);
 implementation
 
 uses CustomerGlobals;
+
+function GetShortNumber(S: string; ShortCount: Integer): string;
+begin
+  Result := S;
+  if ShortCount > Length(S) then
+    Exit;
+  Result := Copy(S, Length(S) - ShortCount, ShortCount) + //'(' + IntToStr(ShortCount) + ')' +
+    ' [' + Result + ']'
+end;
 
 function DiffSum(sum1, sum2: Variant): Real;
 begin

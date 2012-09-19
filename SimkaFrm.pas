@@ -6,7 +6,7 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, ChaildFrm, ActnList, Menus, StdCtrls, Buttons, ExtCtrls, Grids,
   DBGrids, DB, FIBDataSet, pFIBDataSet, DBCtrls, fib, ComCtrls, DBGridEh,
-  Mask, DBCtrlsEh, DBLookupEh, DBGridEhGrouping, GridsEh;
+  Mask, DBCtrlsEh, DBLookupEh, DBGridEhGrouping, GridsEh, Spin, AppEvnts;
 
 type
   TfrmSimka = class(TChaildForm)
@@ -22,11 +22,18 @@ type
     pfbdtst1S_NUMBER: TFIBStringField;
     pfbdtst1S_LINK_RADIO: TFIBIntegerField;
     pfbdtst1S_OPERATOR: TFIBIntegerField;
+    strngfldpfbdtst1LinkRadio: TStringField;
+    strngfldpfbdtst1Operator: TStringField;
+    lbl4: TLabel;
+    seShortNum: TSpinEdit;
+    fbntgrfldpfbdtst1S_SHORT_NUM: TFIBIntegerField;
     procedure btnSaveClick(Sender: TObject); override;
     procedure btnLinkRadioClick(Sender: TObject);
     procedure edtNumberKeyPress(Sender: TObject; var Key: Char);
     procedure FormCreate(Sender: TObject);
     procedure btnOperatorClick(Sender: TObject);
+    procedure pfbdtst1S_NUMBERGetText(Sender: TField; var Text: String;
+      DisplayText: Boolean);
   private
     { Private declarations }
   public
@@ -55,12 +62,14 @@ begin
         ParamByName('P_S_NUMBER').AsString := edtNumber.Text;
         ParamByName('P_S_LINK_RADIO').Value := cbbLinkRadio.KeyValue;
         ParamByName('P_S_OPERATOR').Value := cbbOperator.KeyValue;
+        ParamByName('P_S_SHORT_NUM').Value := seShortNum.Value;
       end;
 
       esInsert: with QInsert do begin
         ParamByName('P_S_NUMBER').AsString := edtNumber.Text;
         ParamByName('P_S_LINK_RADIO').Value := cbbLinkRadio.KeyValue;
         ParamByName('P_S_OPERATOR').Value := cbbOperator.KeyValue;
+        ParamByName('P_S_SHORT_NUM').Value := seShortNum.Value;
       end;
 
       esDelete: with QDelete do begin
@@ -118,6 +127,13 @@ begin
       Exit;
     cbbOperator.KeyValue := fbntgrfldpfbdtst1OL_ID.Value;
   end;
+end;
+
+procedure TfrmSimka.pfbdtst1S_NUMBERGetText(Sender: TField;
+  var Text: String; DisplayText: Boolean);
+begin
+  inherited;
+  Text := GetShortNumber(pfbdtst1S_NUMBER.AsString, fbntgrfldpfbdtst1S_SHORT_NUM.Value)
 end;
 
 end.

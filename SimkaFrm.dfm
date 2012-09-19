@@ -57,7 +57,7 @@ inherited frmSimka: TfrmSimka
       OnClick = btnLinkRadioClick
     end
     object btnOperator: TSpeedButton [3]
-      Left = 184
+      Left = 296
       Top = 64
       Width = 23
       Height = 22
@@ -91,11 +91,18 @@ inherited frmSimka: TfrmSimka
       OnClick = btnOperatorClick
     end
     object lbl3: TLabel [4]
-      Left = 16
+      Left = 144
       Top = 48
       Width = 49
       Height = 13
       Caption = #1054#1087#1077#1088#1072#1090#1086#1088
+    end
+    object lbl4: TLabel [5]
+      Left = 16
+      Top = 48
+      Width = 83
+      Height = 13
+      Caption = #1050#1086#1088#1086#1090#1082#1080#1081' '#1085#1086#1084#1077#1088
     end
     inherited btn2: TBitBtn
       Left = 413
@@ -120,9 +127,9 @@ inherited frmSimka: TfrmSimka
       OnKeyPress = edtNumberKeyPress
     end
     object cbbOperator: TDBLookupComboboxEh
-      Left = 16
+      Left = 144
       Top = 64
-      Width = 161
+      Width = 145
       Height = 21
       EditButtons = <>
       KeyField = 'OL_ID'
@@ -145,12 +152,44 @@ inherited frmSimka: TfrmSimka
       TabOrder = 6
       Visible = True
     end
+    object seShortNum: TSpinEdit
+      Left = 16
+      Top = 64
+      Width = 57
+      Height = 22
+      Hint = 
+        #1074#1080#1076#1080#1084#1099#1077' '#1094#1080#1092#1088#1099' '#1085#1086#1084#1077#1088#1072' '#1089#1087#1088#1072#1074#1072' '#1085#1072#1083#1077#1074#1086'|4, 7 ...;  0 - '#1086#1090#1086#1073#1088#1072#1078#1072#1102#1090#1089#1103' '#1074 +
+        #1089#1077' '#1094#1080#1092#1088#1099
+      MaxValue = 12
+      MinValue = 0
+      TabOrder = 7
+      Value = 0
+    end
   end
   inherited stat1: TStatusBar
     Width = 509
   end
   inherited dbgrd1: TDBGrid
     Width = 509
+    Columns = <
+      item
+        Expanded = False
+        FieldName = 'S_NUMBER'
+        Width = 198
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'LinkRadio'
+        Width = 76
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'Operator'
+        Width = 172
+        Visible = True
+      end>
   end
   inherited pfbdtst1: TpFIBDataSet
     UpdateSQL.Strings = (
@@ -158,7 +197,8 @@ inherited frmSimka: TfrmSimka
       'SET '
       '    S_NUMBER = :P_S_NUMBER,'
       '    S_LINK_RADIO = :P_S_LINK_RADIO,'
-      '    S_OPERATOR = :P_S_OPERATOR'
+      '    S_OPERATOR = :P_S_OPERATOR,'
+      '    S_SHORT_NUM = :P_S_SHORT_NUM'
       'WHERE'
       '    SID = :P_SID'
       '    ')
@@ -172,19 +212,22 @@ inherited frmSimka: TfrmSimka
       'INSERT INTO SIMKA('
       '    S_NUMBER,'
       '    S_LINK_RADIO,'
-      '    S_OPERATOR'
+      '    S_OPERATOR,'
+      '    S_SHORT_NUM'
       ')'
       'VALUES('
       '    :P_S_NUMBER,'
       '    :P_S_LINK_RADIO,'
-      '    :P_S_OPERATOR'
+      '    :P_S_OPERATOR,'
+      '    :P_S_SHORT_NUM'
       ')')
     RefreshSQL.Strings = (
       'SELECT'
       '    SID,'
       '    S_NUMBER,'
       '    S_LINK_RADIO,'
-      '    S_OPERATOR'
+      '    S_OPERATOR,'
+      '    S_SHORT_NUM'
       'FROM'
       '    SIMKA '
       ''
@@ -196,24 +239,56 @@ inherited frmSimka: TfrmSimka
       '    SID,'
       '    S_NUMBER,'
       '    S_LINK_RADIO,'
-      '    S_OPERATOR'
+      '    S_OPERATOR,'
+      '    S_SHORT_NUM'
       'FROM'
       '    SIMKA ')
-    Active = True
     object pfbdtst1SID: TFIBIntegerField
       FieldName = 'SID'
+      Origin = 'SIMKA.SID'
     end
     object pfbdtst1S_NUMBER: TFIBStringField
-      DisplayLabel = 'MSISDN'
+      DisplayLabel = 'MSISDN / '#1050#1086#1088#1086#1090#1082#1080#1081' '#1085#1086#1084#1077#1088
       FieldName = 'S_NUMBER'
+      Origin = 'SIMKA.S_NUMBER'
+      OnGetText = pfbdtst1S_NUMBERGetText
       Size = 12
       EmptyStrToNull = True
     end
     object pfbdtst1S_LINK_RADIO: TFIBIntegerField
       FieldName = 'S_LINK_RADIO'
+      Origin = 'SIMKA.S_LINK_RADIO'
     end
     object pfbdtst1S_OPERATOR: TFIBIntegerField
       FieldName = 'S_OPERATOR'
+      Origin = 'SIMKA.S_OPERATOR'
+    end
+    object strngfldpfbdtst1LinkRadio: TStringField
+      DisplayLabel = #1042#1080#1076' '#1089#1074#1103#1079#1080
+      FieldKind = fkLookup
+      FieldName = 'LinkRadio'
+      LookupDataSet = frmLinkRadio.pfbdtst1
+      LookupKeyFields = 'LR_ID'
+      LookupResultField = 'LR_INK_ADIO'
+      KeyFields = 'S_LINK_RADIO'
+      Origin = 'LINK_RADIO.LR_INK_ADIO'
+      Size = 50
+      Lookup = True
+    end
+    object strngfldpfbdtst1Operator: TStringField
+      DisplayLabel = #1054#1087#1077#1088#1072#1090#1086#1088
+      FieldKind = fkLookup
+      FieldName = 'Operator'
+      LookupDataSet = frmOperators.pfbdtst1
+      LookupKeyFields = 'OL_ID'
+      LookupResultField = 'OL_PERATOR_INK'
+      KeyFields = 'S_OPERATOR'
+      Origin = 'OPERATOR_LINK.OL_PERATOR_INK'
+      Size = 50
+      Lookup = True
+    end
+    object fbntgrfldpfbdtst1S_SHORT_NUM: TFIBIntegerField
+      FieldName = 'S_SHORT_NUM'
     end
   end
 end

@@ -1,23 +1,25 @@
 [Closed Files]
-File_0=SourceModule,'c:\program files\borland\delphi7\source\rtl\Sys\sysutils.pas',0,1,10815,1,10940,0,0
-File_1=SourceModule,'c:\program files\borland\delphi7\Lib\FibPlus\sources\fib.pas',0,1,425,30,435,0,0
-File_2=SourceModule,'c:\program files\borland\delphi7\source\vcl\DB.pas',0,1,2044,15,2083,0,0
-File_3=SourceModule,'D:\Prog\SimkaReport\CustomerGlobals.pas',0,1,1,46,2,0,0
+File_0=SourceModule,'D:\Prog\SimkaReport\CustomerGlobals.pas',0,1,1,1,1,0,0
+File_1=SourceModule,'c:\program files\borland\delphi7\Lib\FibPlus\sources\fib.pas',0,1,425,1,440,0,0
+File_2=SourceModule,'c:\program files\borland\delphi7\source\rtl\Sys\sysutils.pas',0,1,10815,1,10940,0,0
+File_3=SourceModule,'c:\program files\borland\delphi7\source\vcl\DB.pas',0,1,2044,15,2083,0,0
 File_4=SourceModule,'c:\program files\borland\delphi7\source\vcl\grids.pas',0,1,183,1,194,0,0
 File_5=SourceModule,'F:\myProgram\Delphi\SimkaReport\AuthorizationFrm.pas',0,1,81,36,90,1,0
 File_6=SourceModule,'F:\myProgram\Delphi\SimkaReport\AuthentificationFrm.pas',0,1,43,22,46,1,0
 File_7=SourceModule,'F:\myProgram\Delphi\SimkaReport\CustomerFunctions.pas',0,1,82,27,93,0,0
 
 [Modules]
-Module0=D:\Prog\SimkaReport\EditingReportFrm.pas
+Module0=D:\Prog\SimkaReport\MainFrm.pas
 Module1=D:\Prog\SimkaReport\CustomerFunctions.pas
-Module2=D:\Prog\SimkaReport\DM_.pas
-Module3=D:\Prog\SimkaReport\SimkaFrm.pas
-Module4=D:\Prog\SimkaReport\MainFrm.pas
-Count=5
+Module2=D:\Prog\SimkaReport\LinkRadioFrm.pas
+Module3=D:\Prog\SimkaReport\DM_.pas
+Module4=D:\Prog\SimkaReport\OperatorsFrm.pas
+Module5=D:\Prog\SimkaReport\SimkaFrm.pas
+Module6=D:\Prog\SimkaReport\EditingReportFrm.pas
+Count=7
 EditWindowCount=1
 
-[D:\Prog\SimkaReport\EditingReportFrm.pas]
+[D:\Prog\SimkaReport\MainFrm.pas]
 ModuleType=SourceModule
 FormState=1
 FormOnTop=0
@@ -27,7 +29,17 @@ ModuleType=SourceModule
 FormState=0
 FormOnTop=0
 
+[D:\Prog\SimkaReport\LinkRadioFrm.pas]
+ModuleType=SourceModule
+FormState=1
+FormOnTop=0
+
 [D:\Prog\SimkaReport\DM_.pas]
+ModuleType=SourceModule
+FormState=1
+FormOnTop=1
+
+[D:\Prog\SimkaReport\OperatorsFrm.pas]
 ModuleType=SourceModule
 FormState=1
 FormOnTop=0
@@ -37,7 +49,7 @@ ModuleType=SourceModule
 FormState=1
 FormOnTop=0
 
-[D:\Prog\SimkaReport\MainFrm.pas]
+[D:\Prog\SimkaReport\EditingReportFrm.pas]
 ModuleType=SourceModule
 FormState=1
 FormOnTop=0
@@ -62,14 +74,6 @@ FormOnTop=0
 FormState=0
 FormOnTop=0
 
-[D:\Prog\SimkaReport\OperatorsFrm.pas]
-FormState=0
-FormOnTop=0
-
-[D:\Prog\SimkaReport\LinkRadioFrm.pas]
-FormState=0
-FormOnTop=0
-
 [D:\Prog\SimkaReport\TarifPlanFrm.pas]
 FormState=0
 FormOnTop=0
@@ -91,13 +95,15 @@ FormState=0
 FormOnTop=0
 
 [EditWindow0]
-ViewCount=5
-CurrentView=1
+ViewCount=7
+CurrentView=0
 View0=0
 View1=1
 View2=2
 View3=3
 View4=4
+View5=5
+View6=6
 CodeExplorer=CodeExplorer@EditWindow0
 MessageView=MessageView@EditWindow0
 Create=1
@@ -107,8 +113,8 @@ Left=293
 Top=279
 Width=1139
 Height=663
-MaxLeft=-4
-MaxTop=-4
+MaxLeft=-1
+MaxTop=-1
 ClientWidth=1131
 ClientHeight=636
 LeftPanelSize=140
@@ -121,37 +127,51 @@ BottomPanelData=00000400010000000B0000004D65737361676556696577000000000000000000
 
 [View0]
 Module=D:\Prog\SimkaReport\MainFrm.pas
-CursorX=49
-CursorY=58
-TopLine=54
+CursorX=13
+CursorY=370
+TopLine=363
 LeftCol=1
 
 [View1]
-Module=D:\Prog\SimkaReport\EditingReportFrm.pas
-CursorX=31
-CursorY=388
-TopLine=376
+Module=D:\Prog\SimkaReport\CustomerFunctions.pas
+CursorX=61
+CursorY=59
+TopLine=52
 LeftCol=1
 
 [View2]
-Module=D:\Prog\SimkaReport\CustomerFunctions.pas
-CursorX=1
-CursorY=317
-TopLine=297
+Module=D:\Prog\SimkaReport\LinkRadioFrm.pas
+CursorX=5
+CursorY=11
+TopLine=43
 LeftCol=1
 
 [View3]
-Module=D:\Prog\SimkaReport\DM_.pas
-CursorX=72
-CursorY=111
-TopLine=98
+Module=D:\Prog\SimkaReport\OperatorsFrm.pas
+CursorX=67
+CursorY=57
+TopLine=49
 LeftCol=1
 
 [View4]
+Module=D:\Prog\SimkaReport\EditingReportFrm.pas
+CursorX=5
+CursorY=1088
+TopLine=1053
+LeftCol=1
+
+[View5]
+Module=D:\Prog\SimkaReport\DM_.pas
+CursorX=20
+CursorY=124
+TopLine=109
+LeftCol=1
+
+[View6]
 Module=D:\Prog\SimkaReport\SimkaFrm.pas
-CursorX=41
-CursorY=4
-TopLine=1
+CursorX=21
+CursorY=136
+TopLine=123
 LeftCol=1
 
 [Watches]
@@ -187,11 +207,11 @@ Visible=1
 State=0
 Left=0
 Top=0
-Width=1920
+Width=1680
 Height=105
 MaxLeft=-1
 MaxTop=-1
-ClientWidth=1912
+ClientWidth=1672
 ClientHeight=78
 
 [ProjectManager]
@@ -240,7 +260,7 @@ LRDockWidth=190
 Dockable=1
 SplitPos=85
 ArrangeBy=Name
-SelectedItem=Name
+SelectedItem=Caption
 ExpandedItems=
 HiddenCategories=
 
