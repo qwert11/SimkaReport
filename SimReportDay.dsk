@@ -1,22 +1,23 @@
 [Closed Files]
-File_0=SourceModule,'c:\program files\borland\delphi7\source\vcl\Forms.pas',0,1,699,1,711,0,0
-File_1=SourceModule,'D:\Prog\SimkaReport\CustomerGlobals.pas',0,1,1,1,1,0,0
-File_2=SourceModule,'c:\program files\borland\delphi7\Lib\FibPlus\sources\fib.pas',0,1,425,1,440,0,0
-File_3=SourceModule,'c:\program files\borland\delphi7\source\rtl\Sys\sysutils.pas',0,1,10815,1,10940,0,0
-File_4=SourceModule,'c:\program files\borland\delphi7\source\vcl\DB.pas',0,1,2044,15,2083,0,0
-File_5=SourceModule,'c:\program files\borland\delphi7\source\vcl\grids.pas',0,1,183,1,194,0,0
-File_6=SourceModule,'F:\myProgram\Delphi\SimkaReport\AuthorizationFrm.pas',0,1,81,36,90,1,0
-File_7=SourceModule,'F:\myProgram\Delphi\SimkaReport\AuthentificationFrm.pas',0,1,43,22,46,1,0
-File_8=SourceModule,'F:\myProgram\Delphi\SimkaReport\CustomerFunctions.pas',0,1,82,27,93,0,0
+File_0=SourceModule,'c:\program files\borland\delphi7\source\rtl\Win\ShellAPI.pas',0,1,650,1,665,0,0
+File_1=SourceModule,'c:\program files\borland\delphi7\source\vcl\Forms.pas',0,1,699,1,711,0,0
+File_2=SourceModule,'D:\Prog\SimkaReport\CustomerGlobals.pas',0,1,1,1,1,0,0
+File_3=SourceModule,'c:\program files\borland\delphi7\Lib\FibPlus\sources\fib.pas',0,1,425,1,440,0,0
+File_4=SourceModule,'c:\program files\borland\delphi7\source\rtl\Sys\sysutils.pas',0,1,10815,1,10940,0,0
+File_5=SourceModule,'c:\program files\borland\delphi7\source\vcl\DB.pas',0,1,2044,15,2083,0,0
+File_6=SourceModule,'c:\program files\borland\delphi7\source\vcl\grids.pas',0,1,183,1,194,0,0
+File_7=SourceModule,'F:\myProgram\Delphi\SimkaReport\AuthorizationFrm.pas',0,1,81,36,90,1,0
+File_8=SourceModule,'F:\myProgram\Delphi\SimkaReport\AuthentificationFrm.pas',0,1,43,22,46,1,0
+File_9=SourceModule,'F:\myProgram\Delphi\SimkaReport\CustomerFunctions.pas',0,1,82,27,93,0,0
 
 [Modules]
 Module0=D:\Prog\SimkaReport\MainFrm.pas
 Module1=D:\Prog\SimkaReport\SimReportDay.dpr
-Module2=D:\Prog\SimkaReport\EditingReportFrm.pas
-Module3=D:\Prog\SimkaReport\SimkaFrm.pas
+Module2=D:\Prog\SimkaReport\LinkRadioFrm.pas
+Module3=D:\Prog\SimkaReport\DM_.pas
 Module4=D:\Prog\SimkaReport\OperatorsFrm.pas
-Module5=D:\Prog\SimkaReport\DM_.pas
-Module6=D:\Prog\SimkaReport\LinkRadioFrm.pas
+Module5=D:\Prog\SimkaReport\SimkaFrm.pas
+Module6=D:\Prog\SimkaReport\EditingReportFrm.pas
 Module7=D:\Prog\SimkaReport\CustomerFunctions.pas
 Count=8
 EditWindowCount=1
@@ -31,17 +32,7 @@ ModuleType=SourceModule
 FormState=0
 FormOnTop=0
 
-[D:\Prog\SimkaReport\EditingReportFrm.pas]
-ModuleType=SourceModule
-FormState=1
-FormOnTop=0
-
-[D:\Prog\SimkaReport\SimkaFrm.pas]
-ModuleType=SourceModule
-FormState=1
-FormOnTop=0
-
-[D:\Prog\SimkaReport\OperatorsFrm.pas]
+[D:\Prog\SimkaReport\LinkRadioFrm.pas]
 ModuleType=SourceModule
 FormState=1
 FormOnTop=0
@@ -51,7 +42,17 @@ ModuleType=SourceModule
 FormState=1
 FormOnTop=1
 
-[D:\Prog\SimkaReport\LinkRadioFrm.pas]
+[D:\Prog\SimkaReport\OperatorsFrm.pas]
+ModuleType=SourceModule
+FormState=1
+FormOnTop=0
+
+[D:\Prog\SimkaReport\SimkaFrm.pas]
+ModuleType=SourceModule
+FormState=1
+FormOnTop=0
+
+[D:\Prog\SimkaReport\EditingReportFrm.pas]
 ModuleType=SourceModule
 FormState=1
 FormOnTop=0
@@ -65,11 +66,11 @@ FormOnTop=0
 FormState=0
 FormOnTop=0
 
-[D:\Prog\SimkaReport\include\ChaildFrm.pas]
+[D:\Prog\SimkaReport\DeviceFrm.pas]
 FormState=0
 FormOnTop=0
 
-[D:\Prog\SimkaReport\DeviceFrm.pas]
+[D:\Prog\SimkaReport\include\ChaildFrm.pas]
 FormState=0
 FormOnTop=0
 
@@ -115,11 +116,11 @@ Visible=1
 State=0
 Left=293
 Top=279
-Width=1627
+Width=1139
 Height=663
-MaxLeft=-4
-MaxTop=-4
-ClientWidth=1619
+MaxLeft=-1
+MaxTop=-1
+ClientWidth=1131
 ClientHeight=636
 LeftPanelSize=140
 LeftPanelClients=CodeExplorer@EditWindow0
@@ -131,9 +132,9 @@ BottomPanelData=00000400010000000B0000004D65737361676556696577000000000000000000
 
 [View0]
 Module=D:\Prog\SimkaReport\MainFrm.pas
-CursorX=1
-CursorY=484
-TopLine=470
+CursorX=58
+CursorY=485
+TopLine=465
 LeftCol=1
 
 [View1]
@@ -154,7 +155,7 @@ LeftCol=1
 Module=D:\Prog\SimkaReport\LinkRadioFrm.pas
 CursorX=5
 CursorY=11
-TopLine=43
+TopLine=61
 LeftCol=1
 
 [View4]
@@ -215,16 +216,14 @@ Count=0
 [Main Window]
 Create=1
 Visible=1
-State=2
+State=0
 Left=0
 Top=0
 Width=1920
 Height=105
 MaxLeft=-1
 MaxTop=-1
-MaxWidth=1928
-MaxHeight=105
-ClientWidth=1920
+ClientWidth=1912
 ClientHeight=78
 
 [ProjectManager]
@@ -273,8 +272,8 @@ LRDockWidth=190
 Dockable=1
 SplitPos=85
 ArrangeBy=Name
-SelectedItem=Name
-ExpandedItems=
+SelectedItem=Filter
+ExpandedItems=Options
 HiddenCategories=
 
 [BreakpointWindow]
@@ -390,11 +389,11 @@ Visible=0
 State=0
 Left=12
 Top=0
-Width=1607
+Width=1119
 Height=85
 MaxLeft=-1
 MaxTop=-1
-ClientWidth=1607
+ClientWidth=1119
 ClientHeight=85
 TBDockHeight=85
 LRDockWidth=443
