@@ -1,5 +1,5 @@
 object frmMain: TfrmMain
-  Left = 211
+  Left = 220
   Top = 352
   Width = 1372
   Height = 539
@@ -412,6 +412,7 @@ object frmMain: TfrmMain
     object actExport: TAction
       Caption = #1069#1082#1089#1087#1086#1088#1090
       OnExecute = actExportExecute
+      OnUpdate = actEditUpdate
     end
   end
   object pm1: TPopupMenu

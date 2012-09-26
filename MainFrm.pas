@@ -200,15 +200,6 @@ begin
 
   if E is EDatabaseError then
     error_string := 'Ошибка EDatabaseError' else
-//     err := (E as EDBEngineError).errors[(E as EDBEngineError).errorcount - 1].errorcode; { TODO -oGlobalError -cException : Error TypeCast в этой строке }
-//     if (err = DBIERR_KEYVIOL) then
-//       error_string := 'Ошибка Key violation!'
-//     else if (err = DBIERR_LOCKED) then
-//       error_string := 'Запись блокирована другим пользователем'
-//     else if (err = DBIERR_FILELOCKED) then
-//       error_string := 'Таблица блокирована кем-то еще'
-//     else
-//       error_string := 'Другая ошибка DB' end else
   if E is EFIBError then
     error_string := 'Ошибка базы данных FireBird';
   error_string := E.Message + ' ' + error_string;
